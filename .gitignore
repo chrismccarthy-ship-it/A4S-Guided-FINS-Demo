@@ -1,0 +1,7 @@
+# nothing to build — this is a single static file.
+node_modules/
+_test.js
+_c.js
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body>
+<title>Agentforce Service — Financial Services Guided Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+/* ============================================================
+   Agentforce Service — FinServ Guided Demo (single file)
+   SLDS-flavored Service Console replica. Committed light UI.
+   Layouts + colors matched to reference screenshots.
+   ============================================================ */
+:root{
+  color-scheme: light;
+  --brand:#0176d3; --brand-dark:#014486; --brand-1:#1b96ff; --brand-2:#0b5cab;
+  --ink:#16202c; --ink-2:#3e4b5b; --muted:#6b7684; --faint:#98a3b1;
+  --line:#e5e9ee; --line-2:#d6dce3; --card:#ffffff; --panel:#f5f7fa; --bg:#eef1f5;
+  --good:#2e844a; --good-bg:#ecfbef; --warn:#a86403; --warn-bg:#fff3e0;
+  --bad:#ba0517; --bad-bg:#fdeceb; --pink:#e0517a; --info-bg:#eaf5fe;
+  --purple:#5b2bb3;
+  --radius:12px; --radius-s:8px;
+  --shadow-1:0 1px 2px rgba(16,32,50,.05),0 2px 8px rgba(16,32,50,.06);
+  --shadow-2:0 10px 34px rgba(16,32,50,.18);
+  --guide:#1b96ff; --guide-soft:rgba(27,150,255,.16);
+  --sans:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.45}
+.app{min-height:100vh;display:flex;flex-direction:column;padding-bottom:118px}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--brand);text-decoration:none}
+[hidden]{display:none !important}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- console chrome ---------- */
+.gh{height:50px;display:flex;align-items:center;gap:14px;padding:0 16px;background:#fff;border-bottom:1px solid var(--line-2)}
+.gh .waffle{color:var(--muted);font-size:16px}
+.gh .cloud{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#00a1e0,#0176d3);display:grid;place-items:center;color:#fff;font-size:14px;flex:none}
+.gh .org{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.gh .org .swatch{width:11px;height:11px;border-radius:3px;background:var(--org-accent,#5b2bb3)}
+.gh .search{flex:1;max-width:520px;height:32px;border:1px solid var(--line-2);border-radius:6px;background:#f7f9fb;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--faint);font-size:13px;margin:0 auto}
+.gh .ask{height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}
+.gh .icons{display:flex;align-items:center;gap:15px;color:var(--muted);margin-left:auto;font-size:15px}
+.gh .bell{position:relative}
+.gh .bell .dot{position:absolute;top:-6px;right:-7px;min-width:15px;height:15px;border-radius:8px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 3px;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.5,.4,1)}
+.gh .bell.on .dot{transform:scale(1)}
+.gh .avatar{width:27px;height:27px;border-radius:50%;background:linear-gradient(135deg,#6d3fd6,#b45cf0);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.bellwrap{position:relative;display:inline-flex}
+.bellpanel{position:absolute;right:0;top:30px;width:308px;max-width:80vw;background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow-2);z-index:70;overflow:hidden}
+.bellpanel .bp-h{padding:9px 13px;font-weight:800;font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);background:var(--panel)}
+.notif{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:flex-start;cursor:default}
+.notif:last-child{border-bottom:0}
+.notif .nic{width:24px;height:24px;border-radius:6px;background:var(--info-bg);color:var(--brand);display:grid;place-items:center;font-size:12px;flex:none}
+.notif .nt{font-weight:700;font-size:12.5px;color:var(--ink)}
+.notif .ns{font-size:11.5px;color:var(--muted);margin-top:2px}
+.notif-empty{padding:18px;text-align:center;color:var(--muted);font-size:12px}
+
+.subhead{height:42px;display:flex;align-items:center;gap:4px;padding:0 12px;background:#f7f9fb;border-bottom:1px solid var(--line)}
+.subhead .appname{font-weight:700;font-size:13.5px;margin-right:10px;color:var(--ink);display:flex;align-items:center;gap:6px}
+.tab{height:30px;display:flex;align-items:center;gap:8px;padding:0 13px;border:1px solid transparent;border-radius:6px 6px 0 0;font-size:13px;color:var(--ink-2)}
+.tab.active{background:#fff;border-color:var(--line);border-bottom-color:#fff;font-weight:600}
+.tab .close{color:var(--faint);font-size:11px}
+.tab .chev{color:var(--faint);font-size:11px;margin:0 1px}
+.tab.folder::before{content:"📁";margin-right:3px}
+.tab.voice::before{content:"📞";margin-right:5px}
+.tab.voice.active{background:#d7f5e3;border-color:#8fdcae;border-bottom-color:#d7f5e3;color:#0a4a22;font-weight:700}
+
+.navtabs{display:flex;gap:2px;padding:0 16px;background:#fff;border-bottom:1px solid var(--line);height:40px;align-items:flex-end;overflow-x:auto}
+.navtabs .nt{padding:9px 13px;font-size:13px;color:var(--ink-2);border-bottom:2px solid transparent;white-space:nowrap}
+.navtabs .nt.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:700}
+
+/* console body = omni-channel rail + workarea */
+.console{display:flex;flex:1;min-height:0}
+.workarea{flex:1;min-width:0;display:flex;flex-direction:column}
+.omnirail{width:54px;flex:none;background:#fff;border-right:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 0}
+.omnirail .oi{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-size:17px;color:#54698a}
+.omnirail .oi.omni{background:#0b7fd4;color:#fff;border-radius:10px;font-size:16px;font-weight:800}
+.omnirail .oi.active{background:#032d60;color:#fff}
+.omnirail .oi.dot{width:15px;height:15px;border-radius:50%;background:#2e844a;box-shadow:0 0 0 3px #d7f0de;margin:3px 0}
+/* Omni-Channel Inbox panel (opens from the rail) */
+.omniinbox{position:fixed;left:54px;top:50px;bottom:118px;width:340px;max-width:72vw;background:#fff;border-right:1px solid var(--line-2);box-shadow:8px 0 22px rgba(16,32,50,.09);z-index:38;display:flex;flex-direction:column;overflow:hidden}
+.oi-head{display:flex;align-items:center;gap:10px;padding:13px 16px;font-weight:800;font-size:17px;color:#04315f}
+.oi-head .oi-ic{width:34px;height:34px;border-radius:50%;background:#0b7fd4;color:#fff;display:grid;place-items:center;font-size:15px;font-weight:800}
+.oi-head .oi-tools{margin-left:auto;color:var(--good);font-size:14px;letter-spacing:7px}
+.oi-status{position:relative;margin:2px 12px 0;border:1px solid var(--line);border-radius:8px;padding:12px 13px;display:flex;align-items:center;gap:8px}
+.oi-status-lbl{font-weight:700;font-size:14px;flex:1;color:var(--ink)}
+.oi-status-btn{border:1px solid var(--line-2);border-radius:16px;padding:5px 11px;background:#fff;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);cursor:pointer}
+.oi-status-btn .oi-dot{width:9px;height:9px;border-radius:50%;background:var(--good)}
+.channeldd{position:absolute;top:48px;right:0;width:290px;background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow-2);z-index:42;padding:6px 0;max-height:320px;overflow:auto}
+.ch-item{display:flex;align-items:center;gap:12px;padding:9px 16px;font-size:14px;color:var(--ink)}
+.ch-item.sel{background:#e7f6ee}
+.ch-dot{width:11px;height:11px;border-radius:50%;flex:none}
+.ch-dot.good{background:#2e844a}.ch-dot.busy{background:#fe9339}.ch-dot.off{background:#fff;border:1.5px solid var(--line-2)}
+.oi-tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);padding:12px 16px 0;margin-top:12px}
+.oi-tabs span{padding-bottom:9px;font-size:13.5px;color:var(--ink-2);border-bottom:2px solid transparent}
+.oi-tabs span.active{color:var(--good);border-bottom-color:var(--good);font-weight:700}
+.oi-search{margin:12px;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--faint);font-size:13px}
+.oi-items-head{display:flex;justify-content:space-between;padding:0 16px 8px;font-size:12px;color:var(--muted)}
+.oi-items-head span:last-child{color:var(--good);font-weight:600}
+.oi-item{padding:12px 16px;border-top:1px solid var(--line)}
+.oi-item.active{background:#fdf3e0}
+.oi-item-top{display:flex;align-items:flex-start;gap:8px}
+.oi-item-top b{font-size:14px;flex:1;color:var(--ink)}
+.oi-accept{width:30px;height:30px;border-radius:50%;border:1px solid var(--line-2);background:#fff;color:var(--good);font-weight:800;font-size:14px;cursor:pointer;flex:none}
+.oi-paused{background:#6b7280;color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;flex:none}
+.oi-item-sub{font-size:12px;color:var(--ink-2);margin-top:6px;line-height:1.4}
+.oi-item-meta{font-size:12px;color:var(--muted);margin-top:6px}
+.mnorec{padding:40px;text-align:center;color:var(--muted);font-size:13px}
+.stage{flex:1;min-height:0}
+
+/* ============================================================
+   LANDING
+   ============================================================ */
+.landing-wrap{background:radial-gradient(1200px 520px at 50% -60px,#eaf2fc 0%,#f4f8fc 46%,#ffffff 100%);min-height:100vh}
+.landing{max-width:1240px;margin:0 auto;padding:42px 24px 40px;text-align:center}
+.sflogo{display:flex;justify-content:center;margin-bottom:16px}
+.eyebrow-pill{display:inline-block;background:#e6f1fb;color:#0b7fd4;font-weight:800;letter-spacing:.1em;font-size:12.5px;text-transform:uppercase;padding:8px 18px;border-radius:20px}
+.landing h1{font-size:52px;line-height:1.03;margin:22px 0 36px;font-weight:400;text-wrap:balance;color:#1a1a1a}
+.landing h1 b{font-weight:800}
+.brandfields{max-width:620px;margin:0 auto}
+.qlabel{display:block;font-size:15px;font-weight:700;color:var(--ink);margin:0 0 12px}
+.namein{width:100%;height:54px;border:1.5px solid var(--line-2);border-radius:8px;padding:0 16px;font-size:17px;color:var(--ink);background:#fff;text-align:center;box-shadow:var(--shadow-1)}
+.namein:focus{outline:none;border-color:var(--brand-1);box-shadow:0 0 0 3px var(--guide-soft)}
+.brandfields .hint{font-size:12px;color:var(--faint);margin-top:9px}
+.hexrow{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px}
+.hexrow .sw{width:26px;height:26px;border-radius:6px;border:1px solid var(--line-2);background:var(--org-accent,#5b2bb3);flex:none}
+.hexin{width:140px;height:38px;border:1.5px solid var(--line-2);border-radius:8px;padding:0 12px;font-size:14px;text-align:center;font-family:Consolas,monospace;text-transform:uppercase;background:#fff}
+.hexin:focus{outline:none;border-color:var(--brand-1);box-shadow:0 0 0 3px var(--guide-soft)}
+.hexrow .cap{font-size:12px;color:var(--faint)}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px}
+@media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}}
+.vcard{background:#fff;border:1px solid var(--line);border-top:4px solid var(--vc,#0176d3);border-radius:12px;padding:22px 20px;text-align:left;box-shadow:var(--shadow-1);display:flex;flex-direction:column;gap:7px;min-height:262px;transition:transform .15s,box-shadow .15s;position:relative}
+.vcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-2)}
+.vcard .ic{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-size:26px;background:var(--vc-soft,#eaf5fe);margin-bottom:6px}
+.vcard h3{margin:0;font-size:24px;font-weight:800;line-height:1.08;color:#1a1a1a}
+.vcard .usecase{font-size:15px;font-weight:700;color:var(--vc);margin:-1px 0 4px}
+.vcard p{margin:0;font-size:13px;color:var(--ink-2);flex:1;line-height:1.5}
+.vcard .go{font-weight:700;font-size:14px;color:var(--vc);display:flex;align-items:center;gap:6px;margin-top:6px}
+.landing .foot{margin-top:44px;color:var(--faint);font-size:12.5px}
+
+/* ============================================================
+   MONITOR (Act 1)
+   ============================================================ */
+.pad{padding:16px 18px}
+.panel-title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:#0c1622;margin:0 0 4px}
+.panel-title .bot{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#032d60,#0176d3);color:#fff;display:grid;place-items:center;font-size:15px}
+.actbanner{background:var(--info-bg);border:1px solid #cfe6fb;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--ink-2);margin:10px 0 16px}
+.actbanner b{color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;min-height:76px}
+.tile.sel{border-color:var(--brand);box-shadow:0 0 0 2px var(--guide-soft);position:relative}
+.tile.sel::after{content:"✓";position:absolute;top:8px;right:10px;color:var(--brand);font-weight:800;font-size:12px}
+.tile .n{font-size:25px;font-weight:800;color:#0c1622}
+.tile .l{font-size:11.5px;color:var(--muted);margin-top:2px}
+.mrow{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mrow .head,.mrow .r{display:grid;grid-template-columns:2.2fr .8fr 2.6fr .7fr;gap:12px;padding:12px 16px;align-items:center;font-size:13px}
+.mrow .head{background:#fafbfc;border-bottom:1px solid var(--line);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mrow .r .name{font-weight:600}.mrow .r .sum{color:var(--ink-2);font-size:12.5px}.mrow .r .sum b{color:var(--ink)}
+.link-act{color:var(--brand);font-weight:700;justify-self:start;display:inline-block;padding:2px 6px}
+
+.dock{position:fixed;right:20px;bottom:134px;width:432px;max-width:calc(100vw - 40px);background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow-2);z-index:40;overflow:hidden;display:flex;flex-direction:column;max-height:64vh}
+.dock .dh{padding:11px 14px;display:flex;align-items:center;gap:9px;border-bottom:2px solid var(--brand-1)}
+.dock .dh .dh-ic{color:var(--brand);font-size:15px}
+.dock .dh .t{font-weight:700;font-size:14px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#2b3a4a}
+.dock .dh .dh-ctrls{color:var(--faint);font-size:13px;letter-spacing:3px}
+.dacts{display:flex;border-bottom:1px solid var(--line)}
+.dact{flex:1;height:42px;border:none;background:#fff;font-size:13px;font-weight:600;color:var(--ink-2);display:flex;align-items:center;justify-content:center;gap:7px;border-bottom:2px solid transparent}
+.dact.primary{color:var(--brand);border-bottom-color:var(--brand)}
+.dbody{padding:12px 14px;overflow:auto;background:#fff}
+.catchup{background:#eef0f3;border-radius:10px;padding:12px;display:flex;gap:10px;margin-bottom:14px;max-height:158px;overflow:auto}
+.catchup .cu-bot{width:32px;height:32px;border-radius:50%;background:#d7dbe0;display:grid;place-items:center;font-size:15px;flex:none}
+.catchup .cu-main{flex:1;min-width:0}
+.catchup .cu-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.catchup .cu-title{font-weight:800;font-size:13.5px;color:#2b3a4a}
+.catchup .cu-dismiss{color:var(--brand);font-weight:600;font-size:12.5px;cursor:pointer}
+.catchup .cu-p{font-size:12.5px;color:#3e4b5b;margin:0 0 8px;line-height:1.45}
+.catchup .cu-issue-h{font-weight:800;font-size:12.5px;color:#2b3a4a;margin-bottom:2px}
+.flagline{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11.5px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+
+.bubbles{display:flex;flex-direction:column;gap:9px}
+.b{max-width:82%;padding:9px 12px;border-radius:13px;font-size:12.5px;line-height:1.4}
+.b .who{font-size:10px;color:var(--faint);margin-top:5px}
+.b.them{align-self:flex-start;background:#eef1f5;color:var(--ink)}
+.b.ai{align-self:flex-end;background:#48566a;color:#fff}
+.b.ai .who{color:#c7cfda;text-align:right}
+.b.sys{align-self:center;background:#fff;border:1px dashed var(--line-2);color:var(--muted);font-size:11px;max-width:94%;text-align:center}
+.b.appear{animation:pop .32s ease both}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   VOICE CALL (Act 2)
+   ============================================================ */
+.voicetop{background:#fff;border-bottom:1px solid var(--line);padding:11px 16px;display:flex;align-items:center;gap:22px}
+.voicetop .vt-ic{width:34px;height:34px;border-radius:8px;background:var(--good-bg);color:var(--good);display:grid;place-items:center;font-size:16px}
+.voicetop .vt-t{font-weight:800;font-size:15px}.voicetop .vt-t small{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.voicetop .vt-meta{display:flex;gap:22px}
+.voicetop .vt-meta .k{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.voicetop .vt-meta .v{font-size:12.5px;font-weight:600;margin-top:2px}
+.voicetop .vt-btns{margin-left:auto;display:flex;gap:8px}
+.voicetop .vt-btns button{height:30px;border:1px solid var(--line-2);background:#fff;border-radius:6px;padding:0 12px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+
+.ws{display:grid;grid-template-columns:378px 1fr 396px;gap:12px;padding:12px 14px;align-items:start}
+@media(max-width:1240px){.ws{grid-template-columns:340px 1fr}.ws .rail{grid-column:1/-1}}
+@media(max-width:900px){.ws{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-1)}
+.card .ch{padding:11px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;font-weight:700;font-size:13.5px}
+.card .cb{padding:14px}
+
+.idcard{border-radius:12px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-1)}
+.idcard .top{background:linear-gradient(115deg,var(--org-accent,#5b2bb3),#7b3ff0 52%,#0176d3);padding:15px;display:flex;gap:13px;align-items:center;position:relative}
+.idcard .ava{width:54px;height:54px;border-radius:50%;background:#fff;color:#5b2bb3;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.22)}
+.idcard .who h2{margin:0;color:#fff;font-size:18px;font-weight:800}
+.idcard .who .loc{color:#e9ddff;font-size:12px;margin-top:2px}
+.tags{display:flex;gap:6px;margin-top:6px}
+.tag{background:rgba(255,255,255,.24);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:3px 7px;border-radius:5px}
+.health{position:absolute;top:12px;right:12px;background:#fff;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--good);display:flex;align-items:center;gap:5px}
+.idcard .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
+.kvi .k{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kvi .v{font-size:12.5px;font-weight:600;color:var(--ink);margin-top:2px}
+.csat{padding:0 14px 14px}
+.csat .lbl{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.csat .lgd{display:flex;gap:10px;font-size:10px;color:var(--muted)}
+.csat .lgd i{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px}
+.csat svg{width:100%;height:64px;display:block}
+
+.phone .cb{display:flex;flex-direction:column;gap:12px}
+.phone .status{display:flex;align-items:center;justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:14px}
+.pill.live{background:var(--good-bg);color:var(--good)}.pill.ended{background:var(--panel);color:var(--muted)}
+.phone .num{font-size:16px;font-weight:700}.phone .num small{display:block;font-size:11px;color:var(--muted);font-weight:500}
+.phone .timer{font-size:15px;font-weight:800;color:var(--bad);display:flex;align-items:center;gap:6px}
+.phone .timer .rd{width:9px;height:9px;border-radius:50%;background:var(--bad);animation:blink 1.1s infinite}
+@keyframes blink{50%{opacity:.25}}
+.phone .ctrls{display:flex;gap:8px}
+.pc{flex:1;height:38px;border:1px solid var(--line-2);background:#fff;border-radius:8px;color:var(--ink-2);font-size:13px;font-weight:600;display:grid;place-items:center}
+.pc.end{background:var(--pink);color:#fff;border-color:var(--pink);flex:1.5}
+
+.convo{max-height:330px;overflow:auto;padding:12px 14px}
+.convo .lead{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:10px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--good);animation:blink 1s infinite}
+.rb{margin-bottom:11px;display:flex;flex-direction:column}
+.rb .bub{max-width:85%;padding:9px 12px;border-radius:12px;font-size:12.5px;line-height:1.4}
+.rb.rep{align-items:flex-end}.rb.cust{align-items:flex-start}
+.rb.rep .bub{background:#e7ebf1;color:var(--ink)}
+.rb.cust .bub{background:#f4f6f9;color:var(--ink);border:1px solid var(--line)}
+.rb .ts{font-size:10px;color:var(--faint);margin-top:4px}
+.rb.appear{animation:pop .3s ease both}
+
+/* center tabs + cards */
+.wtabs{display:flex;gap:18px;border-bottom:1px solid var(--line);padding:0 14px}
+.wtab{padding:11px 2px;font-size:13.5px;color:var(--ink-2);border-bottom:2px solid transparent;font-weight:600;white-space:nowrap}
+.wtab.active{color:var(--brand);border-bottom-color:var(--brand)}
+.scard{border:1px solid var(--line);border-radius:11px;margin:12px 14px 0;overflow:hidden}
+.scard .sc-h{padding:10px 13px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;border-bottom:1px solid var(--line);background:#fcfdfe}
+.caseitem{padding:10px 13px;border-bottom:1px solid var(--line);font-size:12.5px}
+.caseitem:last-child{border-bottom:0}
+.caseitem a{font-weight:700}.caseitem .meta{color:var(--muted);font-size:11.5px;margin-top:2px}
+.kvrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 13px}
+.kvrow .k{font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.kvrow .v{font-size:12.5px;font-weight:600;margin-top:2px}
+.desc{padding:0 13px 13px;font-size:12px;color:var(--ink-2)}
+.senti{padding:10px 13px}
+.senti svg{width:100%;height:90px;display:block}
+.senti .lgd{display:flex;gap:12px;font-size:10px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.senti .lgd i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px}
+
+/* coaching scorecard */
+.scorecard{margin:12px 14px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.scorecard .sh{background:linear-gradient(120deg,#5b2bb3,#0176d3);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between}
+.scorecard .sh .big{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.16);border:2px solid #fff;display:grid;place-items:center;font-size:21px;font-weight:800}
+.scorecard .sh .tt{font-size:15px;font-weight:800}
+.scorecard .sh .badges{display:flex;gap:6px;margin-top:6px}
+.scorecard .sh .badges span{background:rgba(255,255,255,.22);font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px}
+.scorecard .desc2{padding:14px;font-size:12.5px;color:var(--ink-2);border-bottom:1px solid var(--line)}
+.rubric{padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.rub .rl{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700}
+.rub .bar{height:7px;border-radius:4px;background:var(--panel);margin:5px 0;overflow:hidden}
+.rub .bar i{display:block;height:100%;border-radius:4px}
+.rub .note{font-size:11px;color:var(--muted);font-style:italic}
+.tone-good i{background:var(--good)}.tone-coach i{background:#e6a817}.tone-bad i{background:var(--bad)}
+/* coaching extra sections */
+.csec{border-top:1px solid var(--line);padding:14px 16px}
+.csec-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);margin-bottom:11px}
+.softskills{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.softskills{grid-template-columns:repeat(2,1fr)}}
+.ss{background:var(--panel);border-radius:10px;padding:13px 8px;text-align:center}
+.ss .ic{width:34px;height:34px;border-radius:50%;background:#eef0f3;display:grid;place-items:center;margin:0 auto 8px;font-size:15px}
+.ss .nm{font-size:12.5px;color:var(--ink-2);margin-bottom:5px}
+.ss .lv{font-size:12px;font-weight:800;letter-spacing:.03em}
+.ss .lv.strong{color:var(--good)}.ss .lv.adequate{color:#c98a17}
+.concern{background:var(--panel);border-left:3px solid var(--good);border-radius:8px;padding:12px 14px}
+.concern .st{color:var(--good);font-weight:800;font-size:11.5px;letter-spacing:.05em}
+.concern .st::before{content:"✓ "}
+.concern .tt{font-weight:700;font-size:13px;margin:5px 0 4px}
+.concern .rp{font-size:12px;color:var(--ink-2)}.concern .rp b{color:var(--ink)}
+.moment{display:flex;gap:11px}
+.moment .dot{width:12px;height:12px;border-radius:50%;background:#7b3ff0;margin-top:4px;flex:none}
+.moment .tm{color:#7b3ff0;font-weight:800;font-size:12px}
+.moment .tt{font-weight:700;font-size:13px;margin:2px 0}
+.moment .sub{font-size:12px;color:var(--muted)}
+.trow{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:640px){.trow{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:#eef0fb;color:#4a4fb0;font-size:12px;font-weight:600;padding:5px 11px;border-radius:14px}
+.just{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+/* editable Automated Wrap-Up */
+.wu-head{display:flex;align-items:center;gap:9px;padding:12px 14px;font-weight:800;font-size:15px;border-bottom:1px solid var(--line)}
+.wu-ic{width:26px;height:26px;border-radius:50%;background:#c8106b;color:#fff;display:grid;place-items:center;font-size:13px}
+.wu-i{margin-left:auto;color:var(--good);font-size:12px}
+.wu-applied{margin:12px 14px;background:#ececec;color:var(--ink-2);border-radius:8px;padding:9px;text-align:center;font-size:12.5px;font-weight:600}
+.wu-body{background:#f9f4e8;padding:13px 14px;display:flex;flex-direction:column;gap:15px}
+.wu-field{position:relative}
+.wu-field label{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.wu-field label::before{content:"●";color:#159a8f;font-size:8px}
+.wu-reset{position:absolute;right:1px;top:0;color:var(--muted);font-size:15px;cursor:pointer;line-height:1}
+.wu-field textarea{width:100%;border:1px solid var(--line-2);border-radius:6px;padding:9px;font-family:inherit;font-size:12.5px;color:var(--ink);background:#fff;resize:vertical;line-height:1.45}
+.wu-field textarea:focus{outline:none;border-color:var(--brand-1);box-shadow:0 0 0 3px var(--guide-soft)}
+.wu-foot{padding:12px 14px}
+.wu-thumbs{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-2);margin-bottom:13px}
+.wu-thumbs .tb{cursor:pointer;font-size:15px}
+.wu-btns{display:flex;justify-content:center;gap:12px}
+.wu-cancel{border:1px solid var(--line-2);background:#fff;color:var(--good);border-radius:20px;padding:8px 22px;font-weight:700;font-size:13px}
+.wu-save{border:1px solid var(--good);background:var(--good);color:#fff;border-radius:20px;padding:8px 28px;font-weight:800;font-size:13px}
+/* top-strip call-ended pill */
+.vt-ended{display:flex;align-items:center;gap:8px}
+.vt-ended .pill-red{background:var(--pink);color:#fff;font-weight:800;font-size:12px;padding:5px 13px;border-radius:16px}
+.vt-ended .dur{color:var(--bad);font-weight:800;font-size:13px}
+
+/* ============================================================
+   Service Assistant (right rail)
+   ============================================================ */
+.sra{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-1);overflow:hidden}
+.sra .h{padding:12px 14px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.sra-hero{margin:12px 14px 0;border-radius:12px;background:linear-gradient(120deg,#c9d4ff,#e3d3ff 55%,#cdeeff);padding:16px 14px;position:relative;overflow:hidden;min-height:96px}
+.sra-hero .astro{position:absolute;right:6px;top:6px;width:70px;height:70px;filter:drop-shadow(0 4px 7px rgba(0,0,0,.18));animation:float 4s ease-in-out infinite}
+.sra-hero .astro svg{width:100%;height:100%;display:block}
+@keyframes float{50%{transform:translateY(-7px)}}
+.sra-hero .spark{position:absolute;color:#fff;opacity:.8}
+.sra-hero p{margin:0;font-size:12px;color:#37275f;max-width:74%}
+.sra-hero b{color:#241247}
+.reveal{padding:12px 14px;border-top:1px solid var(--line);animation:pop .35s ease both}
+/* Service Assistant: fixed-height panel, internal scroll so the page stays put */
+.sra.assist{display:flex;flex-direction:column;max-height:calc(100vh - 210px)}
+.sra.assist>.h{flex:none}
+.sra-scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding-bottom:12px;min-width:0}
+.sra-scroll .reveal,.sra-scroll .planwrap{min-width:0;overflow-wrap:anywhere}
+.planwrap{border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin:12px 14px 0}
+.planwrap .pt{font-weight:800;font-size:15px;margin:5px 0 6px}
+.planwrap .body{font-size:12.5px;color:var(--ink-2);margin:0 0 8px;line-height:1.45}
+.planwrap .body.dim{color:var(--muted)}
+.planwrap .rec{margin:6px 0 10px;padding-left:18px}
+.planwrap .rec li{font-size:12px;color:var(--ink-2);margin:5px 0}
+.thumbs{display:flex;gap:8px;margin:2px 0 10px}
+.thumbs span{width:32px;height:28px;border:1px solid var(--line-2);border-radius:6px;display:grid;place-items:center;font-size:14px;cursor:pointer}
+.plan .it .txt{flex:1}
+.plan .it .src{color:var(--brand);font-weight:800;font-size:10.5px;cursor:pointer;vertical-align:super;margin-left:2px}
+.kb .planwrap .kb-title{margin:4px 0 2px}
+.kb .planwrap ol{margin:6px 0 10px;padding-left:18px}
+.kb .planwrap ol li{margin:6px 0;font-size:12px;color:var(--ink-2);line-height:1.45}
+.kb-btns{display:flex;gap:8px}
+.kbbtn{flex:1;height:36px;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer}
+/* left-column list cards: white + full column width to match the id/phone cards above */
+.scard.wcard{margin:0;background:#fff;border-radius:12px;box-shadow:var(--shadow-1)}
+.emptytab{padding:34px 16px;text-align:center;color:var(--muted);font-size:13px}
+.lbl{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12.5px;color:var(--ink);margin-bottom:7px}
+.lbl .ic{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#032d60,#0176d3);color:#fff;display:grid;place-items:center;font-size:12px;flex:none}
+.lbl.k .ic{background:linear-gradient(135deg,#7b2fd6,#b45cf0)}
+.lbl.wk .ic{background:linear-gradient(135deg,#0a7d3c,#2e844a)}
+.sra p.body{margin:0 0 8px;font-size:12.5px;color:var(--ink-2)}
+.act{width:100%;height:36px;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:8px;font-weight:700;font-size:12.5px;margin-top:4px}
+.act.solid{background:var(--good);border-color:var(--good);color:#fff}
+.act.run{background:linear-gradient(120deg,#c9d4ff,#e3d3ff 55%,#cdeeff);border:1px solid #cdc6ef;color:#37275f;font-weight:800}
+.planbox{border:1px solid var(--line);border-radius:9px;padding:11px;margin-top:2px}
+.planbox .pt{font-weight:800;font-size:12px;margin-bottom:5px}
+.planbox ul{margin:6px 0 0;padding-left:16px}
+.planbox li{font-size:12px;color:var(--ink-2);margin:4px 0}
+.plan .grp{margin-top:8px}
+.plan .gn{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:8px 0 4px}
+.plan .it{display:flex;gap:8px;align-items:flex-start;font-size:12px;padding:4px 0;color:var(--ink-2)}
+.plan .it .ck{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--line-2);flex:none;margin-top:1px;display:grid;place-items:center;font-size:9px;color:#fff}
+.plan .it.done .ck{background:var(--good);border-color:var(--good)}
+.plan .it .ib{margin-left:auto;border:1px solid var(--brand);color:var(--brand);background:#fff;border-radius:6px;padding:2px 7px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.plan .it .src{color:var(--brand);font-size:10.5px;font-weight:700}
+.nba{display:flex;gap:9px}
+.nba .n{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px;font-size:11px;color:var(--ink-2)}
+.nba .n b{display:block;color:var(--ink);font-size:11.5px;margin-bottom:3px}
+.nba .n .b2{display:flex;gap:6px;margin-top:7px}
+.nba .n .b2 button{flex:1;border-radius:6px;padding:4px;font-size:10.5px;font-weight:700;border:1px solid var(--line-2);background:#fff;color:var(--ink-2)}
+.nba .n .b2 .y{border-color:var(--good);color:var(--good)}
+.kb a{font-weight:700}.kb .rel{color:var(--good);font-weight:800;font-size:11px}
+.kb ol{margin:6px 0 0;padding-left:17px;color:var(--ink-2)}.kb ol li{margin:4px 0;font-size:11.5px}
+.email{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:2px}
+.email .es{background:var(--panel);padding:8px 11px;font-size:12px;font-weight:700;border-bottom:1px solid var(--line)}
+.email .eb{padding:11px;font-size:11.5px;color:var(--ink-2);white-space:pre-wrap;max-height:150px;overflow:auto}
+.email .ea{display:flex;gap:8px;padding:9px 11px;border-top:1px solid var(--line)}
+.email .ea button{border-radius:7px;padding:6px 12px;font-size:12px;font-weight:700}
+.email .ea .send{background:var(--brand);color:#fff;border:1px solid var(--brand)}
+.email .ea .ins{background:#fff;color:var(--ink-2);border:1px solid var(--line-2)}
+.email.sent{border-color:var(--good)}
+.email .sent-tag{display:none;align-items:center;gap:6px;background:var(--good-bg);color:var(--good);font-weight:700;font-size:12px;padding:9px 11px;border-top:1px solid var(--line)}
+.email.sent .sent-tag{display:flex}.email.sent .ea{display:none}
+.wrapup .kv{margin:9px 0}
+.wrapup .kv .k{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.wrapup .kv .v{font-size:12px;color:var(--ink-2);margin-top:2px}
+.getrec{width:100%;height:40px;border:1px dashed var(--brand);color:var(--brand);background:var(--info-bg);border-radius:9px;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* ============================================================
+   CASE view
+   ============================================================ */
+.casewrap{padding:14px 16px}
+.pathbar{display:flex;gap:3px;margin-bottom:14px}
+.pstep{flex:1;padding:9px 8px;font-size:11.5px;font-weight:700;text-align:center;background:#eef1f5;color:var(--ink-2);position:relative;clip-path:polygon(0 0,calc(100% - 13px) 0,100% 50%,calc(100% - 13px) 100%,0 100%,13px 50%)}
+.pstep:first-child{clip-path:polygon(0 0,calc(100% - 13px) 0,100% 50%,calc(100% - 13px) 100%,0 100%)}
+.pstep.done{background:#b6ecc8;color:#0a4a22}
+.pstep.cur{background:#032d60;color:#fff}
+.pstep.closed-hl{background:#57b97e;color:#fff}
+.casecols{display:grid;grid-template-columns:1fr 396px;gap:14px}
+@media(max-width:980px){.casecols{grid-template-columns:1fr}}
+.aisum{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+.pill-ai{display:inline-flex;gap:6px;align-items:center;font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.06em}
+.prompt-row{display:flex;gap:8px;margin:12px 0 0;flex-wrap:wrap}
+.prompt-btn{border:1px solid var(--line-2);background:#fff;border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.aisum .out{margin-top:12px;padding:12px;background:var(--panel);border-radius:9px;font-size:12.5px;color:var(--ink);animation:pop .35s ease both}
+.aisum .out .gen{font-size:11px;color:var(--muted);margin-bottom:6px}
+.milestone{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+.milestone .mt{font-weight:800;font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.milestone .sla{font-size:12px;color:var(--ink-2)}.milestone .sla .over{color:var(--bad);font-weight:700}
+.serviceplan{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+.serviceplan .sh{padding:12px 14px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.serviceplan .intro{padding:12px 14px;font-size:12.5px;color:var(--ink-2);background:var(--good-bg)}
+.draftplan{margin:12px 14px;width:calc(100% - 28px);height:40px;border:1px solid var(--good);background:var(--good);color:#fff;border-radius:9px;font-weight:800;font-size:13px}
+.casePlanBody{padding:0 14px 8px;animation:pop .35s ease both}
+.closeplan{width:calc(100% - 28px);margin:4px 14px 14px;height:38px;border:1px solid var(--good);background:#fff;color:var(--good);border-radius:9px;font-weight:800;font-size:13px}
+.closed-banner{margin:0 14px 14px;padding:10px;border-radius:9px;background:var(--good-bg);color:var(--good);font-weight:700;font-size:12.5px;display:none;align-items:center;gap:8px}
+.closed .closed-banner{display:flex}
+/* case header + 3-col + right-rail cards (no action-launcher panel; Milestones top, Classification under) */
+.casehdr{display:flex;align-items:center;gap:14px;padding:8px 2px 14px}
+.casehdr .ch-ic{width:32px;height:32px;border-radius:8px;background:#fde7ef;color:#c8106b;display:grid;place-items:center;font-size:15px;flex:none}
+.casehdr .ch-eyebrow{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.casehdr .ch-title{font-weight:800;font-size:19px;color:#0c1622}
+.casehdr .ch-meta{display:flex;gap:24px;margin-left:16px;flex-wrap:wrap}
+.casehdr .ch-meta .k{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.casehdr .ch-meta .v{font-size:12.5px;font-weight:600;margin-top:2px}
+.casehdr .ch-btns{margin-left:auto;display:flex;gap:8px}
+.casehdr .ch-btns button{height:30px;border:1px solid var(--line-2);background:#fff;border-radius:16px;padding:0 14px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.casecols3{display:grid;grid-template-columns:340px 1fr 384px;gap:14px;align-items:start}
+@media(max-width:1200px){.casecols3{grid-template-columns:1fr}}
+.histitem{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.histitem:last-child{border-bottom:0}
+.histitem .hic{width:26px;height:26px;border-radius:6px;background:var(--info-bg);color:var(--brand);display:grid;place-items:center;font-size:12px;flex:none}
+.histitem .hw{margin-left:auto;color:var(--muted);font-size:11px;white-space:nowrap}
+.classcard{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;box-shadow:var(--shadow-1)}
+.classcard .cl-h{font-weight:800;font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.getrec2{width:100%;height:44px;border:1px solid var(--line-2);border-radius:24px;background:#fff;color:#2e7d5b;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:2px}
+.clfields{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin:8px 0 12px}
+.clf{padding:11px 0;border-bottom:1px solid var(--line);position:relative}
+.clf.full{grid-column:1/-1}
+.clf .clk{font-size:12.5px;font-weight:700;color:var(--ink)}
+.clf .clv{font-size:12.5px;color:var(--ink-2);margin-top:5px;min-height:16px}
+.clf .clv a{color:var(--brand)}
+.clf .pen{position:absolute;right:2px;bottom:12px;color:#2e7d5b;font-size:12px;cursor:pointer}
+.draftkb{border:1px solid var(--line-2);background:#fff;color:#2e7d5b;border-radius:22px;padding:9px 18px;font-weight:700;font-size:13px}
+.assist-tabs{display:flex;gap:16px;border-bottom:1px solid var(--line);padding:2px 14px 0}
+.assist-tabs span{padding:9px 2px;font-size:12.5px;font-weight:600;color:var(--ink-2);border-bottom:2px solid transparent;white-space:nowrap}
+.assist-tabs span.active{color:var(--brand);border-bottom-color:var(--brand)}
+.milestone.done .sla{color:var(--good);font-weight:600}
+
+/* spotlight */
+.guided{position:relative;box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft) !important;border-radius:10px;z-index:5;animation:ring 1.7s ease-in-out infinite}
+@keyframes ring{0%,100%{box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft)}50%{box-shadow:0 0 0 3px var(--guide),0 0 0 11px rgba(27,150,255,.05)}}
+.guided::after{content:"";position:absolute;top:-9px;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--guide);box-shadow:0 0 0 4px rgba(27,150,255,.28);animation:pulse 1.4s ease-out infinite;z-index:6}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(27,150,255,.5)}70%{box-shadow:0 0 0 12px rgba(27,150,255,0)}100%{box-shadow:0 0 0 0 rgba(27,150,255,0)}}
+.clickable{cursor:pointer}
+/* rectangular box highlight (e.g. a column header or a whole component) */
+.boxed{outline:2.5px solid var(--guide);outline-offset:3px;border-radius:3px;position:relative;z-index:4;animation:boxpulse 1.7s ease-in-out infinite}
+@keyframes boxpulse{0%,100%{outline-color:var(--guide)}50%{outline-color:rgba(27,150,255,.4)}}
+
+/* guidance bar */
+.guidebar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line-2);box-shadow:0 -6px 24px rgba(16,32,50,.10);display:flex;align-items:center;gap:16px;padding:12px 18px;min-height:100px}
+.guidebar .gtxt{flex:1;min-width:0}
+.guidebar .glabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.guidebar h4{margin:3px 0 2px;font-size:15px;font-weight:800;color:#0c1622;text-wrap:balance}
+.guidebar .talk{font-size:13px;color:var(--ink-2);max-width:820px}
+.guidebar .dothis{font-size:12.5px;color:var(--brand);font-weight:700;margin-top:4px;display:flex;align-items:center;gap:6px}
+.guidebar .dothis::before{content:"➤";font-size:9px}
+.gctrls{display:flex;align-items:center;gap:8px}
+.gbtn{width:40px;height:40px;border-radius:10px;border:1px solid var(--line-2);background:#fff;color:var(--ink-2);font-size:16px;display:grid;place-items:center}
+.gbtn:hover{border-color:var(--brand-1);color:var(--brand)}
+.gbtn.play{width:auto;padding:0 18px;gap:8px;display:flex;align-items:center;background:var(--brand);color:#fff;border-color:var(--brand);font-weight:800;font-size:14px}
+.gbtn:disabled{opacity:.4;cursor:not-allowed}
+.gcount{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;margin-left:4px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-2);white-space:nowrap;cursor:pointer}
+.sw{width:38px;height:22px;border-radius:12px;background:var(--line-2);position:relative;transition:.2s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle.on .sw{background:var(--brand)}.toggle.on .sw::after{left:18px}
+.progline{position:absolute;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--brand-1),var(--brand));transition:width .3s}
+.talk-off .talk,.talk-off .dothis{filter:blur(4px);opacity:.35;user-select:none}
+
+.toast{position:fixed;left:50%;bottom:124px;transform:translateX(-50%) translateY(20px);background:#0c1622;color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:80;opacity:0;transition:.25s;display:flex;align-items:center;gap:9px;box-shadow:var(--shadow-2)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .ok{color:#6ee79a}
+.reduced *{animation:none !important;transition:none !important}
+</style>
+
+<div class="app" id="app">
+  <div class="gh" id="gh" hidden>
+    <span class="waffle">▦</span>
+    <div class="cloud">☁</div>
+    <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div>
+    <div class="search">🔍 Search…</div>
+    <div class="ask">✦ Ask</div>
+    <div class="icons"><span>★</span><span>＋</span><span>📖</span><span>?</span><span>⚙</span>
+      <span class="bellwrap"><span class="bell" id="bell">🔔<span class="dot" id="bellDot">0</span></span>
+        <div class="bellpanel" id="bellPanel" hidden></div></span>
+      <span class="avatar">CM</span></div>
+  </div>
+
+  <div class="console" id="console">
+    <div class="omnirail" id="omnirail" hidden>
+      <div class="oi omni" id="omniLauncher" title="Omni-Channel">➜</div>
+      <div class="oi dot" title="Available"></div>
+      <div class="oi" title="Cases">💼</div>
+      <div class="oi active" title="Phone">📞</div>
+      <div class="oi" title="Setup">⚙</div>
+    </div>
+    <div class="workarea">
+      <div class="subhead" id="subhead" hidden>
+        <span class="appname">＊Service Console</span>
+        <div class="tab active" id="tabPrimary">Command Center for Service</div>
+        <div class="tab folder" id="tabCase" hidden>00005518 <span class="chev">⌄</span> <span class="close">✕</span></div>
+        <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
+      </div>
+      <div class="navtabs" id="navtabs" hidden>
+        <div class="nt">Wallboard</div><div class="nt">Service Reps</div><div class="nt">AI Agents</div>
+        <div class="nt active">Agentforce</div><div class="nt">Queues Backlog</div><div class="nt">In-Progress Work</div>
+        <div class="nt">Skills Backlog</div><div class="nt">Reports</div>
+      </div>
+      <div class="stage" id="stage"></div>
+    </div>
+  </div>
+</div>
+
+<div class="guidebar" id="guidebar">
+  <div class="progline" id="progline"></div>
+  <div class="gtxt">
+    <div class="glabel"><span>📘</span> <span id="glabelText">Guided demo · Retail Banking</span></div>
+    <h4 id="gTitle">—</h4>
+    <div class="talk" id="gTalk">—</div>
+    <div class="dothis" id="gDo" hidden></div>
+  </div>
+  <label class="toggle on" id="ttToggle"><span>Talk track</span><span class="sw"></span></label>
+  <div class="gctrls">
+    <button class="gbtn" id="btnRestart" title="Restart">↺</button>
+    <button class="gbtn" id="btnBack" title="Back">‹</button>
+    <button class="gbtn play" id="btnPlay">▶ Play</button>
+    <button class="gbtn" id="btnNext" title="Next">›</button>
+  </div>
+  <span class="gcount" id="gCount">1 / 1</span>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA — mirrors AUTHORING.md's 8 files. id is the shared key.
+   ============================================================ */
+const VERTICALS = {
+  "retail-fraud": {
+    id:"retail-fraud", name:"Retail Banking / Fraud & Disputes",
+    segment:"Retail Banking", useCase:"Fraud & Disputes", icon:"💳", accent:"#0176d3", accentSoft:"#eaf5fe",
+    tagline:"Turn a fraud call into a locked card, reissued plastic, and a provisional credit — on first contact.",
+    monitor:{ voiceCallId:"VC-00001518", caller:"Lauren Bailey",
+      agentName:"Agentforce Voice", agentShort:"Fraud & Disputes Agent",
+      callStarted:"8/5/2026, 12:13 PM", callLength:"42 s", phone:"+1 (678) 266-0186" },
+    record:{ voiceTitle:"Transactions Dispute and Overdraft",
+      person:{ name:"Lauren Bailey", loc:"San Francisco, CA", initials:"LB",
+        health:78, tags:["UHNI","VIP"],
+        attrs:[{k:"Account ID",v:"00019876"},{k:"Support Tier",v:"Premier Services"},
+          {k:"Customer Type",v:"Private Banking"},{k:"Customer Since",v:"3/3/2017 · 9 yrs"}] },
+      cases:[
+        {id:"00005516",subj:"Fraud — card compromised, card locked & reissued",when:"8/5/2026, 12:18 PM",status:"Working"},
+        {id:"00005507",subj:"Chat with Lauren Bailey",when:"8/5/2026, 9:34 AM",status:"Working"},
+        {id:"00005502",subj:"New Credit Card Application — Rewards Visa",when:"8/5/2026, 7:40 AM",status:"New"}],
+      entitlement:{name:"Premier Banking Support (24/7)",acct:"Vireo Financial",start:"1/31/2018"},
+      current:{num:"00005518",status:"Working",priority:"Medium",subject:"Transactions Dispute and Overdraft",
+        desc:"Lauren Bailey reviewed recent activity and noticed a $75 Amazon Marketplace charge she doesn't recognize that pushed her account into overdraft. She's requesting a full investigation, reversal of the overdraft fee, a card reissue, and confirmation of next steps to secure her account."} },
+    voice:{ intent:"Report unauthorized card charge + overdraft", sentiment:"Upset → Reassured",
+      authenticated:true,
+      summary:"Caller flagged a $75 Amazon Marketplace charge she doesn't recognize that pushed the account into overdraft. Identity verified over SMS. Wants the card locked, a replacement issued, the charge disputed, and to know if/when the money comes back.",
+      catchupText:{
+        summary:"The user called about a $75 Amazon Marketplace charge they don't recognize that overdrew their checking account. Agentforce Voice verified identity over SMS, locked the card ending 7201, and captured the request to dispute the charge and reverse the fee.",
+        issue:"The user had an unauthorized card charge and a resulting overdraft, and wants to know if and when the money will be returned." },
+      catchup:[{k:"Caller",v:"Lauren Bailey (verified via SMS)"},{k:"Intent",v:"Unauthorized charge + overdraft"},
+        {k:"Sentiment",v:"Upset → Reassured"},{k:"Ask",v:"Lock card, reissue, dispute, refund timing"}],
+      transcript:[
+        {who:"ai",t:"Thanks for calling — I'm the Agentforce voice assistant. To verify you, I've texted a one-time passcode to the mobile on file."},
+        {who:"them",t:"Got it — the code is 4-4-9-2-0-1."},
+        {who:"ai",t:"Verified, thank you Lauren. How can I help today?"},
+        {who:"them",t:"There's a $75 Amazon charge I didn't make, and it overdrafted my checking. I need the card shut off."},
+        {who:"ai",t:"I've locked the card ending 7201 so nothing else can post. This looks like fraud — I'll connect you to a specialist who can dispute it and get a credit moving."},
+        {who:"sys",t:"Identity verified · Card locked · Case 00005518 created · Routing to Fraud & Disputes"}] },
+    repConvo:{ speakers:{rep:"Chris · Fraud Specialist", customer:"Lauren Bailey"},
+      turns:[
+        {who:"rep",t:"Hi Lauren, this is Chris in fraud — our voice assistant already briefed me and locked your card, so you won't have to repeat anything. I'll get this sorted."},
+        {who:"customer",t:"Thank you. There's a $75 Amazon Marketplace charge I never made, and it overdrew my checking."},
+        {who:"rep",t:"I see it — posted this morning. The card ending 7201 is already frozen. Let me confirm the transaction and check it against our fraud patterns."},
+        {who:"customer",t:"Okay… will I actually get that money back? And when?"},
+        {who:"rep",t:"Yes. It matches a known fraud pattern, so I can issue a provisional credit to your account today while we investigate — and reverse the overdraft fee it triggered."},
+        {who:"customer",t:"Oh good, that's a huge relief."},
+        {who:"rep",t:"All done — dispute filed, provisional credit posted, the overdraft fee reversed, and a new card is shipping to you today."},
+        {who:"customer",t:"Thank you so much for handling all of it."},
+        {who:"rep",t:"Of course. You'll get a confirmation email in a moment. Anything else I can help with?"}] },
+    sra:{ suggestedResponse:"I hear you, Lauren, and I'll get this resolved right now. Based on your account I can issue a provisional credit for the disputed $75 Amazon charge and reverse the overdraft fee it caused.",
+      planTitle:"Fraud Dispute & Overdraft",
+      planSummary:"Lauren Bailey is disputing an unrecognized $75 Amazon Marketplace charge that caused an overdraft and is requesting an investigation, fee reversal, and account security.",
+      planAvailable:"Transaction Dispute & Overdraft Fees. Lauren Bailey is disputing an unrecognized $75 charge that caused an overdraft and is requesting an investigation, fee reversal, and account security. We recommend:",
+      planBullets:["Gather information — get the disputed transaction details and review activity.","Investigate transaction — determine validity and evaluate the overdraft.","Take corrective actions — resolve the dispute and reverse fees if warranted.","Document resolution — summarize the work and notify the customer."],
+      groups:[
+        {name:"Gather Information", items:[{text:"Confirm the customer's identity.", done:true},{text:"Confirm the disputed transaction ($75 Amazon Marketplace).", src:1}]},
+        {name:"Work the Issue", items:[{text:"Card ending 7201 locked to stop further charges.", done:true},{text:"Check the charge against known fraud patterns.", src:1}]},
+        {name:"Resolve the Issue", items:[{text:"Issue a provisional credit for the disputed amount.", action:"Issue Credit"},{text:"Reverse the overdraft fee triggered by the charge.", action:"Reverse Fee"},{text:"File the dispute and reissue the card."}]},
+        {name:"Wrap Up", items:[{text:"Summarize the resolution and send the confirmation email."}]}],
+      nba:[{t:"Reverse overdraft fee",d:"Fee resulted from the disputed charge — eligible for first-time reversal."},
+        {t:"Open teen checking for daughter",d:"Daughter just turned 15 (first job). Book a 30-min account opening."}],
+      knowledge:{ title:"Personal Deposit Account Fees & Features", rel:"97.4%",
+        steps:["Validate & identify: confirm the charge (date, amount, merchant) and whether it's unauthorized.",
+          "Initiate the dispute: file the claim and explain investigation timelines and provisional credit.",
+          "Evaluate overdraft eligibility: if the overdraft resulted from the disputed charge, apply fee relief.",
+          "Resolve & educate: reissue the card, confirm resolution, and set up account alerts."] },
+      email:{ subject:"Your dispute is filed and a credit is on the way",
+        body:"Hi Lauren,\n\nGood news — we confirmed the $75.00 Amazon Marketplace charge wasn't yours, locked your card, and filed the dispute.\n\n•  A provisional credit has been posted to your account today.\n•  The overdraft fee it triggered has been reversed.\n•  A replacement Rewards Visa is on its way.\n\nReply any time if you have questions.\n\nWarm regards,\nChris\nFraud Specialist" },
+      workSummary:{ summary:"The customer disputed an unauthorized $75 charge that caused an overdraft. Identity was verified, the card was locked and reissued, a dispute was filed, a provisional credit issued, and the overdraft fee reversed.",
+        issue:"Unauthorized charge and overdraft fee.",
+        resolution:"The charge was disputed, the card closed and reissued, a provisional credit issued, and the overdraft fee reversed. Customer notified by email." } },
+    callSummary:{ score:84, scoreCaption:"Strong — issue resolved on first contact", sentiment:"Neutral → Positive",
+      callSummary:"The customer reported an unrecognized transaction that overdrafted the account. Agentforce Voice verified identity over SMS and locked the card; the specialist confirmed the fraud pattern, issued a provisional credit, reversed the overdraft fee, filed the dispute, and reissued the card.",
+      rubric:[
+        {area:"Build Rapport",tone:"coach",score:"7/10",pct:70,note:"Used the customer's name but could build a stronger personal connection."},
+        {area:"Active Listening & Needs ID",tone:"good",score:"15/20",pct:75,note:"Acknowledged the concern and addressed it effectively."},
+        {area:"Product / Service Knowledge",tone:"good",score:"15/15",pct:100,note:"Confidently explained the fee reversal and dispute process."},
+        {area:"Handle Concerns & De-escalation",tone:"good",score:"15/15",pct:100,note:"Addressed the concern with patience and professionalism."},
+        {area:"Resolution & Problem Solving",tone:"good",score:"20/20",pct:100,note:"Resolved the issue completely during the call."},
+        {area:"Confirm Next Steps",tone:"coach",score:"7/10",pct:70,note:"Confirmed the outcome but could detail follow-up actions."}],
+      softSkills:[
+        {name:"Empathy",level:"Adequate",tone:"adequate",icon:"❤"},
+        {name:"Professionalism",level:"Strong",tone:"strong",icon:"🎖"},
+        {name:"Clarity",level:"Adequate",tone:"adequate",icon:"💡"},
+        {name:"Patience",level:"Strong",tone:"strong",icon:"⏱"}],
+      customerConcern:{status:"Addressed",title:"Overdraft fees due to unrecognized transaction",response:"The agent issued a provisional credit and confirmed the resolution."},
+      keyMoments:[{t:"4m 50s",title:"The customer expressed urgency regarding overdraft fees.",sub:"This highlighted the main concern of the customer."}],
+      topics:["Unrecognized transaction","Overdraft fees","Card replacement"],
+      recommended:"The agent should ensure the customer receives the email regarding the provisional credit and monitor for any further concerns.",
+      justification:"The agent effectively resolved the customer's issue while demonstrating professionalism and knowledge, though there were areas for improvement in explaining the process.",
+      wrapFields:{
+        issue:"Unrecognized transaction and overdraft fees.",
+        summary:"The conversation begins with the customer reporting an unrecognized $75 Amazon Marketplace charge that caused an overdraft. Agentforce Voice verifies identity over SMS, locks the card, and initiates a replacement. The customer is connected to a specialist, who confirms the fraud pattern, issues a provisional credit for the disputed transaction, reverses the overdraft fee, and ensures the customer is updated via email.",
+        resolution:"The disputed transaction was marked, a provisional credit was issued, the overdraft fee reversed, and a replacement card shipped. The customer was also provided with follow-up information via email."} },
+    outcomes:{ headline:"Fraud confirmed — dispute filed, card reissued, funds returned",
+      detail:"Identity verified over SMS, the card locked, a provisional credit issued, the overdraft fee reversed, and a new card shipped — all on first contact, with the wrap-up written back to the case automatically.",
+      metrics:[{l:"Resolution",v:"First contact"},{l:"Customer effort",v:"No hold, no repeat"},{l:"Provisional credit",v:"Issued instantly"}] },
+    caseData:{ number:"00005518", subject:"Transactions Dispute and Overdraft",
+      aiSummary:"Account transaction processing reported an unrecognized debit causing a negative balance and overdraft fee assessment, requiring transaction dispute investigation and fee reversal.",
+      planIntro:"Billing. Lauren Bailey is disputing an unrecognized transaction that caused overdraft fees and is requesting an investigation, fee reversal, and guidance on securing her account.",
+      previous:[{id:"00005496",subj:"Application review — APP-00035",when:"8/5/2026, 2:31 AM"},
+        {id:"00005250",subj:"Chat with Lauren Bailey",when:"6/2/2026, 12:47 PM"},
+        {id:"00005242",subj:"Web Address Change for Lauren Bailey",when:"5/21/2026, 9:28 AM"}],
+      origin:"Phone", priority:"Medium", contact:"Lauren Bailey",
+      attrs:[{k:"Account ID",v:"00019876"},{k:"Dealer Tier",v:"Premier Services"},{k:"Customer Type",v:"Private Banking"},
+        {k:"Client Since",v:"3/3/2017"},{k:"Open Applications",v:"$4,201,493"},{k:"Next Meeting",v:"8/15/2027"}],
+      history:[{ic:"📞",t:"Voice Call – Inbound",w:"Aug 5, 2026"},{ic:"📞",t:"Voice Call – Inbound",w:"Aug 5, 2026"},
+        {ic:"📞",t:"Voice Call – Inbound",w:"Aug 5, 2026"},{ic:"💬",t:"Messaging Session MS-00000075",w:"Aug 5, 2026"},
+        {ic:"✉",t:"Email: Everyday Rewards Card application (APP-00040)",w:"Aug 5, 2026"}],
+      classification:[{k:"Type",v:"Fraud / Dispute"},{k:"Reason",v:"Unauthorized transaction"},{k:"Product",v:"Rewards Visa"},{k:"Confidence",v:"High (0.94)"}],
+      similar:[{id:"00005314",match:"35%",status:"Escalated",subj:"Chat with Lauren Bailey",pri:"Critical"}],
+      planItems:[
+        {g:"Gather Information",t:"Contact Lauren Bailey to collect details about the disputed transaction — amount, date, and supporting documentation."},
+        {g:"Work the Issue",t:"Investigate the disputed transaction using internal fraud detection tools and cross-reference account activity.",a:"Run Fraud Check"},
+        {g:"Work the Issue",t:"Review billing history to locate the transaction and identify potential errors or fraudulent activity."},
+        {g:"Resolve the Issue",t:"If confirmed unauthorized, reverse the overdraft fees and issue a credit to the account.",a:"Issue Credit"},
+        {g:"Resolve the Issue",t:"Secure the account against further unauthorized activity — reissue the card and enable alerts.",a:"Reissue Card"},
+        {g:"Wrap Up",t:"Document the resolution and follow up with Lauren to confirm satisfaction and summarize the outcome."}] }
+  }
+};
+
+/* ---------- ORG branding (name + brand hex) ---------- */
+const ORG={name:"",hex:""};
+function normHex(v){ if(!v)return""; let s=String(v).trim().replace(/^#/,'');
+  if(/^[0-9a-fA-F]{6}$/.test(s))return '#'+s.toLowerCase();
+  if(/^[0-9a-fA-F]{3}$/.test(s))return '#'+s.split('').map(c=>c+c).join('').toLowerCase();
+  return ""; }
+function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"Vireo Financial";
+  document.documentElement.style.setProperty('--org-accent', normHex(ORG.hex)||"#5b2bb3"); }
+
+/* ============================================================
+   PLAYBOOK
+   ============================================================ */
+const V=VERTICALS["retail-fraud"];
+let STEPS=[];
+function buildSteps(){
+  STEPS=[
+    { view:"landing", title:"Pick your customer's world",
+      talk:"Brand the demo to your customer, then choose a storyline to begin." },
+
+    { view:"monitor", set:{gh:1,subhead:1}, target:"#monitorLink", title:"Act 1 · A live Agentforce Voice call, monitored",
+      talk:"A customer called in and was met by Agentforce Voice. The supervisor sees the live call here in the Command Center. Click Monitor to watch the conversation before the hand-off.",
+      dothis:"Click ‘Monitor’ in the Action column.", advanceOn:"#monitorLink" },
+    { view:"monitor", set:{gh:1,subhead:1,dock:1}, box:"#catchupCard", target:"#catchupDismiss", title:"Conversation Catch-Up — the rep is briefed before the hand-off",
+      talk:"Agentforce Voice authenticated Lauren over SMS, locked the card, and captured her intent and sentiment. The Conversation Catch-Up sums it up for the supervisor, who can Dismiss it once read — the specialist never starts from scratch.",
+      dothis:"Click ‘Dismiss’ on the Conversation Catch-Up.", advanceOn:"#catchupDismiss" },
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1}, target:"#transferBtn", title:"Warm-transfer to a live rep",
+      talk:"Nothing is lost in the hand-off. The specialist inherits the summary, transcript, verified identity, and the case Agentforce Voice already created.",
+      dothis:"Click ‘Transfer to Rep’.", advanceOn:"#transferBtn" },
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1}, target:"#omniLauncher", title:"The transfer lands in Omni-Channel",
+      talk:"The transferred call drops into the rep's Omni-Channel inbox. Work paused by its status — like the Application review that's waiting on the customer — steps aside, freeing the rep up to take this live call.",
+      dothis:"Open the Omni-Channel sidebar.", advanceOn:"#omniLauncher" },
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1,channelOpen:1}, target:"#omniStatusBtn", title:"One presence, every channel",
+      talk:"Cases, chat, messaging, phone — every channel routes to the rep through Omni-Channel, balanced by skill, priority, and capacity so the right work reaches the right person.",
+      dothis:"Review the channel presence menu.", advanceOn:"#omniStatusBtn" },
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1,channelOpen:0}, target:"#omniAccept", title:"Accept the transferred call",
+      talk:"One click accepts the call — and the rep drops straight into the Voice workspace with the full 360 and the Agentforce summary already in place.",
+      dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
+
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:["#idCard","#phoneCard"], target:"#phonePause", title:"Act 2 · The rep picks up with full context",
+      talk:"The screen pivots to the live Voice Call. The rep has Lauren's full 360 and the call is connected — she never re-explains. The Service Assistant is standing by on the right.",
+      dothis:"Click the ▮▮ Pause control to begin (or press ▶ Play).", advanceOn:"#phonePause" },
+    { view:"voice", set:{phoneLive:1}, turns:1, target:"#convo", title:"Live transcript — greeting with context", autoplay:true, dur:1600,
+      talk:"The rep opens by telling Lauren the card is already locked and she won't need to repeat herself — the biggest ‘aha’ of the Agentforce hand-off." },
+    { view:"voice", set:{phoneLive:1}, turns:2, target:"#convo", title:"The Service Assistant reads the case", autoplay:true, dur:1900,
+      talk:"As Lauren describes the charge, the Service Assistant reads the case in the background — no canned reply to paste, it's preparing a grounded plan of record." },
+    { view:"voice", set:{phoneLive:1,sraPlanCard:1}, turns:3, target:"#sraPlanCard", title:"A Service Plan becomes available", autoplay:true, dur:1900,
+      talk:"The rep confirms the disputed charge, and the Assistant surfaces a grounded Service Plan — ready to draft into the full checklist." },
+    { view:"voice", set:{phoneLive:1,sraPlanCard:1}, turns:4, stopHere:true, target:"#draftPlanSra", title:"A Service Plan is ready — draft it",
+      talk:"The Assistant proposes a Service Plan for the fraud dispute & overdraft. One click drafts the full, grounded checklist. ▶ Play pauses here — click Draft Plan to continue.",
+      dothis:"Click ‘Draft Plan’.", advanceOn:"#draftPlanSra" },
+    { view:"voice", set:{phoneLive:1,sraPlanCard:1,sraChecklist:1}, turns:4, target:"#src4", title:"The plan drafts itself — grounded in Knowledge",
+      talk:"The plan expands into Gather / Work / Resolve / Wrap. The first steps are already done, and each grounded step cites its source. Click the [1] citation on the fraud-pattern step to open it.",
+      dothis:"Click the ‘[1]’ source on the fraud-pattern step.", advanceOn:"#src4" },
+    { view:"voice", set:{phoneLive:1,sraChecklist:1,sraKnowledge:1}, turns:5, target:"#sendArticle", title:"The citation opens the Knowledge article",
+      talk:"The source pops the exact Knowledge article the plan is grounded in — the rep can verify the fraud-pattern and provisional-credit policy, then send it to Lauren without leaving the panel.",
+      dothis:"Click ‘Send Article’.", advanceOn:"#sendArticle" },
+    { view:"voice", set:{phoneLive:1,sraChecklist:1,sraKnowledge:1,planProgress:1,sraEmail:1}, turns:8, target:"#emailSend", title:"Send the follow-up email",
+      talk:"With the plan complete — provisional credit issued, overdraft fee reversed, dispute filed, new card shipping — the Assistant drafts an on-brand confirmation email. The rep sends it straight from the panel.",
+      dothis:"Click ‘Send’ in the Agentforce email draft.", advanceOn:"#emailSend" },
+    { view:"voice", set:{phoneLive:1,sraChecklist:1,sraKnowledge:1,planProgress:1,sraEmail:1,emailSent:1}, turns:9, target:"#endCall", title:"Wrap the call",
+      talk:"Confirmation sent. The rep closes out the call from the phone controls.",
+      dothis:"Click ‘End Call’.", advanceOn:"#endCall" },
+
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,callEnded:1,wrapPanel:1}, target:"#getRec", title:"Automated Wrap-Up",
+      talk:"The moment the call ends, one click asks Einstein for the wrap-up — issue, summary, and resolution written for you, ready to save to the record.",
+      dothis:"Click ‘Get Einstein Recommendations’.", advanceOn:"#getRec" },
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,callEnded:1,wrapPanel:1,wrapFilled:1,scorecard:1,bell:1,coaching:1}, target:"#wrapSave", title:"Wrap-Up, Scorecard & soft-skills — saved to the record",
+      talk:"You get an editable Automated Wrap-Up plus a full Service Quality Scorecard — soft-skills, customer concerns, key moments, topics, and a coached score. Edit any field, then Save. The score also notifies the supervisor (bell, top-right).",
+      dothis:"Edit the wrap-up if needed, then click ‘Save’.", advanceOn:"#wrapSave" },
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,tabCase:1,callEnded:1,wrapFilled:1,scorecard:1,bell:1,coaching:1}, target:"#tabCase", title:"Open the case created by the call",
+      talk:"Everything ties back to the case Agentforce Voice created. Open it to summarize and close it out.",
+      dothis:"Click the ‘00005518 | Case’ tab.", advanceOn:"#tabCase" },
+
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1}, target:"#caseGetRec", title:"Einstein classifies the case",
+      talk:"Status, Language, and Product Family are already known. Einstein Classification fills in the rest — Type and Sub-Type — with one click.",
+      dothis:"Click ‘Get Einstein Recommendations’.", advanceOn:"#caseGetRec" },
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1}, target:"#draftPlanBtn", title:"Draft the resolution plan",
+      talk:"Service Assistant drafts the full resolution plan — Gather / Work / Resolve / Wrap — grounded on the record, with inline actions.",
+      dothis:"Click ‘Draft Plan’.", advanceOn:"#draftPlanBtn" },
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#closePlanBtn", title:"Close the plan and the case",
+      talk:"One action closes the case and writes the Automated Wrap-Up into the record — verified, disputed, credited, reissued, documented, and closed on first contact.",
+      dothis:"Click ‘Close Plan & Close Case’.", advanceOn:"#closePlanBtn" },
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#draftKbBtn", title:"Draft a Knowledge article from the closed case",
+      talk:"Turn this resolution into reusable Knowledge. Einstein drafts an article from the closed case and notifies a reviewer — so future fraud calls get deflected.",
+      dothis:"Click ‘Draft Knowledge Article’." },
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#bell", title:"A knowledge article is ready for review",
+      talk:"The drafted article fires a notification. Open the bell — a knowledge article is ready for a reviewer to approve and publish. That's the full loop, on one call.",
+      dothis:"Click the 🔔 bell to see the notification." }
+  ];
+}
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+let idx=0,playing=false,timer=null,talkTrack=true;
+const $=s=>document.querySelector(s);
+function foldState(i){ const st={flags:{},turns:0,view:"landing"};
+  for(let k=0;k<=i;k++){const s=STEPS[k]; if(s.view)st.view=s.view;
+    if(typeof s.turns==="number")st.turns=Math.max(st.turns,s.turns); if(s.set)Object.assign(st.flags,s.set);}
+  return st; }
+function render(){
+  const step=STEPS[idx],st=foldState(idx),f=st.flags,v=step.view;
+  $('#gh').hidden=!f.gh; $('#omnirail').hidden=!f.gh; $('#subhead').hidden=!f.subhead; $('#navtabs').hidden=(v!=="monitor");
+  const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
+  $('#tabPrimary').hidden=(v!=="monitor");
+  $('#tabCase').hidden=!consoleTabs; $('#tabVoice').hidden=!consoleTabs;
+  $('#tabPrimary').classList.toggle('active', v==="monitor");
+  $('#tabCase').classList.toggle('active', v==="case");
+  $('#tabVoice').classList.toggle('active', v==="voice");
+  if(f.bell) addNotif('score','Service Quality Scorecard: 84/100','Call scored — sent to supervisor','📊'); else removeNotif('score');
+  const stage=$('#stage');
+  if(stage.dataset.view!==st.view){ stage.dataset.view=st.view; stage.innerHTML=renderView(st.view);
+    if(st.view==="landing") bindLanding(); if(st.view==="voice") voiceTab="service"; }
+  if(st.view==="monitor") updateMonitor(f);
+  if(st.view==="voice") updateVoice(st,f);
+  if(st.view==="case") updateCase(f);
+  $('#glabelText').textContent=`Guided demo · ${V.segment}`;
+  $('#gTitle').textContent=step.title; $('#gTalk').textContent=step.talk;
+  const doEl=$('#gDo'); if(step.dothis){doEl.hidden=false;doEl.textContent=step.dothis;}else doEl.hidden=true;
+  $('#gCount').textContent=`${idx+1} / ${STEPS.length}`;
+  $('#progline').style.width=`${idx/(STEPS.length-1)*100}%`;
+  $('#btnBack').disabled=idx===0; $('#btnNext').disabled=idx===STEPS.length-1;
+  $('#btnPlay').innerHTML=playing?'❚❚ Pause':'▶ Play';
+  // guidance bar + spotlight only appear once you're inside the demonstration (not on the landing placemat)
+  const onLanding=step.view==="landing";
+  $('#guidebar').hidden=onLanding;
+  $('#app').style.paddingBottom=onLanding?'0':'118px';
+  if(onLanding) clearGuides();
+  else applySpotlight(step);
+  requestAnimationFrame(()=>{ const t=step.target&&$(step.target); if(!t) return;
+    // if the target lives in a scrollable component (Service Assistant / transcript / dock), scroll THAT — keep the page still
+    const sc=t.closest('.sra-scroll,.convo,.dbody');
+    if(sc){ const cr=sc.getBoundingClientRect(),er=t.getBoundingClientRect(); sc.scrollTop += (er.top-cr.top)-24; }
+    else if(t.scrollIntoView) t.scrollIntoView({behavior:'smooth',block:'center'}); });
+}
+let spotEl=null;
+function clearGuides(){
+  if(spotEl){spotEl.classList.remove('guided');spotEl=null;}
+  document.querySelectorAll('.clickable').forEach(e=>{e.classList.remove('clickable');e.onclick=null;});
+  document.querySelectorAll('.boxed').forEach(e=>e.classList.remove('boxed'));
+}
+function applySpotlight(step){
+  clearGuides();
+  if(step.box){ (Array.isArray(step.box)?step.box:[step.box]).forEach(sel=>{const el=$(sel);if(el)el.classList.add('boxed');}); }
+  if(step.target){ const el=$(step.target); if(el){ el.classList.add('guided'); spotEl=el; } }
+  if(step.advanceOn){const a=$(step.advanceOn); if(a){a.classList.add('clickable');a.onclick=(e)=>{e.stopPropagation();next();};}}
+}
+function go(i){idx=Math.max(0,Math.min(STEPS.length-1,i));render();}
+function next(){ if(idx<STEPS.length-1)go(idx+1); else stop(); }
+function back(){pause();go(idx-1);}
+function play(){ if(idx>=STEPS.length-1)return; playing=true; $('#btnPlay').innerHTML='❚❚ Pause'; tick(); }
+function tick(){ clearTimeout(timer); const cur=STEPS[idx];
+  timer=setTimeout(()=>{ if(idx>=STEPS.length-1){stop();return;}
+    go(idx+1); const ns=STEPS[idx]; if(ns.stopHere||!ns.autoplay){stop();return;} tick(); }, cur.dur||1500); }
+function pause(){playing=false;clearTimeout(timer);$('#btnPlay').innerHTML='▶ Play';}
+function stop(){pause();}
+function togglePlay(){playing?pause():play();}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+function renderView(v){ return v==="landing"?viewLanding():v==="monitor"?viewMonitor():v==="voice"?viewVoice():v==="case"?viewCase():""; }
+
+/* LANDING */
+function VMETA(){ return {
+  "retail-fraud":{id:"retail-fraud",ready:true,icon:"💳",segment:"Retail Banking",useCase:"Fraud & Disputes",accent:"#0176d3",accentSoft:"#eaf5fe",tagline:"Lock the card, reissue it, dispute the charge, and confirm the refund — first contact."},
+  "wealth":{id:"wealth",ready:false,icon:"📈",segment:"Wealth Management",useCase:"Seamless Onboarding",accent:"#1a7f5a",accentSoft:"#e7f6ef",tagline:"Turn a UHNI account-transfer question into a guided, white-glove onboarding."},
+  "commercial":{id:"commercial",ready:false,icon:"🏦",segment:"Commercial Banking",useCase:"sFTP / ACH Onboarding",accent:"#3b4ea8",accentSoft:"#ecefff",tagline:"Stand up sFTP for ACH/Wire + Lockbox so a new client can pay their vendors."},
+  "insurance":{id:"insurance",ready:false,icon:"🛡️",segment:"Insurance Brokerage",useCase:"Multi-Carrier Quoting",accent:"#b0562a",accentSoft:"#fbeee4",tagline:"Broker quotes a new-home + pool policy across carriers for the insured."},
+  "fintech":{id:"fintech",ready:false,icon:"⚡",segment:"FinTech",useCase:"API Incident + Escalation",accent:"#6d3fd6",accentSoft:"#f0eafb",tagline:"Give an enterprise client a live status update, then escalate to a human owner."}
+};}
+function sfCloud(){ return `<svg viewBox="0 0 104 60" width="60" height="35" aria-label="Salesforce"><g fill="#00A1E0"><circle cx="40" cy="30" r="17"/><circle cx="60" cy="24" r="20"/><circle cx="77" cy="34" r="15"/><circle cx="26" cy="36" r="13"/><ellipse cx="52" cy="43" rx="35" ry="14"/></g><text x="52" y="47" text-anchor="middle" fill="#fff" font-size="13" font-style="italic" font-weight="700" font-family="Segoe UI,Arial">salesforce</text></svg>`; }
+function viewLanding(){
+  const cards=Object.values(VMETA()).map(m=>`<div class="vcard" id="card-${m.id}" style="--vc:${m.accent};--vc-soft:${m.accentSoft}">
+    <div class="ic">${m.icon}</div>
+    <h3>${m.segment}</h3>
+    <div class="usecase">${m.useCase}</div>
+    <p>${m.tagline}</p>
+    <div class="go">Start Demo ›</div></div>`).join('');
+  return `<div class="landing-wrap"><div class="landing">
+    <div class="sflogo">${sfCloud()}</div>
+    <span class="eyebrow-pill">Agentforce Service for Financial Services</span>
+    <h1>Pick your customer's <b>world.</b></h1>
+    <div class="brandfields">
+      <label class="qlabel">Who are you demoing for?</label>
+      <input id="inpName" class="namein" placeholder="e.g. Vireo Financial" autocomplete="off" value="${ORG.name||''}"/>
+      <div class="hint">Brands the workspace org for this session.</div>
+      <div class="hexrow"><span class="sw"></span><input id="inpHex" class="hexin" placeholder="#0176D3" autocomplete="off" value="${ORG.hex||''}"/><span class="cap">Brand color — paste a hex to theme the demo.</span></div>
+    </div>
+    <div class="cards">${cards}</div>
+    <div class="foot">Fictional data · synthetic likenesses · no PII · not connected to a live org · for demonstration only.</div>
+  </div></div>`;
+}
+function bindLanding(){
+  const n=$('#inpName'),hx=$('#inpHex');
+  if(n)n.addEventListener('input',e=>{ORG.name=e.target.value;applyOrg();});
+  if(hx)hx.addEventListener('input',e=>{ORG.hex=e.target.value;applyOrg();});
+  Object.values(VMETA()).forEach(m=>{const c=$('#card-'+m.id);if(!c)return;
+    c.addEventListener('click',()=>{ if(!m.ready){toast('That storyline is coming soon — Retail Banking is live.');return;} go(1); });});
+}
+
+/* MONITOR */
+function viewMonitor(){ const m=V.monitor;
+  return `<div class="pad">
+    <div class="panel-title"><span class="bot">🤖</span> Agentforce</div>
+    <div class="actbanner"><b>Act 1 · Monitoring.</b> A live Agentforce Voice call is in progress. Click <b>Monitor</b> to watch it, then <b>Transfer to Rep</b> to warm-hand the call into the console.</div>
+    <div class="tiles">
+      <div class="tile sel"><div class="n">1</div><div class="l">All Agentforce Agents</div></div>
+      <div class="tile"><div class="n">1</div><div class="l">${m.agentShort}</div></div>
+      <div class="tile"><div class="n">0</div><div class="l">Voice — Integra Partners</div></div>
+      <div class="tile"><div class="n">0</div><div class="l">Voice — Service Center</div></div>
+      <div class="tile"><div class="n">0</div><div class="l">Individual Agents</div></div>
+    </div>
+    <div class="mrow" id="monitorRow">
+      <div class="head"><span>Name</span><span id="actionHead">Action</span><span>Conversation Summary</span><span>Length</span></div>
+      <div class="r" id="mDataRow"><span class="name">${m.agentName}</span>
+        <span class="link-act" id="monitorLink">Monitor</span>
+        <span class="sum"><b>${V.record.voiceTitle}</b><br>${m.caller} · Inbound · ${m.callStarted} · ${m.phone}</span>
+        <span class="tnum">${m.callLength}</span></div>
+      <div class="mnorec" id="mNoRec" hidden>No records to display.</div>
+    </div>
+    <div class="omniinbox" id="omniInbox" hidden>
+      <div class="oi-head"><span class="oi-ic">➜</span> Inbox <span class="oi-tools">⚙ ▣</span></div>
+      <div class="oi-status"><span class="oi-status-lbl">Phone - Available</span>
+        <button class="oi-status-btn" id="omniStatusBtn"><span class="oi-dot"></span> ▾</button>
+        <div class="channeldd" id="channelDropdown" hidden>
+          ${[['All - Available','good'],['Cases - Available','good'],['Chat - Available','good'],['Messaging - Available','good'],['Phone - Available','good'],['Busy','busy'],['Busy - Break','busy'],['Busy - Lunch','busy'],['Busy - Training','busy'],['Offline','off']].map((c,i)=>`<div class="ch-item ${i===0?'sel':''}"><span class="ch-dot ${c[1]}"></span> ${c[0]}</div>`).join('')}
+        </div>
+      </div>
+      <div class="oi-tabs"><span class="active">Inbox (1)</span><span>Phone</span></div>
+      <div class="oi-search">🔍 Search inbox…</div>
+      <div class="oi-items-head"><span>2/2 items</span><span>Default Order</span></div>
+      <div class="oi-item active">
+        <div class="oi-item-top"><b>${V.record.voiceTitle}</b><button class="oi-accept" id="omniAccept" title="Accept">✓</button></div>
+        <div class="oi-item-sub">${m.caller} | Inbound | ${m.callStarted} | ${m.phone}</div>
+        <div class="oi-item-meta">📞 a minute ago</div>
+      </div>
+      <div class="oi-item">
+        <div class="oi-item-top"><b>Application review – APP-00023</b><span class="oi-paused">Paused</span></div>
+        <div class="oi-item-sub">00005484 | Web | Medium | Waiting on Customer</div>
+        <div class="oi-item-meta">💼 18 hours ago</div>
+      </div>
+    </div>
+    <div class="dock" id="dockPanel" hidden>
+      <div class="dh"><span class="dh-ic">🗣</span><span class="t">${V.record.voiceTitle}</span><span class="dh-ctrls">—  ⤢  ✕</span></div>
+      <div class="dacts"><button class="dact primary" id="transferBtn">👤 Transfer to Rep</button><button class="dact">🚩 Lower</button></div>
+      <div class="dbody">
+        <div class="catchup" id="catchupCard"><div class="cu-bot">🤖</div><div class="cu-main">
+          <div class="cu-head"><span class="cu-title">Conversation Catch-Up</span><span class="cu-dismiss" id="catchupDismiss">Dismiss</span></div>
+          <p class="cu-p">${V.voice.catchupText.summary}</p>
+          <div class="cu-issue-h">Issue</div>
+          <p class="cu-p">${V.voice.catchupText.issue}</p>
+        </div></div>
+        <div class="bubbles" id="afvBubbles"></div>
+        <div class="flagline">🚩 Agentforce Voice raised a flag · ${m.callStarted}</div>
+      </div>
+    </div>
+  </div>`;
+}
+function updateMonitor(f){ const dock=$('#dockPanel'); if(dock)dock.hidden=!f.dock;
+  const cu=$('#catchupCard'); if(cu)cu.style.display=f.catchDismissed?'none':'';
+  const oi=$('#omniInbox'); if(oi)oi.hidden=!f.omniOpen;
+  const cdd=$('#channelDropdown'); if(cdd)cdd.hidden=!f.channelOpen;
+  // once the call is transferred out (omni open), the Agentforce queue shows no active records
+  const dr=$('#mDataRow'), nr=$('#mNoRec'); if(dr)dr.hidden=!!f.omniOpen; if(nr)nr.hidden=!f.omniOpen;
+  if(f.dock){const w=$('#afvBubbles'); if(w&&!w.dataset.filled){w.dataset.filled="1";w.innerHTML=V.voice.transcript.map(b=>bubble(b)).join('');}} }
+function bubble(b){ if(b.who==="sys")return `<div class="b sys">${b.t}</div>`;
+  const cls=b.who==="ai"?"ai":"them",who=b.who==="ai"?"Agentforce Voice":V.monitor.caller;
+  return `<div class="b ${cls}"><div>${b.t}</div><div class="who">${who}</div></div>`; }
+
+/* VOICE */
+function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
+  return `<div class="voicetop">
+      <div class="vt-ic">📞</div>
+      <div class="vt-t">${r.voiceTitle}<small>Voice Call · ${m.voiceCallId}</small></div>
+      <div class="vt-meta">
+        <div><div class="k">Contact</div><div class="v">${p.name}</div></div>
+        <div><div class="k">Call Type</div><div class="v">Inbound</div></div>
+        <div><div class="k">Call Started</div><div class="v">${m.callStarted}</div></div>
+        <div><div class="k">Caller</div><div class="v">${m.phone}</div></div>
+      </div>
+      <div class="vt-ended" id="callEndedPill" hidden><span class="pill-red">● Call ended</span><span class="dur">08:07</span></div>
+      <div class="vt-btns"><button>Book Appointment</button><button>Edit</button><button>Send Survey ▾</button></div>
+    </div>
+    <div class="ws">
+      <div class="col">
+        <div class="idcard" id="idCard">
+          <div class="top"><div class="ava">${p.initials}</div>
+            <div class="who"><h2>${p.name}</h2><div class="loc">📍 ${p.loc}</div>
+              <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
+            <div class="health">● Health ${p.health}</div></div>
+          <div class="grid">${p.attrs.map(a=>`<div class="kvi"><div class="k">${a.k}</div><div class="v">${a.v}</div></div>`).join('')}</div>
+          <div class="csat"><div class="lbl"><span>CSAT History</span><span class="lgd"><span><i style="background:#0176d3"></i>Engage</span><span><i style="background:#57b97e"></i>Sat</span></span></div>${csatSvg()}</div>
+        </div>
+        <div class="card phone" id="phoneCard">
+          <div class="ch">📞 Phone <span style="margin-left:auto;font-size:11px;color:var(--muted)">● Recording</span></div>
+          <div class="cb">
+            <div class="status"><span class="pill live" id="phonePill">● Connected</span><span class="timer" id="phoneTimer"><span class="rd"></span>00:00</span></div>
+            <div class="num">${m.phone}<small>Inbound</small></div>
+            <div class="ctrls"><button class="pc">⚑</button><button class="pc" id="phonePause">❚❚</button><button class="pc">🎙</button><button class="pc end" id="endCall">End Call</button></div>
+          </div>
+        </div>
+        <div class="scard wcard"><div class="sc-h">📁 Cases for Parent Contact (3+)</div>
+          ${r.cases.map(c=>`<div class="caseitem"><a href="#" onclick="return false">${c.id}</a> — ${c.subj}<div class="meta">Opened ${c.when} · ${c.status}</div></div>`).join('')}</div>
+        <div class="scard wcard"><div class="sc-h">🧾 Entitlements for Parent Contact (1)</div>
+          <div class="caseitem"><a href="#" onclick="return false">${r.entitlement.name}</a><div class="meta">Account ${r.entitlement.acct} · Start ${r.entitlement.start}</div></div></div>
+      </div>
+
+      <div class="col">
+        <div class="card" style="padding:0">
+          <div class="wtabs">
+            <span class="wtab active" id="wtabService" data-tab="service">💬 Conversation Transcript</span>
+            <span class="wtab" id="wtabCoaching" data-tab="coaching">🎯 Coaching</span>
+            <span class="wtab" data-tab="details">📄 Details</span><span class="wtab" data-tab="financials">💰 Financials</span><span class="wtab" data-tab="related">🍩 Related</span>
+          </div>
+          <div id="serviceP">
+            <div class="convo" id="convo">
+              <div class="lead">💬 Conversation <span class="live-dot" id="liveDot"></span><span id="convoTag" style="font-size:11px;color:var(--muted);font-weight:500">live transcript</span></div>
+              <div class="rbwrap" id="repBubbles"></div>
+            </div>
+          </div>
+          <div id="detailsP" hidden>
+            <div class="scard" style="margin:12px 14px"><div class="sc-h">📌 Current Case</div>
+              <div class="kvrow"><div><div class="k">Case Number</div><div class="v">${r.current.num}</div></div><div><div class="k">Case Owner</div><div class="v">Chris McCarthy</div></div>
+                <div><div class="k">Status</div><div class="v">${r.current.status}</div></div><div><div class="k">Priority</div><div class="v">${r.current.priority}</div></div></div>
+              <div style="padding:0 13px"><div class="k" style="font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--muted)">Subject</div><div class="v" style="font-size:12.5px;font-weight:600;margin:2px 0 8px">${r.current.subject}</div></div>
+              <div class="desc">${r.current.desc}</div>
+            </div>
+          </div>
+          <div id="financialsP" hidden><div class="emptytab">💰 No financial records to display.</div></div>
+          <div id="relatedP" hidden><div class="emptytab">🍩 No related records to display.</div></div>
+          <div id="coachingP" hidden></div>
+        </div>
+      </div>
+
+      <div class="col rail" id="rightRail"></div>
+    </div>`;
+}
+function csatSvg(){ const pts="0,44 40,40 80,42 120,34 160,36 200,30 240,32 280,24";
+  const pts2="0,50 40,48 80,46 120,44 160,42 200,40 240,38 280,34";
+  return `<svg viewBox="0 0 280 64" preserveAspectRatio="none"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0176d3" stop-opacity=".18"/><stop offset="1" stop-color="#0176d3" stop-opacity="0"/></linearGradient></defs>
+    <polygon points="0,64 ${pts} 280,64" fill="url(#cg)"/>
+    <polyline points="${pts}" fill="none" stroke="#0176d3" stroke-width="2"/>
+    <polyline points="${pts2}" fill="none" stroke="#57b97e" stroke-width="1.6" stroke-dasharray="0"/></svg>`; }
+function sentiSvg(){ const bars=[[24,10],[18,6],[28,12],[16,8],[30,14],[22,9],[34,16],[26,11]];
+  let x=6,w=22,g=12,h=90; let out='';
+  bars.forEach((b,i)=>{ const pos=b[0],neg=b[1],top=h-(pos+neg)*1.6;
+    out+=`<rect x="${x}" y="${h-pos*1.6}" width="${w}" height="${pos*1.6}" fill="#0176d3"/>
+          <rect x="${x}" y="${top}" width="${w}" height="${neg*1.6}" fill="#7b3ff0"/>`; x+=w+g; });
+  return `<svg viewBox="0 0 ${x} ${h}" preserveAspectRatio="none" style="height:90px">${out}</svg>`; }
+
+let voiceTab='service';
+function applyVoiceTab(){
+  const panes={service:'#serviceP',coaching:'#coachingP',details:'#detailsP',financials:'#financialsP',related:'#relatedP'};
+  Object.entries(panes).forEach(([k,sel])=>{const el=$(sel); if(el) el.hidden=(k!==voiceTab);});
+  document.querySelectorAll('.wtab').forEach(t=>t.classList.toggle('active', t.dataset.tab===voiceTab));
+}
+function showVoiceTab(t){ voiceTab=t; applyVoiceTab(); }
+function updateVoice(st,f){
+  if(f.phoneLive&&!f.callEnded)startTimer();
+  // when the call ends: remove the whole Phone control card, surface a red "Call ended" pill up top next to Caller
+  const pc=$('#phoneCard'), cep=$('#callEndedPill');
+  if(f.callEnded){ stopTimer(); if(pc)pc.style.display='none'; if(cep)cep.hidden=false; }
+  else { if(pc)pc.style.display=''; if(cep)cep.hidden=true; }
+  const cp=$('#coachingP'); if(cp&&!cp.dataset.filled){cp.dataset.filled="1";cp.innerHTML=renderCoaching();}
+  if(f.coaching) voiceTab='coaching'; else if(voiceTab==='coaching') voiceTab='service';
+  applyVoiceTab();
+  const w=$('#repBubbles');
+  if(w){ const shown=+w.dataset.shown||0;
+    if(st.turns>shown){ for(let i=shown;i<st.turns;i++)w.insertAdjacentHTML('beforeend',repBubble(V.repConvo.turns[i])); w.dataset.shown=st.turns; const c=$('#convo');if(c)c.scrollTop=c.scrollHeight; }
+    else if(st.turns<shown){ w.innerHTML=''; for(let i=0;i<st.turns;i++)w.insertAdjacentHTML('beforeend',repBubble(V.repConvo.turns[i])); w.dataset.shown=st.turns; } }
+  const live=$('#liveDot');if(live)live.style.display=f.callEnded?'none':'inline-block';
+  const ct=$('#convoTag');if(ct)ct.textContent=f.callEnded?'ended':'live';
+  $('#rightRail').innerHTML=f.wrapPanel?renderWrapRail(f):renderSra(f);
+}
+function repBubble(t){ const rep=t.who==="rep",who=rep?V.repConvo.speakers.rep:V.repConvo.speakers.customer;
+  return `<div class="rb ${rep?'rep':'cust'} appear"><div class="bub">${t.t}</div><div class="ts">${who} · 8/5/2026, 1:2${Math.floor(Math.random()*9)} PM</div></div>`; }
+
+function sraAstro(){ return `<svg viewBox="0 0 100 104" xmlns="http://www.w3.org/2000/svg">
+  <line x1="50" y1="13" x2="50" y2="6" stroke="#9aa5b1" stroke-width="2"/><circle cx="50" cy="5" r="3" fill="#e0517a"/>
+  <ellipse cx="24" cy="60" rx="8" ry="6" fill="#eef1f5" stroke="#d3d9e2"/><ellipse cx="76" cy="46" rx="8" ry="6" fill="#eef1f5" stroke="#d3d9e2"/>
+  <circle cx="50" cy="44" r="31" fill="#f2f5f9" stroke="#d3d9e2"/>
+  <circle cx="50" cy="45" r="23" fill="#1f74c4"/><circle cx="50" cy="45" r="23" fill="url(#vg)"/>
+  <defs><linearGradient id="vg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e6"/><stop offset="1" stop-color="#155ea3"/></linearGradient></defs>
+  <rect x="33" y="40" width="15" height="10" rx="5" fill="#0c1a2c"/><rect x="52" y="40" width="15" height="10" rx="5" fill="#0c1a2c"/><rect x="47" y="43" width="6" height="3.5" rx="1.5" fill="#0c1a2c"/>
+  <path d="M43 57 q7 5 14 0" stroke="#0c1a2c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <rect x="37" y="72" width="26" height="24" rx="9" fill="#f2f5f9" stroke="#d3d9e2"/>
+  <circle cx="45" cy="82" r="2.6" fill="#0176d3"/><circle cx="55" cy="82" r="2.6" fill="#e0517a"/><rect x="42" y="88" width="16" height="3" rx="1.5" fill="#cdd4de"/>
+</svg>`; }
+function renderSra(f){ const s=V.sra;
+  let h=`<div class="sra assist"><div class="h">🤖 Service Assistant <span style="font-weight:500;color:var(--muted);font-size:11px">ⓘ</span></div><div class="sra-scroll" id="sraScroll">`;
+  h+=`<div class="sra-hero"><span class="astro">${sraAstro()}</span><p><b>Hi! I'm your Service Assistant</b> — an intelligent record companion built on Agentforce. I work alongside you, surface information, and run actions — everything I research is saved to the record.</p></div>`;
+  // collapsed "Service Plan Available" card with Draft Plan (before it is drafted)
+  if(f.sraPlanCard && !f.sraChecklist){
+    h+=`<div class="reveal" id="sraPlanCard"><div class="planwrap">
+      <div class="lbl"><span class="ic">📖</span> Service Plan</div>
+      <p class="body"><b>Service Plan Available: ${s.planTitle}.</b> ${s.planSummary} We recommend:</p>
+      <ul class="rec">${s.planBullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+      <div class="thumbs"><span>👍</span><span>👎</span></div>
+      <button class="act run" id="draftPlanSra">✦ Draft Plan</button>
+    </div></div>`;
+  }
+  // expanded checklist (after Draft Plan) — first 3 tasks checked, [1] citation on the 4th
+  if(f.sraChecklist){ let gi=0;
+    const groups=s.groups.map(g=>`<div class="grp"><div class="gn">${g.name}</div>${g.items.map(it=>{
+      const i=gi++, checked=(i<3)||(it.done||f.planProgress), fourth=(i===3);
+      return `<div class="it ${checked?'done':''}"><span class="ck">✓</span><span class="txt">${it.text}${it.src?` <span class="src"${fourth?' id="src4"':''}>[${it.src}]</span>`:''}</span>${it.action?`<button class="ib" data-act="${it.action}">${it.action}</button>`:''}</div>`;
+    }).join('')}</div>`).join('');
+    h+=`<div class="reveal plan" id="sraChecklist"><div class="planwrap">
+      <div class="lbl"><span class="ic">📖</span> Service Plan</div>
+      <div class="pt">${s.planTitle}</div>
+      <p class="body dim">${s.planSummary}</p>
+      <div class="thumbs"><span>👍</span><span>👎</span></div>
+      ${groups}</div></div>`;
+  }
+  // knowledge article pops when the [1] citation is clicked — boxed like the plan above so it fits the panel width
+  if(f.sraKnowledge){ const k=s.knowledge;
+    h+=`<div class="reveal kb" id="sraKnowledge"><div class="planwrap">
+      <div class="lbl k"><span class="ic">📚</span> Knowledge</div>
+      <div class="kb-title"><a href="#" onclick="return false">${k.title}</a> <span class="rel">${k.rel}</span></div>
+      <ol>${k.steps.map(x=>`<li>${x}</li>`).join('')}</ol>
+      <div class="kb-btns"><button class="kbbtn">Edit as Draft</button><button class="kbbtn" id="sendArticle">Send Article</button></div>
+    </div></div>`; }
+  if(f.sraEmail){ const e=s.email; h+=`<div class="reveal" id="emailCard"><div class="lbl"><span class="ic">✉</span> Agentforce Email Draft</div>
+    <div class="email ${f.emailSent?'sent':''}" id="emailBox"><div class="es">${e.subject}</div><div class="eb">${e.body}</div>
+      <div class="ea"><button class="ins">Insert into Email</button><button class="send" id="emailSend">Send</button></div>
+      <div class="sent-tag">✓ Email sent to Lauren</div></div></div>`; }
+  h+=`</div></div>`; return h;
+}
+function renderWrapRail(f){ const wf=V.callSummary.wrapFields;
+  if(!f.wrapFilled){
+    return `<div class="sra wrapup"><div class="wu-head"><span class="wu-ic">🤖</span> Automated Wrap-Up <span class="wu-i">ⓘ</span></div>
+      <div style="padding:12px 14px"><button class="getrec" id="getRec">✦ Get Einstein Recommendations</button></div></div>`;
+  }
+  return `<div class="sra wrapup"><div class="wu-head"><span class="wu-ic">🤖</span> Automated Wrap-Up <span class="wu-i">ⓘ</span></div>
+    <div class="wu-applied">✦ Einstein Recommendations Applied</div>
+    <div class="wu-body">
+      ${wuField('Call Issue',wf.issue,2)}
+      ${wuField('Call Summary',wf.summary,6)}
+      ${wuField('Call Resolution',wf.resolution,3)}
+    </div>
+    <div class="wu-foot">
+      <div class="wu-thumbs"><span class="tb">👍</span><span class="tb">👎</span> Did Einstein write a good summary?</div>
+      <div class="wu-btns"><button class="wu-cancel">Cancel</button><button class="wu-save" id="wrapSave">Save</button></div>
+    </div></div>`;
+}
+function wuField(label,val,rows){ return `<div class="wu-field"><label>${label}</label><span class="wu-reset" title="Reset to Einstein suggestion">↺</span><textarea rows="${rows}">${val}</textarea></div>`; }
+function renderCoaching(){ const cs=V.callSummary;
+  return `<div style="padding:0"><div class="scorecard" id="scorecardCard">
+    <div class="sh"><div><div class="tt">Service Quality Scorecard</div><div class="badges"><span>${cs.sentiment}</span><span>ISSUE RESOLVED</span></div></div><div class="big">${cs.score}</div></div>
+    <div class="desc2">${cs.callSummary}</div>
+    <div class="rubric">${cs.rubric.map(r=>`<div class="rub tone-${r.tone}"><div class="rl"><span>${r.area}</span><span class="tnum">${r.score}</span></div><div class="bar"><i style="width:${r.pct}%"></i></div><div class="note">${r.note}</div></div>`).join('')}</div>
+
+    <div class="csec"><div class="csec-h">♥ Soft Skills Assessment</div>
+      <div class="softskills">${cs.softSkills.map(s=>`<div class="ss"><div class="ic">${s.icon}</div><div class="nm">${s.name}</div><div class="lv ${s.tone}">${s.level.toUpperCase()}</div></div>`).join('')}</div></div>
+
+    <div class="csec"><div class="csec-h">⚠ Customer Concerns</div>
+      <div class="concern"><div class="st">${cs.customerConcern.status.toUpperCase()}</div>
+        <div class="tt">${cs.customerConcern.title}</div>
+        <div class="rp"><b>Response:</b> ${cs.customerConcern.response}</div></div></div>
+
+    <div class="csec"><div class="csec-h">📌 Key Moments</div>
+      ${cs.keyMoments.map(k=>`<div class="moment"><span class="dot"></span><div><div class="tm">${k.t}</div><div class="tt">${k.title}</div><div class="sub">${k.sub}</div></div></div>`).join('')}</div>
+
+    <div class="csec"><div class="trow">
+      <div><div class="csec-h"># Topics Discussed</div><div class="chips">${cs.topics.map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>
+      <div><div class="csec-h">→ Recommended Next Steps</div><div class="just">${cs.recommended}</div></div>
+    </div></div>
+
+    <div class="csec"><div class="csec-h">🗒 Score Justification</div><div class="just">${cs.justification}</div></div>
+  </div></div>`;
+}
+
+/* CASE */
+function viewCase(){ const c=V.caseData,p=V.record.person;
+  return `<div class="casewrap">
+    <div class="casehdr">
+      <div class="ch-ic">📁</div>
+      <div><div class="ch-eyebrow">Case</div><div class="ch-title">${c.subject}</div></div>
+      <div class="ch-meta">
+        <div><div class="k">Case Number</div><div class="v">${c.number}</div></div>
+        <div><div class="k">Case Origin</div><div class="v">${c.origin}</div></div>
+        <div><div class="k">Priority</div><div class="v">${c.priority}</div></div>
+        <div><div class="k">Status</div><div class="v" id="caseStatusVal">Working</div></div>
+        <div><div class="k">Contact Name</div><div class="v">${c.contact}</div></div>
+      </div>
+      <div class="ch-btns"><button>+ Follow</button><button>Edit</button><button>Change Record Type</button></div>
+    </div>
+    <div class="pathbar"><div class="pstep done">New</div><div class="pstep done">Reply Received</div><div class="pstep done" id="pWorking">Working</div><div class="pstep">Waiting on Customer</div><div class="pstep">Escalated</div><div class="pstep" id="pClosed">Closed</div></div>
+    <div class="casecols3">
+      <!-- LEFT: identity + CSAT + History -->
+      <div class="col">
+        <div class="idcard">
+          <div class="top"><div class="ava">${p.initials}</div>
+            <div class="who"><h2>${p.name}</h2><div class="loc">📍 ${p.loc}</div>
+              <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
+            <div class="health">● Health ${p.health}</div></div>
+          <div class="grid">${c.attrs.map(a=>`<div class="kvi"><div class="k">${a.k}</div><div class="v">${a.v}</div></div>`).join('')}</div>
+          <div class="csat"><div class="lbl"><span>CSAT Trend</span><span class="lgd"><span><i style="background:#0176d3"></i>Engage</span><span><i style="background:#57b97e"></i>CSAT</span></span></div>${csatSvg()}</div>
+        </div>
+        <div class="card"><div class="ch">🕘 History <span style="margin-left:auto;font-size:11px;color:var(--muted)">Timeline · Today</span></div>
+          <div class="cb" style="padding:4px 14px 10px">${c.history.map(h=>`<div class="histitem"><span class="hic">${h.ic}</span><span>${h.t}</span><span class="hw">${h.w}</span></div>`).join('')}</div></div>
+      </div>
+
+      <!-- CENTER: C360 tabs + AI Summary + Previous + Similar -->
+      <div class="col">
+        <div class="card" style="padding:0">
+          <div class="wtabs"><span class="wtab active">🌐 C360</span><span class="wtab">📄 Details</span><span class="wtab">📣 Feed</span><span class="wtab">🍩 Related</span><span class="wtab">🐝 Swarm</span></div>
+          <div class="aisum" style="border:0;margin:0">
+            <span class="pill-ai">✦ AI Summary</span>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:4px">This tool uses generative AI. Review responses to ensure they're accurate, valid, and harmless before you use them.</div>
+            <div style="font-size:12.5px;color:var(--ink);margin-top:12px;font-weight:700">Start with a prompt</div>
+            <div class="prompt-row"><button class="prompt-btn" id="summarizeBtn">✦ Case Summarization</button><button class="prompt-btn">Case Summarizer ✦</button><button class="prompt-btn">More ▾</button></div>
+            <div id="caseSummaryOut" hidden></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px"><div class="ch">📁 Previous Cases (3+)</div>
+          ${c.previous.map(x=>`<div class="caseitem"><a href="#" onclick="return false">${x.id}</a> — ${x.subj}<div class="meta">Opened ${x.when} · Medium</div></div>`).join('')}</div>
+        <div class="card" style="margin-top:14px"><div class="ch">🔎 Similar Cases & Articles</div>
+          <div class="cb">${c.similar.map(s=>`<div class="caseitem" style="border:0"><a href="#" onclick="return false">${s.id}</a> <span class="chip" style="background:#eef0fb;color:#4a4fb0">${s.match} match</span> <span class="chip" style="background:var(--warn-bg);color:var(--warn)">${s.status}</span><div class="meta">${s.subj} · Priority ${s.pri}</div></div>`).join('')}</div></div>
+      </div>
+
+      <!-- RIGHT: Milestones (top) → Classification → Service Assistant (no action-launcher panel) -->
+      <div class="col">
+        <div class="milestone done"><div class="mt">⏱ Milestones</div><div class="sla">✓ You completed all the milestones.</div></div>
+        <div class="classcard" id="einsteinClass"><div class="cl-h">✦ Einstein Classification</div>
+          <button class="getrec2" id="caseGetRec">✦ Get Einstein Recommendations</button>
+          <div class="clfields">
+            <div class="clf full"><div class="clk">Case Owner</div><div class="clv"><a href="#" onclick="return false">Chris McCarthy</a></div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Status</div><div class="clv">New</div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Priority</div><div class="clv">Medium</div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Product Family</div><div class="clv" id="clPF">Retail Banking</div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Type</div><div class="clv" id="clType"></div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Language</div><div class="clv" id="clLang">English</div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Sub-Type</div><div class="clv" id="clSub"></div><span class="pen">✎</span></div>
+          </div>
+          <button class="draftkb" id="draftKbBtn">Draft Knowledge Article</button>
+        </div>
+        <div class="serviceplan" id="servicePlanCard">
+          <div class="assist-tabs"><span class="active">✦ AI Assistant</span><span>🔎 Classification</span><span>◎ Next Best Action</span></div>
+          <div class="sh">🤖 Service Assistant · Service Plan</div>
+          <div class="intro">${c.planIntro}</div>
+          <button class="draftplan" id="draftPlanBtn">✦ Draft Plan</button>
+          <div class="casePlanBody" id="casePlanBody" hidden></div>
+          <button class="closeplan" id="closePlanBtn" hidden>✓ Close Plan & Close Case</button>
+          <div class="closed-banner">✓ Case closed · Automated Wrap-Up written to the record</div>
+        </div>
+        <div id="outcomeSlot"></div>
+      </div>
+    </div>
+  </div>`;
+}
+function updateCase(f){
+  if(f.caseClassified){ const cl={clType:'Fraud / Dispute',clSub:'Unauthorized transaction'};
+    Object.entries(cl).forEach(([id,v])=>{const el=$('#'+id); if(el)el.textContent=v;}); }
+  const out=$('#caseSummaryOut');
+  if(out){ out.hidden=!f.caseSummary; if(f.caseSummary&&!out.dataset.filled){out.dataset.filled="1";out.innerHTML=`<div class="out"><div class="gen">Generated · Prompt: Case Summarizer</div>${V.caseData.aiSummary}</div>`;} }
+  const body=$('#casePlanBody'),close=$('#closePlanBtn'),draft=$('#draftPlanBtn');
+  if(f.casePlan){ if(body){body.hidden=false;body.innerHTML=renderCasePlan(f.caseClosed);} if(close)close.hidden=false; if(draft)draft.textContent="✦ Redraft Plan"; }
+  else{ if(body)body.hidden=true; if(close)close.hidden=true; }
+  const spc=$('#servicePlanCard');if(spc)spc.classList.toggle('closed',!!f.caseClosed);
+  const pw=$('#pWorking'),pc=$('#pClosed');
+  const sv=$('#caseStatusVal');
+  if(f.caseClosed){ if(pw){pw.className='pstep done';} if(pc){pc.className='pstep closed-hl';} if(close){close.textContent='✓ Case Closed';close.disabled=true;} if(sv)sv.textContent='Closed'; }
+  else{ if(pw)pw.className='pstep done'; if(pc)pc.className='pstep'; if(sv)sv.textContent='Working'; }
+  const slot=$('#outcomeSlot');if(slot)slot.innerHTML=f.outcomes?renderOutcome():'';
+}
+function renderCasePlan(closed){ const groups={}; V.caseData.planItems.forEach(it=>{(groups[it.g]=groups[it.g]||[]).push(it);});
+  return `<div class="plan">`+Object.entries(groups).map(([g,items])=>`<div class="grp"><div class="gn">${g}</div>${items.map(it=>`<div class="it ${closed?'done':''}"><span class="ck">✓</span><span class="txt">${it.t}</span>${it.a?`<button class="ib" data-act="${it.a}">${it.a}</button>`:''}</div>`).join('')}</div>`).join('')+`</div>`; }
+function renderOutcome(){ const o=V.outcomes;
+  return `<div class="card" id="outcomeCard" style="margin-top:14px;border-color:var(--good)">
+    <div class="ch" style="color:var(--good)">✓ ${o.headline}</div>
+    <div class="cb" style="font-size:12.5px;color:var(--ink-2)">${o.detail}
+      <div style="display:flex;gap:8px;margin-top:12px">${o.metrics.map(m=>`<div style="flex:1;background:var(--good-bg);border-radius:8px;padding:9px;text-align:center"><div style="font-weight:800;color:var(--good);font-size:12.5px">${m.v}</div><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">${m.l}</div></div>`).join('')}</div></div></div>`; }
+
+/* ---------- utils ---------- */
+let timerH=null,timerSec=0;
+function startTimer(){ if(timerH)return; timerH=setInterval(()=>{timerSec++;const t=$('#phoneTimer');
+  if(t)t.innerHTML=`<span class="rd"></span>${String(Math.floor(timerSec/60)).padStart(2,'0')}:${String(timerSec%60).padStart(2,'0')}`;},1000); }
+function stopTimer(){clearInterval(timerH);timerH=null;}
+let toastH=null;
+function toast(msg){ const t=$('#toast'); t.innerHTML=`<span class="ok">✓</span> ${msg}`; t.classList.add('show'); clearTimeout(toastH); toastH=setTimeout(()=>t.classList.remove('show'),2400); }
+/* bell notifications */
+let notifications=[];
+function updateBell(){ const dot=$('#bellDot'),bell=$('#bell'),panel=$('#bellPanel');
+  if(bell) bell.classList.toggle('on', notifications.length>0);
+  if(dot) dot.textContent=notifications.length;
+  if(panel) panel.innerHTML=`<div class="bp-h">Notifications</div>`+(notifications.length?notifications.map(n=>`<div class="notif"><span class="nic">${n.icon||'🔔'}</span><div><div class="nt">${n.title}</div><div class="ns">${n.sub}</div></div></div>`).join(''):`<div class="notif-empty">No notifications</div>`); }
+function addNotif(id,title,sub,icon){ if(!notifications.find(n=>n.id===id)) notifications.push({id,title,sub,icon}); updateBell(); }
+function removeNotif(id){ notifications=notifications.filter(n=>n.id!==id); updateBell(); }
+function toggleBellPanel(force){ const panel=$('#bellPanel'); if(!panel)return; panel.hidden=(force===undefined)?!panel.hidden:!force; }
+document.addEventListener('click',e=>{ const id=e.target.id;
+  const bellEl=e.target.closest && e.target.closest('#bell');
+  if(bellEl){ toggleBellPanel(); if(STEPS[idx]&&STEPS[idx].target==='#bell') next(); return; }
+  const dkb=e.target.closest && e.target.closest('#draftKbBtn');
+  if(dkb){ addNotif('kb','Knowledge article ready for review','Drafted from case '+V.caseData.number,'📄'); toast('Draft sent — a knowledge article is ready for review.'); if(STEPS[idx]&&STEPS[idx].target==='#draftKbBtn') next(); return; }
+  if(!e.target.closest || !e.target.closest('#bellPanel')) toggleBellPanel(false);
+  const wt=e.target.closest && e.target.closest('.wtab'); if(wt&&wt.dataset.tab){ showVoiceTab(wt.dataset.tab); }
+  if(e.target.classList&&e.target.classList.contains('ib')&&e.target.dataset.act) toast(e.target.dataset.act+' — completed.');
+  if(id==='emailSend')toast('Confirmation email sent to Lauren Bailey.');
+  if(id==='issueCredit')toast('Provisional credit issued · Overdraft fee reversed.');
+  if(id==='getRec')toast('Einstein generated the Automated Wrap-Up + Scorecard.');
+  if(id==='wrapSave')toast('Automated Wrap-Up saved to the record.');
+  if(id==='closePlanBtn'&&!e.target.disabled)toast('Case 00005518 closed · Wrap-up saved to record.'); });
+
+/* ---------- boot ---------- */
+function boot(){
+  try{ if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)document.body.classList.add('reduced'); }catch(e){}
+  const q=new URLSearchParams(location.search); if(q.get('org'))ORG.name=q.get('org'); if(q.get('hex'))ORG.hex=q.get('hex');
+  buildSteps(); applyOrg();
+  $('#btnPlay').onclick=togglePlay;
+  $('#btnNext').onclick=()=>{pause();next();};
+  $('#btnBack').onclick=back;
+  $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);render();};
+  $('#ttToggle').onclick=()=>{talkTrack=!talkTrack;$('#ttToggle').classList.toggle('on',talkTrack);$('#guidebar').classList.toggle('talk-off',!talkTrack);};
+  render();
+}
+boot();
+</script>
+</body>
+</html>
