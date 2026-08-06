@@ -473,6 +473,12 @@ a{color:var(--brand);text-decoration:none}
 @keyframes ring{0%,100%{box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft)}50%{box-shadow:0 0 0 3px var(--guide),0 0 0 11px rgba(27,150,255,.05)}}
 .guided::after{content:"";position:absolute;top:-9px;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--guide);box-shadow:0 0 0 4px rgba(27,150,255,.28);animation:pulse 1.4s ease-out infinite;z-index:6}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(27,150,255,.5)}70%{box-shadow:0 0 0 12px rgba(27,150,255,0)}100%{box-shadow:0 0 0 0 rgba(27,150,255,0)}}
+/* When a full-bleed .reveal row is guided, ring the inner .planwrap card so the glow
+   doesn't overlap the hero/row above. The wrapper carries no ring or dot of its own. */
+.reveal.guided{box-shadow:none !important;animation:none;border-radius:0}
+.reveal.guided::after{display:none}
+.reveal.guided .planwrap{box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft);border-radius:10px;position:relative;z-index:5;animation:ring 1.7s ease-in-out infinite}
+.reveal.guided .planwrap::after{content:"";position:absolute;top:-9px;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--guide);box-shadow:0 0 0 4px rgba(27,150,255,.28);animation:pulse 1.4s ease-out infinite;z-index:6}
 .clickable{cursor:pointer}
 /* rectangular box highlight (e.g. a column header or a whole component) */
 .boxed{outline:2.5px solid var(--guide);outline-offset:3px;border-radius:3px;position:relative;z-index:4;animation:boxpulse 1.7s ease-in-out infinite}
@@ -1006,7 +1012,7 @@ function buildSteps(){
     { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#draftKbBtn", title:"Draft a Knowledge article from the closed case",
       talk:"Turn this resolution into reusable Knowledge. Einstein drafts an article from the closed case and notifies a reviewer — so future calls like this get deflected.",
       dothis:"Click ‘Draft Knowledge Article’." },
-    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#bell", title:"A knowledge article is ready for review",
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1,kbSaved:1}, target:"#bell", title:"A knowledge article is ready for review",
       talk:"The drafted article fires a notification. Open the bell — a knowledge article is ready for a reviewer to approve and publish. That's the full loop, on one call.",
       dothis:"Click the 🔔 bell to see the notification." }
   ];
@@ -1033,6 +1039,7 @@ function render(){
   $('#tabCase').classList.toggle('active', v==="case");
   $('#tabVoice').classList.toggle('active', v==="voice");
   if(f.bell) addNotif('score',`Service Quality Scorecard: ${V.callSummary.score}/100`,'Call scored — sent to supervisor','📊'); else removeNotif('score');
+  if(f.kbSaved) addNotif('kb','Knowledge article ready for review','Drafted from case '+V.caseData.number,'📄'); else removeNotif('kb');
   const stage=$('#stage');
   if(stage.dataset.view!==st.view){ stage.dataset.view=st.view; stage.innerHTML=renderView(st.view);
     if(st.view==="landing") bindLanding(); if(st.view==="voice") voiceTab="service"; }
@@ -1454,7 +1461,7 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
             <div class="clf full"><div class="clk">Case Owner</div><div class="clv"><a href="#" onclick="return false">Chris McCarthy</a></div><span class="pen">✎</span></div>
             <div class="clf"><div class="clk">Status</div><div class="clv">New</div><span class="pen">✎</span></div>
             <div class="clf"><div class="clk">Priority</div><div class="clv">Medium</div><span class="pen">✎</span></div>
-            <div class="clf"><div class="clk">Product Family</div><div class="clv" id="clPF">Retail Banking</div><span class="pen">✎</span></div>
+            <div class="clf"><div class="clk">Product Family</div><div class="clv" id="clPF">${V.segment}</div><span class="pen">✎</span></div>
             <div class="clf"><div class="clk">Type</div><div class="clv" id="clType"></div><span class="pen">✎</span></div>
             <div class="clf"><div class="clk">Language</div><div class="clv" id="clLang">English</div><span class="pen">✎</span></div>
             <div class="clf"><div class="clk">Sub-Type</div><div class="clv" id="clSub"></div><span class="pen">✎</span></div>
@@ -1476,7 +1483,9 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
   </div>`;
 }
 function updateCase(f){
-  if(f.caseClassified){ const cl={clType:'Fraud / Dispute',clSub:'Unauthorized transaction'};
+  if(f.caseClassified){ const cls=V.caseData.classification||[];
+    const pick=k=>{const m=cls.find(c=>c.k===k);return m?m.v:'';};
+    const cl={clType:pick('Type'),clSub:pick('Reason')};
     Object.entries(cl).forEach(([id,v])=>{const el=$('#'+id); if(el)el.textContent=v;}); }
   const out=$('#caseSummaryOut');
   if(out){ out.hidden=!f.caseSummary; if(f.caseSummary&&!out.dataset.filled){out.dataset.filled="1";out.innerHTML=`<div class="out"><div class="gen">Generated · Prompt: Case Summarizer</div>${V.caseData.aiSummary}</div>`;} }
@@ -1518,7 +1527,7 @@ document.addEventListener('click',e=>{ const id=e.target.id;
   const bellEl=e.target.closest && e.target.closest('#bell');
   if(bellEl){ toggleBellPanel(); if(STEPS[idx]&&STEPS[idx].target==='#bell') next(); return; }
   const dkb=e.target.closest && e.target.closest('#draftKbBtn');
-  if(dkb){ addNotif('kb','Knowledge article ready for review','Drafted from case '+V.caseData.number,'📄'); toast('Draft sent — a knowledge article is ready for review.'); if(STEPS[idx]&&STEPS[idx].target==='#draftKbBtn') next(); return; }
+  if(dkb){ toast('Draft sent — a knowledge article is ready for review.'); if(STEPS[idx]&&STEPS[idx].target==='#draftKbBtn') next(); return; }
   if(!e.target.closest || !e.target.closest('#bellPanel')) toggleBellPanel(false);
   const wt=e.target.closest && e.target.closest('.wtab'); if(wt&&wt.dataset.tab){ showVoiceTab(wt.dataset.tab); }
   if(e.target.classList&&e.target.classList.contains('ib')&&e.target.dataset.act) toast(e.target.dataset.act+' — completed.');
