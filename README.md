@@ -36,11 +36,11 @@ A **guidance bar** pinned to the bottom drives the demo: **Play / Pause / Restar
 |---|---|---|
 | 💳 **Retail Banking** | Fraud & Disputes | ✅ Built end-to-end |
 | ⚡ **FinTech** | API Incident + Escalation | ✅ Built end-to-end |
-| 📈 **Wealth Management** | Seamless Onboarding | ⏳ To clone |
+| 📈 **Wealth Management** | Seamless Onboarding | ✅ Built end-to-end |
 | 🏦 **Commercial Banking** | sFTP / ACH Onboarding | ⏳ To clone |
 | 🛡️ **Insurance Brokerage** | Multi-Carrier Quoting | ⏳ To clone |
 
-The remaining three render on the placemat as "coming soon." Cloning is a data exercise — see **[AUTHORING.md](AUTHORING.md)**.
+The remaining two render on the placemat as "coming soon." Cloning is a data exercise — see **[AUTHORING.md](AUTHORING.md)**.
 
 ### The FinTech storyline (built end-to-end)
 
@@ -49,6 +49,14 @@ The remaining three render on the placemat as "coming soon." Cloning is a data e
 - **Act 1 · Command Center:** Agentforce Voice is on the call. It SMS-verifies the API key holder, **delivers the live incident status** (INC-4821, mitigation underway, ~20-min ETA), and — because Derek wants a root-cause commitment, not just a status — flags the call for **escalation**. Supervisor **Monitors** → reads the **Conversation Catch-Up** → **Transfer to Rep** (routed to Tier-2 Enterprise) → **Omni-Channel accept**.
 - **Act 2 · Voice workspace:** the Enterprise Support engineer (Priya) picks up with Derek's full 360 and the incident already linked. The **Service Assistant** drafts the *API Incident Escalation & RCA* plan — confirm impact window, verify mitigation against the incident timeline (grounded `[1]` citation to the **Enterprise Incident Response & SLA Credit Policy**), **apply the SLA credit**, **subscribe to status**, and **commit the RCA** — then an incident-summary email → **Send** → **End Call** → **Wrap-Up + Scorecard** (82 — a tough call, owned end to end; strong on ownership/de-escalation) with the supervisor **bell**.
 - **Case:** Einstein Classification (**Type = Incident · Sub-Type = API Degradation**) → **Draft Plan** → **Close** → **Draft Knowledge Article** ("Enterprise API Incident Escalation Runbook") → **bell**.
+
+### The Wealth Management storyline (built end-to-end)
+
+**Jonathan Ashford III**, a new **UHNI ($40M) private-wealth client**, calls to **consolidate three external accounts** — a Fidelity brokerage, a Schwab IRA, and a JP Morgan trust — into his new **Premier Portfolio**.
+
+- **Act 1 · Command Center:** Agentforce Voice is on the call. It SMS-verifies Jonathan, captures the three external accounts, and confirms the consolidation runs through **ACATS** with eligible holdings moving **in-kind** (so he stays invested). Supervisor **Monitors** → reads the **Conversation Catch-Up** → **Transfer to Rep** (routed to Private Wealth) → **Omni-Channel accept**.
+- **Act 2 · Voice workspace:** the **Private Wealth Advisor** (Marcus) picks up with Jonathan's full 360 and the new Premier Portfolio already open. The **Service Assistant** drafts the *New Client Account Consolidation* plan — confirm the registrations, verify ACATS eligibility and in-kind handling (grounded `[1]` citation to **ACATS Transfer Timelines & In-Kind vs. Liquidation**), **initiate the transfers**, **expedite the trust registration**, and schedule the onboarding — then a welcome email → **Send** → **End Call** → **Wrap-Up + Scorecard** (88 — a white-glove onboarding handled end to end) with the supervisor **bell**.
+- **Case:** Einstein Classification (**Type = Onboarding · Sub-Type = Account Transfer (ACATS)**) → **Draft Plan** → **Close** → **Draft Knowledge Article** ("New-Client Account Consolidation Runbook") → **bell**.
 
 ### Routing & deep-links
 
