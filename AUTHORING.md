@@ -71,8 +71,12 @@ A small notification center: `notifications[]` + `addNotif/removeNotif/updateBel
 1. **Pick an `id`** (kebab-case), e.g. `fintech-incident`.
 2. In `VERTICALS`, add an entry with that id and fill every sub-object (copy `retail-fraud` as the template): `monitor`, `record` (person 360 + cases + entitlement + current case), `voice` (AFV transcript + `catchupText`), `repConvo` (the 9-turn live transcript that plays), `sra` (`planTitle`, `planSummary`, `planBullets`, `groups` for the checklist, `knowledge`, `email`, `workSummary`), `callSummary` (`score`, `rubric`, `softSkills`, `customerConcern`, `keyMoments`, `topics`, `recommended`, `justification`, `wrapFields`), `outcomes`, `caseData`.
 3. In `VMETA()`, set that card `ready:true`.
-4. The `STEPS` playbook currently reads the single active vertical (`const V = VERTICALS["retail-fraud"]`). To make cards route to different verticals, generalize `V` to the picked id and keep the same slide structure — the engine is vertical-agnostic; only the copy/data changes.
-5. Keep the **9-turn** `repConvo` arc and the **Play-pauses-at-the-hand-off** `stopHere` so the Service Assistant reveals line up.
+4. **Routing is already generalized.** `V` is a mutable `let` (not `const`), and clicking a ready card calls `selectVertical(id)` → sets `activeVertical`/`V` and re-runs `buildSteps()` before `go(1)`. The `STEPS` playbook reads from `V`, so a new vertical needs **no engine change** — just the data entry. You can also deep-link with `?vertical=<id>`.
+5. **Keep the data shapes identical** to `retail-fraud`, because a few renderers key off *position*, not names:
+   - The `[1]` **Knowledge citation** (`#src4`) is injected on the **4th flat checklist item** (`i===3`) *only if that item has `src`*. Keep your `groups` so the 4th item across all groups is a grounded (`src:1`) step — e.g. Gather has `[done, src]`, Work has `[done, src]` (the 2nd Work item is #4).
+   - Keep the **9-turn** `repConvo` arc and the **Play-pauses-at-the-hand-off** `stopHere` so the transcript reveals line up with the plan reveals.
+   - The case tab (`#tabCase`), voice tab (`#tabVoice`), scorecard bell, email sign-off, and close/KB toasts are all driven from `V` (`caseData.number`, `monitor.voiceCallId`, `callSummary.score`, `monitor.caller`) — so they rebrand automatically.
+6. **Vertical-specific step copy** in `buildSteps()` is interpolated from `V` (`cust = V.monitor.caller.split(' ')[0]`, `planName = V.sra.planTitle`). If you add copy that names the customer or the plan, use those instead of hardcoding — that's how the same 24 slides read correctly for every vertical.
 
 > The data field names are exactly what the renderers read. If something prints `undefined`, a field is missing (that's how we caught a missing `planSummary`).
 

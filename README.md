@@ -35,12 +35,24 @@ A **guidance bar** pinned to the bottom drives the demo: **Play / Pause / Restar
 | Card | Use case | Status |
 |---|---|---|
 | 💳 **Retail Banking** | Fraud & Disputes | ✅ Built end-to-end |
+| ⚡ **FinTech** | API Incident + Escalation | ✅ Built end-to-end |
 | 📈 **Wealth Management** | Seamless Onboarding | ⏳ To clone |
 | 🏦 **Commercial Banking** | sFTP / ACH Onboarding | ⏳ To clone |
 | 🛡️ **Insurance Brokerage** | Multi-Carrier Quoting | ⏳ To clone |
-| ⚡ **FinTech** | API Incident + Escalation | ⏳ To clone |
 
-The other four render on the placemat as "coming soon." Cloning is a data exercise — see **[AUTHORING.md](AUTHORING.md)**.
+The remaining three render on the placemat as "coming soon." Cloning is a data exercise — see **[AUTHORING.md](AUTHORING.md)**.
+
+### The FinTech storyline (built end-to-end)
+
+**Derek Vaughn**, VP Engineering at **PayCadence**, calls in — upset — because the **payments API is returning elevated 5xx errors** and blocking production traffic.
+
+- **Act 1 · Command Center:** Agentforce Voice is on the call. It SMS-verifies the API key holder, **delivers the live incident status** (INC-4821, mitigation underway, ~20-min ETA), and — because Derek wants a root-cause commitment, not just a status — flags the call for **escalation**. Supervisor **Monitors** → reads the **Conversation Catch-Up** → **Transfer to Rep** (routed to Tier-2 Enterprise) → **Omni-Channel accept**.
+- **Act 2 · Voice workspace:** the Enterprise Support engineer (Priya) picks up with Derek's full 360 and the incident already linked. The **Service Assistant** drafts the *API Incident Escalation & RCA* plan — confirm impact window, verify mitigation against the incident timeline (grounded `[1]` citation to the **Enterprise Incident Response & SLA Credit Policy**), **apply the SLA credit**, **subscribe to status**, and **commit the RCA** — then an incident-summary email → **Send** → **End Call** → **Wrap-Up + Scorecard** (82 — a tough call, owned end to end; strong on ownership/de-escalation) with the supervisor **bell**.
+- **Case:** Einstein Classification (**Type = Incident · Sub-Type = API Degradation**) → **Draft Plan** → **Close** → **Draft Knowledge Article** ("Enterprise API Incident Escalation Runbook") → **bell**.
+
+### Routing & deep-links
+
+Clicking a **ready** card selects that vertical (`selectVertical(id)` rebuilds the playbook) and drops into its walkthrough; the engine is vertical-agnostic, so only the copy/data changes. You can also **deep-link** straight into a built demo with `?vertical=<id>` (e.g. `?vertical=fintech`), combinable with `?org=` and `?hex=`.
 
 ---
 

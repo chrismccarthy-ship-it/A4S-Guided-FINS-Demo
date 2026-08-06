@@ -682,6 +682,122 @@ const VERTICALS = {
         {g:"Resolve the Issue",t:"If confirmed unauthorized, reverse the overdraft fees and issue a credit to the account.",a:"Issue Credit"},
         {g:"Resolve the Issue",t:"Secure the account against further unauthorized activity — reissue the card and enable alerts.",a:"Reissue Card"},
         {g:"Wrap Up",t:"Document the resolution and follow up with Lauren to confirm satisfaction and summarize the outcome."}] }
+  },
+
+  "fintech": {
+    id:"fintech", name:"FinTech / API Incident + Escalation",
+    segment:"FinTech", useCase:"API Incident + Escalation", icon:"⚡", accent:"#6d3fd6", accentSoft:"#f0eafb",
+    tagline:"Give an enterprise client a live status update, then escalate to a human owner who commits to an RCA.",
+    monitor:{ voiceCallId:"VC-00002042", caller:"Derek Vaughn",
+      agentName:"Agentforce Voice", agentShort:"Incident & Status Agent",
+      callStarted:"8/6/2026, 9:41 AM", callLength:"56 s", phone:"+1 (415) 555-0192" },
+    record:{ voiceTitle:"Payments API Degradation — Enterprise Incident",
+      person:{ name:"Derek Vaughn", loc:"Austin, TX", initials:"DV",
+        health:41, tags:["Enterprise","At-Risk"],
+        attrs:[{k:"Account",v:"PayCadence, Inc."},{k:"Support Tier",v:"Enterprise API"},
+          {k:"Role",v:"VP Engineering"},{k:"Customer Since",v:"6/12/2022 · 4 yrs"}] },
+      cases:[
+        {id:"00007841",subj:"Payments API — elevated 5xx, mitigation in progress",when:"8/6/2026, 9:44 AM",status:"Working"},
+        {id:"00007820",subj:"Webhook retry backlog inquiry",when:"8/4/2026, 3:12 PM",status:"Working"},
+        {id:"00007799",subj:"Sandbox rate-limit increase request",when:"8/1/2026, 10:05 AM",status:"New"}],
+      entitlement:{name:"Enterprise API Support — 99.95% SLA (24/7)",acct:"PayCadence, Inc.",start:"6/12/2022"},
+      current:{num:"00007843",status:"Working",priority:"Critical",subject:"Payments API Degradation — Enterprise Incident",
+        desc:"Derek Vaughn reports the payments API is returning elevated 5xx errors, blocking PayCadence's production traffic. Agentforce Voice delivered the live incident status (INC-4821, mitigation underway). Derek wants a root-cause analysis, an SLA-credit review, and a commitment to prevent recurrence."} },
+    voice:{ intent:"Report API outage + request status & prevention", sentiment:"Frustrated → Reassured",
+      authenticated:true,
+      summary:"Enterprise client reports the payments API is returning 5xx errors that are blocking production traffic. Identity verified over SMS against the API key holder. Agentforce Voice delivered live incident status; the client wants a root-cause analysis and a commitment that it won't recur.",
+      catchupText:{
+        summary:"The caller reported that the payments API is returning elevated 5xx errors and blocking production traffic. Agentforce Voice verified the API key holder over SMS, delivered the live incident status from INC-4821 (mitigation underway, ETA ~20 min), and captured the request for a root-cause analysis.",
+        issue:"The caller's production traffic is impacted by an API degradation and they want assurance of a root cause and prevention plan." },
+      catchup:[{k:"Caller",v:"Derek Vaughn (verified via SMS)"},{k:"Intent",v:"API degradation + status"},
+        {k:"Sentiment",v:"Frustrated → Reassured"},{k:"Ask",v:"RCA, SLA-credit review, prevention"}],
+      transcript:[
+        {who:"ai",t:"Thanks for calling — I'm the Agentforce voice assistant. To verify you, I've texted a one-time passcode to the mobile on file for the API key holder."},
+        {who:"them",t:"Okay — the code is 7-1-8-3-0-5."},
+        {who:"ai",t:"Verified, thank you Derek. I can see you're calling about the payments API. We have an active incident, INC-4821 — elevated 5xx on the payments endpoint, mitigation is in progress with an ETA of about 20 minutes."},
+        {who:"them",t:"That's blocking our production traffic. I need to know the root cause and that this won't happen again."},
+        {who:"ai",t:"Understood — I'm escalating you to an Enterprise Support engineer who can commit to a root-cause analysis and review your SLA credit."},
+        {who:"sys",t:"Identity verified · Incident INC-4821 linked · Case 00007843 created · Routing to Tier-2 Enterprise"}] },
+    repConvo:{ speakers:{rep:"Priya · Enterprise Support Engineer", customer:"Derek Vaughn"},
+      turns:[
+        {who:"rep",t:"Hi Derek, this is Priya on the Enterprise team — our voice assistant already briefed me and linked incident INC-4821, so you won't have to repeat anything."},
+        {who:"customer",t:"Thanks. The payments endpoint is throwing 5xx and it's blocking our production traffic right now."},
+        {who:"rep",t:"I see it — INC-4821, elevated 5xx on the payments endpoint. Mitigation is deploying now; error rates are already trending down. Let me confirm your impact window and affected endpoints."},
+        {who:"customer",t:"Okay… but what actually caused it, and how do I know it won't recur?"},
+        {who:"rep",t:"Root cause is an upstream provider timeout that overwhelmed our retry queue. I'm applying a circuit-breaker and tightening alerting so it self-heals next time — and I'll commit to a written RCA."},
+        {who:"customer",t:"That's what I needed to hear."},
+        {who:"rep",t:"Done — I've linked your account to the incident, applied an SLA credit for the impact window, subscribed you to the status page, and scheduled the RCA doc for delivery."},
+        {who:"customer",t:"Appreciate you owning it end to end."},
+        {who:"rep",t:"Of course. You'll get an incident summary email in a moment with the RCA timeline. Anything else while I'm on?"}] },
+    sra:{ suggestedResponse:"I hear you, Derek — this is impacting production and I'll own it end to end. Mitigation for INC-4821 is deploying now, and I can apply an SLA credit and commit to a written root-cause analysis.",
+      planTitle:"API Incident Escalation & RCA",
+      planSummary:"Derek Vaughn (PayCadence) reports the payments API is returning 5xx errors impacting production; the rep is de-escalating, confirming mitigation, and committing to a root-cause analysis and prevention plan.",
+      planAvailable:"API Incident Escalation & RCA. Derek Vaughn is reporting elevated 5xx errors on the payments API that are blocking production traffic and is requesting a root-cause analysis, SLA-credit review, and prevention. We recommend:",
+      planBullets:["Gather information — confirm affected endpoints, error rate, and impact window.","Confirm mitigation — verify the INC-4821 fix is deploying and error rates are recovering.","Take corrective actions — link the incident, apply the SLA credit, subscribe to status.","Commit prevention — schedule the RCA and the circuit-breaker + alerting change."],
+      groups:[
+        {name:"Gather Information", items:[{text:"Confirm the caller is the authorized API key holder.", done:true},{text:"Confirm the affected endpoint and error rate (payments · 5xx).", src:1}]},
+        {name:"Work the Issue", items:[{text:"Incident INC-4821 linked; mitigation deploying.", done:true},{text:"Verify error rates against the incident timeline.", src:1}]},
+        {name:"Resolve the Issue", items:[{text:"Apply the SLA credit for the impact window.", action:"Apply SLA Credit"},{text:"Subscribe the account to the status page.", action:"Subscribe Status"},{text:"Schedule the root-cause analysis and prevention change."}]},
+        {name:"Wrap Up", items:[{text:"Summarize the resolution and send the incident summary email."}]}],
+      nba:[{t:"Add circuit-breaker on payments retry queue",d:"Upstream timeout overwhelmed retries — auto-heal on recurrence."},
+        {t:"Offer a technical account review",d:"Enterprise client, at-risk health — book a 30-min architecture review."}],
+      knowledge:{ title:"Enterprise Incident Response & SLA Credit Policy", rel:"96.1%",
+        steps:["Validate & scope: confirm the affected endpoints, error rate, and customer impact window.",
+          "Link the incident: attach the active incident record and explain mitigation status and ETA.",
+          "Evaluate SLA credit: if the impact window breaches the SLA, apply the credit per policy.",
+          "Commit prevention: schedule the RCA, apply the preventive change, and subscribe the customer to status updates."] },
+      email:{ subject:"Incident INC-4821 — mitigation, SLA credit, and RCA timeline",
+        body:"Hi Derek,\n\nThanks for your patience — here's where things stand on the payments API degradation.\n\n•  Incident INC-4821 mitigation is deploying; error rates are recovering.\n•  An SLA credit for the impact window has been applied to your account.\n•  You're now subscribed to the status page for real-time updates.\n•  A written root-cause analysis is scheduled for delivery, including the preventive change.\n\nReply any time if you have questions.\n\nWarm regards,\nPriya\nEnterprise Support Engineer" },
+      workSummary:{ summary:"The enterprise client reported elevated 5xx errors on the payments API impacting production. Identity was verified, the active incident was linked, mitigation was confirmed, an SLA credit was applied, and a root-cause analysis was committed.",
+        issue:"Payments API degradation impacting production traffic.",
+        resolution:"The incident was linked and mitigated, an SLA credit applied, the account subscribed to status, and an RCA scheduled with a preventive change. Customer notified by email." } },
+    callSummary:{ score:82, scoreCaption:"Strong — a tough incident, owned end to end", sentiment:"Negative → Positive",
+      callSummary:"The enterprise client reported elevated 5xx errors on the payments API blocking production. Agentforce Voice verified identity over SMS and delivered live incident status; the engineer confirmed mitigation, explained the upstream root cause, applied an SLA credit, subscribed the account to status, and committed to a written RCA with a preventive change.",
+      rubric:[
+        {area:"Build Rapport",tone:"coach",score:"7/10",pct:70,note:"Acknowledged the impact but could open with a stronger empathy statement."},
+        {area:"Active Listening & Needs ID",tone:"good",score:"16/20",pct:80,note:"Correctly identified the need for RCA and prevention, not just a status."},
+        {area:"Product / Service Knowledge",tone:"good",score:"15/15",pct:100,note:"Explained the upstream root cause and mitigation clearly."},
+        {area:"Handle Concerns & De-escalation",tone:"good",score:"14/15",pct:93,note:"De-escalated a frustrated enterprise contact and took ownership."},
+        {area:"Resolution & Problem Solving",tone:"good",score:"18/20",pct:90,note:"Applied SLA credit and committed to RCA + preventive change."},
+        {area:"Confirm Next Steps",tone:"good",score:"9/10",pct:90,note:"Confirmed the RCA delivery and status-page subscription."}],
+      softSkills:[
+        {name:"Empathy",level:"Adequate",tone:"adequate",icon:"❤"},
+        {name:"Professionalism",level:"Strong",tone:"strong",icon:"🎖"},
+        {name:"Ownership",level:"Strong",tone:"strong",icon:"🎖"},
+        {name:"Clarity",level:"Strong",tone:"strong",icon:"💡"}],
+      customerConcern:{status:"Addressed",title:"Production impact from API degradation & fear of recurrence",response:"The engineer confirmed mitigation, applied an SLA credit, and committed to a written RCA with a preventive change."},
+      keyMoments:[{t:"2m 10s",title:"The customer asked for root cause and prevention, not just a status.",sub:"This reframed the call from status update to escalation."}],
+      topics:["API degradation","Root-cause analysis","SLA credit","Incident escalation"],
+      recommended:"The engineer should ensure the RCA document is delivered on schedule and confirm the preventive circuit-breaker change is verified in production.",
+      justification:"The engineer de-escalated a critical enterprise incident, took clear ownership, and committed to prevention — with minor room to strengthen the opening empathy.",
+      wrapFields:{
+        issue:"Payments API degradation impacting production traffic.",
+        summary:"The conversation begins with the enterprise client reporting elevated 5xx errors on the payments API that are blocking production. Agentforce Voice verifies identity over SMS and delivers live incident status for INC-4821. The client is escalated to an Enterprise Support engineer, who confirms mitigation, explains the upstream root cause, applies an SLA credit, subscribes the account to the status page, and commits to a written root-cause analysis with a preventive change.",
+        resolution:"The active incident was linked and mitigated, an SLA credit applied, the account subscribed to status updates, and an RCA scheduled with a circuit-breaker prevention change. The customer was updated via email."} },
+    outcomes:{ headline:"Incident owned — mitigated, credited, and RCA committed",
+      detail:"Identity verified over SMS, live incident status delivered, the account linked to INC-4821, an SLA credit applied, status-page subscription enabled, and a root-cause analysis scheduled with a preventive change — all on one call, with the wrap-up written back to the case automatically.",
+      metrics:[{l:"Resolution",v:"Escalated & owned"},{l:"Customer effort",v:"No hold, no repeat"},{l:"SLA credit",v:"Applied on call"}] },
+    caseData:{ number:"00007843", subject:"Payments API Degradation — Enterprise Incident",
+      aiSummary:"Enterprise payments API returned elevated 5xx errors from an upstream provider timeout, impacting production traffic and requiring incident linkage, SLA-credit review, and a committed root-cause analysis.",
+      planIntro:"Incident. Derek Vaughn (PayCadence) is reporting a payments API degradation impacting production and is requesting a root-cause analysis, SLA-credit review, and a prevention commitment.",
+      previous:[{id:"00007801",subj:"Webhook retry backlog inquiry",when:"8/4/2026, 3:12 PM"},
+        {id:"00007760",subj:"Sandbox rate-limit increase request",when:"8/1/2026, 10:05 AM"},
+        {id:"00007702",subj:"Quarterly architecture review",when:"7/18/2026, 1:30 PM"}],
+      origin:"Phone", priority:"Critical", contact:"Derek Vaughn",
+      attrs:[{k:"Account",v:"PayCadence, Inc."},{k:"Support Tier",v:"Enterprise API"},{k:"Role",v:"VP Engineering"},
+        {k:"Client Since",v:"6/12/2022"},{k:"Monthly Volume",v:"$2.4M / mo"},{k:"Next Review",v:"9/18/2026"}],
+      history:[{ic:"📞",t:"Voice Call – Inbound",w:"Aug 6, 2026"},{ic:"⚠",t:"Incident INC-4821 linked",w:"Aug 6, 2026"},
+        {ic:"📞",t:"Voice Call – Inbound",w:"Aug 4, 2026"},{ic:"💬",t:"Messaging Session MS-00000212",w:"Aug 1, 2026"},
+        {ic:"✉",t:"Email: Sandbox rate-limit increase",w:"Aug 1, 2026"}],
+      classification:[{k:"Type",v:"Incident"},{k:"Reason",v:"API degradation (5xx)"},{k:"Product",v:"Payments API"},{k:"Confidence",v:"High (0.92)"}],
+      similar:[{id:"00007512",match:"41%",status:"Escalated",subj:"Webhook delivery failures",pri:"Critical"}],
+      planItems:[
+        {g:"Gather Information",t:"Contact Derek Vaughn to confirm affected endpoints, error rate, and the production impact window."},
+        {g:"Work the Issue",t:"Link the active incident INC-4821 and verify error rates against the incident timeline.",a:"Link Incident"},
+        {g:"Work the Issue",t:"Review the upstream provider timeout and the retry-queue behavior that triggered the 5xx errors."},
+        {g:"Resolve the Issue",t:"Apply the SLA credit for the impact window and subscribe the account to the status page.",a:"Apply SLA Credit"},
+        {g:"Resolve the Issue",t:"Apply the circuit-breaker and alerting change so the endpoint self-heals on recurrence.",a:"Apply Prevention"},
+        {g:"Wrap Up",t:"Deliver the root-cause analysis document and confirm the preventive change with Derek."}] }
   }
 };
 
@@ -697,9 +813,13 @@ function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"V
 /* ============================================================
    PLAYBOOK
    ============================================================ */
-const V=VERTICALS["retail-fraud"];
+let activeVertical="retail-fraud";
+let V=VERTICALS[activeVertical];
 let STEPS=[];
+function selectVertical(id){ if(!VERTICALS[id])return; activeVertical=id; V=VERTICALS[id]; buildSteps(); }
 function buildSteps(){
+  const cust=V.monitor.caller.split(' ')[0];
+  const planName=V.sra.planTitle.toLowerCase();
   STEPS=[
     { view:"landing", title:"Pick your customer's world",
       talk:"Brand the demo to your customer, then choose a storyline to begin." },
@@ -708,7 +828,7 @@ function buildSteps(){
       talk:"A customer called in and was met by Agentforce Voice. The supervisor sees the live call here in the Command Center. Click Monitor to watch the conversation before the hand-off.",
       dothis:"Click ‘Monitor’ in the Action column.", advanceOn:"#monitorLink" },
     { view:"monitor", set:{gh:1,subhead:1,dock:1}, box:"#catchupCard", target:"#catchupDismiss", title:"Conversation Catch-Up — the rep is briefed before the hand-off",
-      talk:"Agentforce Voice authenticated Lauren over SMS, locked the card, and captured her intent and sentiment. The Conversation Catch-Up sums it up for the supervisor, who can Dismiss it once read — the specialist never starts from scratch.",
+      talk:`Agentforce Voice authenticated ${cust} over SMS and captured their intent and sentiment. The Conversation Catch-Up sums it up for the supervisor, who can Dismiss it once read — the specialist never starts from scratch.`,
       dothis:"Click ‘Dismiss’ on the Conversation Catch-Up.", advanceOn:"#catchupDismiss" },
     { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1}, target:"#transferBtn", title:"Warm-transfer to a live rep",
       talk:"Nothing is lost in the hand-off. The specialist inherits the summary, transcript, verified identity, and the case Agentforce Voice already created.",
@@ -724,25 +844,25 @@ function buildSteps(){
       dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
 
     { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:["#idCard","#phoneCard"], target:"#phonePause", title:"Act 2 · The rep picks up with full context",
-      talk:"The screen pivots to the live Voice Call. The rep has Lauren's full 360 and the call is connected — she never re-explains. The Service Assistant is standing by on the right.",
+      talk:`The screen pivots to the live Voice Call. The rep has ${cust}'s full 360 and the call is connected — no re-explaining. The Service Assistant is standing by on the right.`,
       dothis:"Click the ▮▮ Pause control to begin (or press ▶ Play).", advanceOn:"#phonePause" },
     { view:"voice", set:{phoneLive:1}, turns:1, target:"#convo", title:"Live transcript — greeting with context", autoplay:true, dur:1600,
-      talk:"The rep opens by telling Lauren the card is already locked and she won't need to repeat herself — the biggest ‘aha’ of the Agentforce hand-off." },
+      talk:`The rep opens by telling ${cust} they've already been briefed and nothing needs repeating — the biggest ‘aha’ of the Agentforce hand-off.` },
     { view:"voice", set:{phoneLive:1}, turns:2, target:"#convo", title:"The Service Assistant reads the case", autoplay:true, dur:1900,
-      talk:"As Lauren describes the charge, the Service Assistant reads the case in the background — no canned reply to paste, it's preparing a grounded plan of record." },
+      talk:`As ${cust} describes the issue, the Service Assistant reads the case in the background — no canned reply to paste, it's preparing a grounded plan of record.` },
     { view:"voice", set:{phoneLive:1,sraPlanCard:1}, turns:3, target:"#sraPlanCard", title:"A Service Plan becomes available", autoplay:true, dur:1900,
-      talk:"The rep confirms the disputed charge, and the Assistant surfaces a grounded Service Plan — ready to draft into the full checklist." },
+      talk:"The rep confirms the details, and the Assistant surfaces a grounded Service Plan — ready to draft into the full checklist." },
     { view:"voice", set:{phoneLive:1,sraPlanCard:1}, turns:4, stopHere:true, target:"#draftPlanSra", title:"A Service Plan is ready — draft it",
-      talk:"The Assistant proposes a Service Plan for the fraud dispute & overdraft. One click drafts the full, grounded checklist. ▶ Play pauses here — click Draft Plan to continue.",
+      talk:`The Assistant proposes a Service Plan for the ${planName}. One click drafts the full, grounded checklist. ▶ Play pauses here — click Draft Plan to continue.`,
       dothis:"Click ‘Draft Plan’.", advanceOn:"#draftPlanSra" },
     { view:"voice", set:{phoneLive:1,sraPlanCard:1,sraChecklist:1}, turns:4, target:"#src4", title:"The plan drafts itself — grounded in Knowledge",
-      talk:"The plan expands into Gather / Work / Resolve / Wrap. The first steps are already done, and each grounded step cites its source. Click the [1] citation on the fraud-pattern step to open it.",
-      dothis:"Click the ‘[1]’ source on the fraud-pattern step.", advanceOn:"#src4" },
+      talk:"The plan expands into Gather / Work / Resolve / Wrap. The first steps are already done, and each grounded step cites its source. Click the [1] citation on the grounded step to open it.",
+      dothis:"Click the ‘[1]’ source on the grounded step.", advanceOn:"#src4" },
     { view:"voice", set:{phoneLive:1,sraChecklist:1,sraKnowledge:1}, turns:5, target:"#sendArticle", title:"The citation opens the Knowledge article",
-      talk:"The source pops the exact Knowledge article the plan is grounded in — the rep can verify the fraud-pattern and provisional-credit policy, then send it to Lauren without leaving the panel.",
+      talk:`The source pops the exact Knowledge article the plan is grounded in — the rep can verify the policy, then send it to ${cust} without leaving the panel.`,
       dothis:"Click ‘Send Article’.", advanceOn:"#sendArticle" },
     { view:"voice", set:{phoneLive:1,sraChecklist:1,sraKnowledge:1,planProgress:1,sraEmail:1}, turns:8, target:"#emailSend", title:"Send the follow-up email",
-      talk:"With the plan complete — provisional credit issued, overdraft fee reversed, dispute filed, new card shipping — the Assistant drafts an on-brand confirmation email. The rep sends it straight from the panel.",
+      talk:"With the plan complete, the Assistant drafts an on-brand confirmation email. The rep sends it straight from the panel.",
       dothis:"Click ‘Send’ in the Agentforce email draft.", advanceOn:"#emailSend" },
     { view:"voice", set:{phoneLive:1,sraChecklist:1,sraKnowledge:1,planProgress:1,sraEmail:1,emailSent:1}, turns:9, target:"#endCall", title:"Wrap the call",
       talk:"Confirmation sent. The rep closes out the call from the phone controls.",
@@ -756,7 +876,7 @@ function buildSteps(){
       dothis:"Edit the wrap-up if needed, then click ‘Save’.", advanceOn:"#wrapSave" },
     { view:"voice", set:{gh:1,subhead:1,tabVoice:1,tabCase:1,callEnded:1,wrapFilled:1,scorecard:1,bell:1,coaching:1}, target:"#tabCase", title:"Open the case created by the call",
       talk:"Everything ties back to the case Agentforce Voice created. Open it to summarize and close it out.",
-      dothis:"Click the ‘00005518 | Case’ tab.", advanceOn:"#tabCase" },
+      dothis:`Click the ‘${V.caseData.number} | Case’ tab.`, advanceOn:"#tabCase" },
 
     { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1}, target:"#caseGetRec", title:"Einstein classifies the case",
       talk:"Status, Language, and Product Family are already known. Einstein Classification fills in the rest — Type and Sub-Type — with one click.",
@@ -765,10 +885,10 @@ function buildSteps(){
       talk:"Service Assistant drafts the full resolution plan — Gather / Work / Resolve / Wrap — grounded on the record, with inline actions.",
       dothis:"Click ‘Draft Plan’.", advanceOn:"#draftPlanBtn" },
     { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#closePlanBtn", title:"Close the plan and the case",
-      talk:"One action closes the case and writes the Automated Wrap-Up into the record — verified, disputed, credited, reissued, documented, and closed on first contact.",
+      talk:"One action closes the case and writes the Automated Wrap-Up into the record — verified, resolved, documented, and closed on first contact.",
       dothis:"Click ‘Close Plan & Close Case’.", advanceOn:"#closePlanBtn" },
     { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#draftKbBtn", title:"Draft a Knowledge article from the closed case",
-      talk:"Turn this resolution into reusable Knowledge. Einstein drafts an article from the closed case and notifies a reviewer — so future fraud calls get deflected.",
+      talk:"Turn this resolution into reusable Knowledge. Einstein drafts an article from the closed case and notifies a reviewer — so future calls like this get deflected.",
       dothis:"Click ‘Draft Knowledge Article’." },
     { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#bell", title:"A knowledge article is ready for review",
       talk:"The drafted article fires a notification. Open the bell — a knowledge article is ready for a reviewer to approve and publish. That's the full loop, on one call.",
@@ -791,10 +911,12 @@ function render(){
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
   $('#tabPrimary').hidden=(v!=="monitor");
   $('#tabCase').hidden=!consoleTabs; $('#tabVoice').hidden=!consoleTabs;
+  $('#tabCase').innerHTML=`${V.caseData.number} <span class="chev">⌄</span> <span class="close">✕</span>`;
+  $('#tabVoice').textContent=V.monitor.voiceCallId;
   $('#tabPrimary').classList.toggle('active', v==="monitor");
   $('#tabCase').classList.toggle('active', v==="case");
   $('#tabVoice').classList.toggle('active', v==="voice");
-  if(f.bell) addNotif('score','Service Quality Scorecard: 84/100','Call scored — sent to supervisor','📊'); else removeNotif('score');
+  if(f.bell) addNotif('score',`Service Quality Scorecard: ${V.callSummary.score}/100`,'Call scored — sent to supervisor','📊'); else removeNotif('score');
   const stage=$('#stage');
   if(stage.dataset.view!==st.view){ stage.dataset.view=st.view; stage.innerHTML=renderView(st.view);
     if(st.view==="landing") bindLanding(); if(st.view==="voice") voiceTab="service"; }
@@ -854,7 +976,7 @@ function VMETA(){ return {
   "wealth":{id:"wealth",ready:false,icon:"📈",segment:"Wealth Management",useCase:"Seamless Onboarding",accent:"#1a7f5a",accentSoft:"#e7f6ef",tagline:"Turn a UHNI account-transfer question into a guided, white-glove onboarding."},
   "commercial":{id:"commercial",ready:false,icon:"🏦",segment:"Commercial Banking",useCase:"sFTP / ACH Onboarding",accent:"#3b4ea8",accentSoft:"#ecefff",tagline:"Stand up sFTP for ACH/Wire + Lockbox so a new client can pay their vendors."},
   "insurance":{id:"insurance",ready:false,icon:"🛡️",segment:"Insurance Brokerage",useCase:"Multi-Carrier Quoting",accent:"#b0562a",accentSoft:"#fbeee4",tagline:"Broker quotes a new-home + pool policy across carriers for the insured."},
-  "fintech":{id:"fintech",ready:false,icon:"⚡",segment:"FinTech",useCase:"API Incident + Escalation",accent:"#6d3fd6",accentSoft:"#f0eafb",tagline:"Give an enterprise client a live status update, then escalate to a human owner."}
+  "fintech":{id:"fintech",ready:true,icon:"⚡",segment:"FinTech",useCase:"API Incident + Escalation",accent:"#6d3fd6",accentSoft:"#f0eafb",tagline:"Give an enterprise client a live status update, then escalate to a human owner."}
 };}
 function sfCloud(){ return `<svg viewBox="0 0 104 60" width="60" height="35" aria-label="Salesforce"><g fill="#00A1E0"><circle cx="40" cy="30" r="17"/><circle cx="60" cy="24" r="20"/><circle cx="77" cy="34" r="15"/><circle cx="26" cy="36" r="13"/><ellipse cx="52" cy="43" rx="35" ry="14"/></g><text x="52" y="47" text-anchor="middle" fill="#fff" font-size="13" font-style="italic" font-weight="700" font-family="Segoe UI,Arial">salesforce</text></svg>`; }
 function viewLanding(){
@@ -883,7 +1005,7 @@ function bindLanding(){
   if(n)n.addEventListener('input',e=>{ORG.name=e.target.value;applyOrg();});
   if(hx)hx.addEventListener('input',e=>{ORG.hex=e.target.value;applyOrg();});
   Object.values(VMETA()).forEach(m=>{const c=$('#card-'+m.id);if(!c)return;
-    c.addEventListener('click',()=>{ if(!m.ready){toast('That storyline is coming soon — Retail Banking is live.');return;} go(1); });});
+    c.addEventListener('click',()=>{ if(!m.ready){toast('That storyline is coming soon.');return;} selectVertical(m.id); go(1); });});
 }
 
 /* MONITOR */
@@ -1111,7 +1233,7 @@ function renderSra(f){ const s=V.sra;
   if(f.sraEmail){ const e=s.email; h+=`<div class="reveal" id="emailCard"><div class="lbl"><span class="ic">✉</span> Agentforce Email Draft</div>
     <div class="email ${f.emailSent?'sent':''}" id="emailBox"><div class="es">${e.subject}</div><div class="eb">${e.body}</div>
       <div class="ea"><button class="ins">Insert into Email</button><button class="send" id="emailSend">Send</button></div>
-      <div class="sent-tag">✓ Email sent to Lauren</div></div></div>`; }
+      <div class="sent-tag">✓ Email sent to ${V.monitor.caller.split(' ')[0]}</div></div></div>`; }
   h+=`</div></div>`; return h;
 }
 function renderWrapRail(f){ const wf=V.callSummary.wrapFields;
@@ -1284,23 +1406,25 @@ document.addEventListener('click',e=>{ const id=e.target.id;
   if(!e.target.closest || !e.target.closest('#bellPanel')) toggleBellPanel(false);
   const wt=e.target.closest && e.target.closest('.wtab'); if(wt&&wt.dataset.tab){ showVoiceTab(wt.dataset.tab); }
   if(e.target.classList&&e.target.classList.contains('ib')&&e.target.dataset.act) toast(e.target.dataset.act+' — completed.');
-  if(id==='emailSend')toast('Confirmation email sent to Lauren Bailey.');
+  if(id==='emailSend')toast('Confirmation email sent to '+V.monitor.caller+'.');
   if(id==='issueCredit')toast('Provisional credit issued · Overdraft fee reversed.');
   if(id==='getRec')toast('Einstein generated the Automated Wrap-Up + Scorecard.');
   if(id==='wrapSave')toast('Automated Wrap-Up saved to the record.');
-  if(id==='closePlanBtn'&&!e.target.disabled)toast('Case 00005518 closed · Wrap-up saved to record.'); });
+  if(id==='closePlanBtn'&&!e.target.disabled)toast('Case '+V.caseData.number+' closed · Wrap-up saved to record.'); });
 
 /* ---------- boot ---------- */
 function boot(){
   try{ if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)document.body.classList.add('reduced'); }catch(e){}
   const q=new URLSearchParams(location.search); if(q.get('org'))ORG.name=q.get('org'); if(q.get('hex'))ORG.hex=q.get('hex');
-  buildSteps(); applyOrg();
+  const qv=q.get('vertical'); const startInDemo = qv && VMETA()[qv] && VMETA()[qv].ready;
+  if(startInDemo) selectVertical(qv); else buildSteps();
+  applyOrg();
   $('#btnPlay').onclick=togglePlay;
   $('#btnNext').onclick=()=>{pause();next();};
   $('#btnBack').onclick=back;
   $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);render();};
   $('#ttToggle').onclick=()=>{talkTrack=!talkTrack;$('#ttToggle').classList.toggle('on',talkTrack);$('#guidebar').classList.toggle('talk-off',!talkTrack);};
-  render();
+  if(startInDemo) go(1); else render();
 }
 boot();
 </script>
