@@ -1197,7 +1197,7 @@ function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"V
    Paste your Google Apps Script web-app URL into TRACK_URL to log events to a
    Google Sheet. Events are fire-and-forget beacons (no CORS/response needed),
    so a bad/blank URL never blocks the demo. Nothing is sent when TRACK_URL="". */
-const TRACK_URL = "https://script.google.com/macros/s/AKfycbzSmZDqvH29ivYjjahy5R4fuOmc9po7M8UYJ2-AXH288epj6g1PILxlxNo7YnGWuNUk/exec";  // Apps Script web-app URL
+const TRACK_URL = "https://script.google.com/macros/s/AKfycbwa0ObRhMa22Qb3ZrBeZSFpd4l_CZHR90BIh2EvFSpxsuIhT13cSFei6yiuxInllNQ/exec";  // Apps Script web-app URL
 const INTAKE = { fullName:"", repEmail:"", date:"", accountName:"", isOpportunity:false, opportunityName:"", amount:"", opportunityLink:"" };
 const SF_EMAIL_RE = /^[^@\s]+@salesforce\.com$/i;   // rep email must be a salesforce.com address
 const SESSION_ID = (()=>{ try{ return (crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2); }catch(e){ return String(Date.now()); } })();
