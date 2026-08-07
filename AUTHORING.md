@@ -10,8 +10,9 @@ This is the "everything we learned" doc. The app is **one HTML file** (`index.ht
 
 | Piece | What it is |
 |---|---|
-| `VERTICALS` | The demo content, keyed by a short `id` (built today: `retail-fraud`, `fintech`, `wealth`). Sub-objects mirror the original HLS demo's 8 "files": monitor meta, record/person-360, voice (AFV) transcript + catch-up, `repConvo` (the live rep↔customer transcript that plays), `sra` (Service Assistant: plan, checklist, knowledge, email), `callSummary` (wrap-up + scorecard), `outcomes`, `caseData`. |
-| `VMETA()` | The landing placemat cards (one per entry). `ready:true` = playable; others toast "coming soon." |
+| `VERTICALS` | The demo content, keyed by a short `id` (all five built: `retail-fraud`, `wealth`, `commercial`, `insurance`, `fintech`). Sub-objects mirror the original HLS demo's 8 "files": monitor meta, record/person-360, voice (AFV) transcript + catch-up, `repConvo` (the live rep↔customer transcript that plays), `sra` (Service Assistant: plan, checklist, knowledge, email), `callSummary` (wrap-up + scorecard), `outcomes`, `caseData`. |
+| `VMETA()` | The landing placemat cards (one per entry). `ready:true` = playable; others toast "coming soon." All five are `ready:true`. |
+| `INTAKE` + `track()` | The landing **intake form** state and the optional **usage-tracking** beacon. `track(event, extra)` fires `navigator.sendBeacon` to `TRACK_URL`; blank `TRACK_URL` = no-op. Milestones fire from `render()` via `trackMilestones()` (de-duped per run) and from boot / card-click. |
 | `STEPS` (built by `buildSteps()`) | A **flat list of slides**. Each slide declares its view, the flags that are on, the element to highlight, and what advances it. |
 | `render()` | The engine. Computes visible state for the current step by **folding flags**, swaps the view if it changed, calls the per-view `update*()`, updates the guidance bar, and applies the highlight. |
 | `viewLanding/Monitor/Voice/Case` + `update*` | Pure renderers + incremental updaters per view. |

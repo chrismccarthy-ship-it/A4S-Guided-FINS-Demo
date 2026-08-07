@@ -139,6 +139,33 @@ a{color:var(--brand);text-decoration:none}
 .vcard p{margin:0;font-size:13px;color:var(--ink-2);flex:1;line-height:1.5}
 .vcard .go{font-weight:700;font-size:14px;color:var(--vc);display:flex;align-items:center;gap:6px;margin-top:6px}
 .landing .foot{margin-top:44px;color:var(--faint);font-size:12.5px}
+/* --- Gated intake form --- */
+.intake{max-width:620px;margin:0 auto;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 26px 24px;box-shadow:var(--shadow-1)}
+.intake .ihead{display:flex;align-items:center;justify-content:space-between;margin:0 0 4px}
+.intake .ihead h2{margin:0;font-size:18px;font-weight:800;color:#1a1a1a}
+.intake .ihead .req{font-size:11.5px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+.intake .isub{font-size:12.5px;color:var(--faint);margin:0 0 18px}
+.frow{margin:0 0 14px}
+.frow.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.frow.two>div{margin:0}
+.flabel{display:block;font-size:12.5px;font-weight:700;color:var(--ink);margin:0 0 6px}
+.flabel .star{color:#c0392b;margin-left:2px}
+.fin{width:100%;height:44px;border:1.5px solid var(--line-2);border-radius:8px;padding:0 13px;font-size:14.5px;color:var(--ink);background:#fff;box-shadow:var(--shadow-1)}
+.fin:focus{outline:none;border-color:var(--brand-1);box-shadow:0 0 0 3px var(--guide-soft)}
+.fin.miss{border-color:#e6b0a8}
+.fhex{display:flex;align-items:center;gap:10px}
+.fhex .sw{width:38px;height:38px;border-radius:8px;border:1px solid var(--line-2);background:var(--org-accent,#5b2bb3);flex:none}
+.fhex .fin{font-family:Consolas,monospace;text-transform:uppercase}
+.fhint{font-size:11.5px;color:var(--faint);margin-top:6px}
+.oppcheck{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--line-2);border-radius:9px;background:var(--surface-2,#f7fafc);cursor:pointer;user-select:none;margin:4px 0 0}
+.oppcheck input{width:17px;height:17px;accent-color:var(--brand-1);cursor:pointer}
+.oppcheck span{font-size:13.5px;font-weight:700;color:var(--ink)}
+.oppfields{margin-top:14px;padding-top:16px;border-top:1px dashed var(--line-2)}
+.oppfields[hidden]{display:none}
+.cards.locked .vcard{opacity:.42;filter:grayscale(.55);pointer-events:none;cursor:not-allowed}
+.cards.locked .vcard:hover{transform:none;box-shadow:var(--shadow-1)}
+.lockmsg{text-align:center;font-size:13px;font-weight:700;color:var(--faint);margin:22px 0 -6px}
+.cards.locked+.lockmsg{color:#0b7fd4}
 
 /* ============================================================
    MONITOR (Act 1)
@@ -690,6 +717,238 @@ const VERTICALS = {
         {g:"Wrap Up",t:"Document the resolution and follow up with Lauren to confirm satisfaction and summarize the outcome."}] }
   },
 
+  "commercial": {
+    id:"commercial", name:"Commercial Banking / sFTP + ACH Onboarding",
+    segment:"Commercial Banking", useCase:"sFTP / ACH Onboarding", icon:"🏦", accent:"#3b4ea8", accentSoft:"#ecefff",
+    tagline:"Stand up sFTP for ACH/Wire origination + Lockbox so a new client can pay their vendors this week.",
+    monitor:{ voiceCallId:"VC-00003317", caller:"Marcus Bell",
+      agentName:"Agentforce Voice", agentShort:"Treasury Onboarding Agent",
+      callStarted:"8/6/2026, 10:22 AM", callLength:"48 s", phone:"+1 (312) 555-0148" },
+    record:{ voiceTitle:"Treasury Onboarding — sFTP + ACH Origination Setup",
+      person:{ name:"Marcus Bell", loc:"Chicago, IL", initials:"MB",
+        health:88, tags:["Commercial","New Client"],
+        attrs:[{k:"Account",v:"PayFlow Logistics, LLC"},{k:"Support Tier",v:"Commercial Treasury"},
+          {k:"Role",v:"Treasury Manager"},{k:"Customer Since",v:"7/28/2026 · new"}] },
+      cases:[
+        {id:"00009214",subj:"sFTP + ACH origination onboarding — vendor payments",when:"8/6/2026, 10:25 AM",status:"Working"},
+        {id:"00009208",subj:"Lockbox setup inquiry — remittance processing",when:"8/5/2026, 2:47 PM",status:"Working"},
+        {id:"00009201",subj:"Commercial account opening — operating + payroll",when:"7/28/2026, 9:15 AM",status:"New"}],
+      entitlement:{name:"Commercial Treasury Onboarding (Mon–Fri)",acct:"Vireo Financial",start:"7/28/2026"},
+      current:{num:"00009214",status:"Working",priority:"High",subject:"Treasury Onboarding — sFTP + ACH Origination",
+        desc:"Marcus Bell at PayFlow Logistics needs to begin paying vendors by ACH and wire this week. He's requesting an sFTP channel for secure payment-file delivery, ACH origination with appropriate exposure limits, and Lockbox setup for inbound remittances. He wants credentials provisioned, a daily limit confirmed, and a test file validated before going live."} },
+    voice:{ intent:"Stand up sFTP + ACH origination for vendor payments", sentiment:"Anxious → Confident",
+      authenticated:true,
+      summary:"Caller is the treasury manager for a newly onboarded commercial client that needs to pay vendors by ACH/wire this week. Identity verified against the commercial account profile. Wants an sFTP channel provisioned, ACH origination enabled with exposure limits, Lockbox set up, and a test payment file validated before go-live.",
+      catchupText:{
+        summary:"The caller is onboarding PayFlow Logistics for outbound vendor payments. Agentforce Voice verified the treasury manager against the commercial profile, confirmed the entitlement for ACH origination, and captured the request to provision sFTP, set exposure limits, and stand up Lockbox.",
+        issue:"The client needs secure payment-file delivery (sFTP), ACH/wire origination with limits, and Lockbox — provisioned and tested before they can pay vendors this week." },
+      catchup:[{k:"Caller",v:"Marcus Bell (verified — treasury profile)"},{k:"Intent",v:"sFTP + ACH origination + Lockbox"},
+        {k:"Sentiment",v:"Anxious → Confident"},{k:"Ask",v:"Provision sFTP, set ACH limits, test file"}],
+      transcript:[
+        {who:"ai",t:"Thanks for calling Vireo Commercial — I'm the Agentforce voice assistant. To verify you, I've matched your number to the PayFlow Logistics treasury profile and texted a one-time passcode."},
+        {who:"them",t:"Got it — the code is 7-1-8-2-3-3."},
+        {who:"ai",t:"Verified, thank you Marcus. How can I help today?"},
+        {who:"them",t:"We just opened our commercial accounts and I need to start paying vendors this week. I need a secure way to send payment files and ACH turned on."},
+        {who:"ai",t:"Understood — that's an sFTP channel plus ACH origination with exposure limits, and I can add Lockbox for your inbound remittances. I'll connect you to a treasury onboarding specialist who can provision it and run a test file."},
+        {who:"sys",t:"Identity verified · Entitlement confirmed · Case 00009214 created · Routing to Treasury Onboarding"}] },
+    repConvo:{ speakers:{rep:"Chris · Treasury Onboarding", customer:"Marcus Bell"},
+      turns:[
+        {who:"rep",t:"Hi Marcus, this is Chris in treasury onboarding — the voice assistant already verified you and opened the case, so we can jump right in. I'll get PayFlow paying vendors this week."},
+        {who:"customer",t:"Perfect. We need to send payment files securely and have ACH origination working. Payroll and vendor runs both."},
+        {who:"rep",t:"Let's do it. I'll provision a dedicated sFTP channel with a public-key credential for your file delivery, and enable ACH origination on the operating account. What daily exposure should we set?"},
+        {who:"customer",t:"Vendor runs are usually under two-fifty a day. Can we set the limit there and add wire for the bigger ones?"},
+        {who:"rep",t:"Done — ACH daily limit set to $250,000 with dual-approval, and same-day wire enabled for exceptions. I'm also standing up a Lockbox so your inbound checks post automatically."},
+        {who:"customer",t:"That's exactly what we needed. How do we know it works before Friday?"},
+        {who:"rep",t:"I've dropped a test NACHA file into your sFTP folder and validated the round-trip — it processed clean. Your credentials and the Lockbox address are in the setup email."},
+        {who:"customer",t:"Incredible, thank you. This was way faster than I expected."},
+        {who:"rep",t:"Of course. You're cleared to originate. I'll send the confirmation now — anything else for the go-live?"}] },
+    sra:{ suggestedResponse:"Absolutely, Marcus — I can get PayFlow originating payments this week. I'll provision a secure sFTP channel for your payment files, enable ACH origination with an exposure limit, and stand up Lockbox for inbound remittances, then validate a test file before go-live.",
+      planTitle:"Treasury Onboarding — sFTP + ACH",
+      planSummary:"Marcus Bell at PayFlow Logistics needs secure payment-file delivery and ACH/wire origination to pay vendors this week, plus Lockbox for inbound remittances — provisioned, limited, and tested before go-live.",
+      planAvailable:"sFTP + ACH Origination Onboarding. Marcus Bell needs secure payment-file delivery, ACH/wire origination with exposure limits, and Lockbox — provisioned and validated before go-live. We recommend:",
+      planBullets:["Gather requirements — confirm accounts, file format, and payment volumes.","Provision the channel — stand up sFTP with a public-key credential.","Enable origination — turn on ACH with exposure limits and add wire + Lockbox.","Validate & document — run a test file, confirm the round-trip, and notify the client."],
+      groups:[
+        {name:"Gather Requirements", items:[{text:"Verify the treasury contact against the commercial profile.", done:true},{text:"Confirm accounts, NACHA file format, and daily volumes.", src:1}]},
+        {name:"Provision the Channel", items:[{text:"Commercial entitlement confirmed for ACH origination.", done:true},{text:"Provision the sFTP channel and register the public-key credential.", src:1}]},
+        {name:"Enable Origination", items:[{text:"Enable ACH origination with a $250K daily limit and dual approval.", action:"Enable ACH"},{text:"Add same-day wire for exceptions and stand up Lockbox.", action:"Add Wire + Lockbox"},{text:"Validate a test NACHA file end-to-end."}]},
+        {name:"Wrap Up", items:[{text:"Summarize the setup and send credentials and the go-live email."}]}],
+      nba:[{t:"Enroll in Positive Pay",d:"New origination client — recommend Positive Pay to guard against check fraud."},
+        {t:"Schedule treasury review (90-day)",d:"Book a check-in to right-size limits once vendor volume stabilizes."}],
+      knowledge:{ title:"Commercial ACH Origination & sFTP Onboarding", rel:"96.8%",
+        steps:["Verify & scope: confirm the commercial entitlement, accounts, NACHA file format, and expected daily volume.",
+          "Provision access: create the sFTP channel, register the client's public key, and issue credentials.",
+          "Enable origination: turn on ACH with an exposure limit and approval workflow; add wire and Lockbox as needed.",
+          "Validate & educate: run a test payment file, confirm the round-trip, and share credentials and go-live steps."] },
+      email:{ subject:"You're cleared to originate — sFTP and ACH are live",
+        body:"Hi Marcus,\n\nGood news — PayFlow Logistics is set up to pay vendors this week.\n\n•  A secure sFTP channel is provisioned; your credentials and public-key fingerprint are attached.\n•  ACH origination is enabled with a $250,000 daily limit and dual approval; same-day wire is available for exceptions.\n•  A Lockbox is standing by for inbound remittances — the deposit address is included.\n•  We dropped a test NACHA file into your folder and validated the round-trip; it processed clean.\n\nReply any time if you have questions.\n\nWarm regards,\nChris\nTreasury Onboarding Specialist" },
+      workSummary:{ summary:"A new commercial client needed to pay vendors by ACH/wire this week. The treasury contact was verified, an sFTP channel provisioned, ACH origination enabled with a daily limit and dual approval, wire and Lockbox added, and a test file validated end-to-end.",
+        issue:"New commercial client needs secure payment-file delivery and ACH/wire origination before go-live.",
+        resolution:"sFTP provisioned, ACH origination enabled with a $250K limit and dual approval, wire and Lockbox added, and a test NACHA file validated. Client notified with credentials by email." } },
+    callSummary:{ score:89, scoreCaption:"Excellent — client cleared to originate on first contact", sentiment:"Neutral → Positive",
+      callSummary:"A newly onboarded commercial client needed to pay vendors by ACH/wire this week. Agentforce Voice verified the treasury manager against the commercial profile and confirmed the entitlement; the specialist provisioned an sFTP channel, enabled ACH origination with a daily limit and dual approval, added wire and Lockbox, and validated a test payment file end-to-end.",
+      rubric:[
+        {area:"Build Rapport",tone:"good",score:"9/10",pct:90,note:"Opened warmly and set a confident tone for a new client."},
+        {area:"Active Listening & Needs ID",tone:"good",score:"18/20",pct:90,note:"Captured file format, volume, and limit needs precisely."},
+        {area:"Product / Service Knowledge",tone:"good",score:"15/15",pct:100,note:"Explained sFTP, ACH exposure limits, and Lockbox with authority."},
+        {area:"Handle Concerns & De-escalation",tone:"good",score:"14/15",pct:93,note:"Reassured the client on the go-live deadline effectively."},
+        {area:"Resolution & Problem Solving",tone:"good",score:"20/20",pct:100,note:"Provisioned and validated the full setup during the call."},
+        {area:"Confirm Next Steps",tone:"good",score:"9/10",pct:90,note:"Confirmed credentials, limits, and go-live steps clearly."}],
+      softSkills:[
+        {name:"Empathy",level:"Strong",tone:"strong",icon:"❤"},
+        {name:"Professionalism",level:"Strong",tone:"strong",icon:"🎖"},
+        {name:"Clarity",level:"Strong",tone:"strong",icon:"💡"},
+        {name:"Patience",level:"Adequate",tone:"adequate",icon:"⏱"}],
+      customerConcern:{status:"Addressed",title:"Go-live deadline for vendor payments this week",response:"The specialist provisioned and validated the full setup, clearing the client to originate before the deadline."},
+      keyMoments:[{t:"3m 12s",title:"The client raised the Friday go-live deadline.",sub:"This anchored the urgency of provisioning and testing on the call."}],
+      topics:["sFTP provisioning","ACH origination & limits","Lockbox & test file"],
+      recommended:"The specialist should confirm the client successfully sends their first production file and monitor initial origination for limit or approval issues.",
+      justification:"The specialist resolved a multi-part onboarding request in a single contact with strong product knowledge, though rapport could deepen with a new relationship.",
+      wrapFields:{
+        issue:"New commercial client needs sFTP and ACH/wire origination before a Friday go-live.",
+        summary:"The conversation begins with the treasury manager needing to pay vendors this week. Agentforce Voice verifies him against the commercial profile and confirms the entitlement. The specialist provisions an sFTP channel with a public-key credential, enables ACH origination with a $250,000 daily limit and dual approval, adds same-day wire and Lockbox, and validates a test NACHA file end-to-end.",
+        resolution:"sFTP provisioned, ACH origination enabled with limits and dual approval, wire and Lockbox added, and a test file validated. The client received credentials and go-live steps by email."} },
+    outcomes:{ headline:"Client cleared to originate — sFTP live, ACH enabled, test file validated",
+      detail:"The treasury contact was verified, an sFTP channel provisioned, ACH origination enabled with a daily limit and dual approval, wire and Lockbox added, and a test payment file validated end-to-end — all on first contact, with the setup written back to the case automatically.",
+      metrics:[{l:"Time to go-live",v:"Same week"},{l:"Provisioning",v:"First contact"},{l:"Test file",v:"Validated clean"}] },
+    caseData:{ number:"00009214", subject:"Treasury Onboarding — sFTP + ACH Origination",
+      aiSummary:"New commercial client onboarding for outbound payments required provisioning a secure sFTP channel, enabling ACH origination with exposure limits and dual approval, and standing up Lockbox for inbound remittances ahead of go-live.",
+      planIntro:"Onboarding. Marcus Bell at PayFlow Logistics needs secure payment-file delivery and ACH/wire origination to pay vendors this week, plus Lockbox for inbound remittances — provisioned, limited, and tested before go-live.",
+      previous:[{id:"00009208",subj:"Lockbox setup inquiry",when:"8/5/2026, 2:47 PM"},
+        {id:"00009201",subj:"Commercial account opening — operating + payroll",when:"7/28/2026, 9:15 AM"},
+        {id:"00009188",subj:"KYB documentation review",when:"7/24/2026, 11:03 AM"}],
+      origin:"Phone", priority:"High", contact:"Marcus Bell",
+      attrs:[{k:"Account",v:"PayFlow Logistics, LLC"},{k:"Relationship Tier",v:"Commercial Treasury"},{k:"Customer Type",v:"Commercial"},
+        {k:"Client Since",v:"7/28/2026"},{k:"Operating Balance",v:"$1,840,220"},{k:"Next Review",v:"11/6/2026"}],
+      history:[{ic:"📞",t:"Voice Call – Inbound",w:"Aug 6, 2026"},{ic:"📞",t:"Voice Call – Inbound",w:"Aug 5, 2026"},
+        {ic:"✉",t:"Email: Commercial account welcome kit",w:"Jul 28, 2026"},{ic:"💬",t:"Messaging Session MS-00000112",w:"Jul 26, 2026"},
+        {ic:"✉",t:"Email: KYB documentation request",w:"Jul 24, 2026"}],
+      classification:[{k:"Type",v:"Onboarding"},{k:"Reason",v:"Treasury services setup (sFTP / ACH)"},{k:"Product",v:"ACH Origination"},{k:"Confidence",v:"High (0.95)"}],
+      similar:[{id:"00009050",match:"41%",status:"Closed",subj:"sFTP onboarding — Northlane Freight",pri:"High"}],
+      planItems:[
+        {g:"Gather Requirements",t:"Contact Marcus Bell to confirm the accounts, NACHA file format, and expected daily payment volumes."},
+        {g:"Provision the Channel",t:"Provision a dedicated sFTP channel and register the client's public-key credential.",a:"Provision sFTP"},
+        {g:"Provision the Channel",t:"Confirm the commercial entitlement covers ACH origination and Lockbox services."},
+        {g:"Enable Origination",t:"Enable ACH origination with a $250,000 daily exposure limit and dual approval.",a:"Enable ACH"},
+        {g:"Enable Origination",t:"Add same-day wire for exceptions and stand up a Lockbox for inbound remittances.",a:"Add Wire + Lockbox"},
+        {g:"Wrap Up",t:"Validate a test NACHA file end-to-end, then send credentials and go-live steps to Marcus."}] }
+  },
+
+  "insurance": {
+    id:"insurance", name:"Insurance Brokerage / Multi-Carrier Quoting",
+    segment:"Insurance Brokerage", useCase:"Multi-Carrier Quoting", icon:"🛡️", accent:"#b0562a", accentSoft:"#fbeee4",
+    tagline:"Quote a new-home + pool policy across carriers, bind the best fit, and issue the certificate — one call.",
+    monitor:{ voiceCallId:"VC-00004120", caller:"Elena Marchetti",
+      agentName:"Agentforce Voice", agentShort:"Personal Lines Quoting Agent",
+      callStarted:"8/6/2026, 11:08 AM", callLength:"51 s", phone:"+1 (602) 555-0173" },
+    record:{ voiceTitle:"New Homeowners Policy — Pool Liability Quoting",
+      person:{ name:"Elena Marchetti", loc:"Scottsdale, AZ", initials:"EM",
+        health:82, tags:["Personal Lines","New Home"],
+        attrs:[{k:"Household",v:"Marchetti Household"},{k:"Support Tier",v:"Preferred Client"},
+          {k:"Existing Lines",v:"Auto · Umbrella"},{k:"Customer Since",v:"4/9/2021 · 5 yrs"}] },
+      cases:[
+        {id:"00006733",subj:"New homeowners + pool liability — multi-carrier quote",when:"8/6/2026, 11:11 AM",status:"Working"},
+        {id:"00006721",subj:"Auto policy — add second vehicle",when:"8/2/2026, 4:19 PM",status:"Working"},
+        {id:"00006702",subj:"Umbrella renewal review",when:"7/29/2026, 10:44 AM",status:"New"}],
+      entitlement:{name:"Preferred Client Advisory (Mon–Sat)",acct:"Vireo Insurance Services",start:"4/9/2021"},
+      current:{num:"00006733",status:"Working",priority:"High",subject:"New Homeowners Policy — Pool Liability",
+        desc:"Elena Marchetti just closed on a new home with an in-ground pool and needs homeowners coverage bound before her closing date. She's requesting an HO-3 policy with adequate dwelling and liability limits, added pool-liability coverage, and wants her broker to compare carriers and bind the best-value option — plus a certificate for her mortgage lender."} },
+    voice:{ intent:"Bind a new homeowners policy with pool liability", sentiment:"Rushed → Reassured",
+      authenticated:true,
+      summary:"Caller just closed on a new home with a pool and needs homeowners coverage bound before her closing date. Identity verified against the household profile. Wants an HO-3 quote with pool liability, a comparison across carriers, the best-value option bound, and a certificate of insurance for her mortgage lender.",
+      catchupText:{
+        summary:"The caller is buying a new home with an in-ground pool and needs coverage fast. Agentforce Voice verified Elena against the household profile, pulled the property details, and captured the request to quote HO-3 with pool liability across carriers and bind before closing.",
+        issue:"The insured needs an HO-3 homeowners policy with pool-liability coverage, compared across carriers and bound before her closing date, plus a certificate for her lender." },
+      catchup:[{k:"Caller",v:"Elena Marchetti (verified — household profile)"},{k:"Intent",v:"HO-3 + pool liability quote & bind"},
+        {k:"Sentiment",v:"Rushed → Reassured"},{k:"Ask",v:"Compare carriers, bind, issue certificate"}],
+      transcript:[
+        {who:"ai",t:"Thanks for calling Vireo Insurance — I'm the Agentforce voice assistant. To verify you, I've matched your number to the Marchetti household and texted a one-time passcode."},
+        {who:"them",t:"Got it — the code is 5-9-0-4-1-2."},
+        {who:"ai",t:"Verified, thank you Elena. How can I help today?"},
+        {who:"them",t:"I just bought a house with a pool and I close Friday — I need homeowners insurance and I know the pool needs extra liability."},
+        {who:"ai",t:"Congratulations! That's an HO-3 policy with added pool-liability coverage. I'll connect you to a licensed broker who can compare carriers, bind the best option, and issue a certificate for your lender before closing."},
+        {who:"sys",t:"Identity verified · Property pulled · Case 00006733 created · Routing to Personal Lines"}] },
+    repConvo:{ speakers:{rep:"Chris · Licensed Broker", customer:"Elena Marchetti"},
+      turns:[
+        {who:"rep",t:"Hi Elena, this is Chris, your licensed broker — the voice assistant already verified you and pulled the new property, so we can get right to it. Congratulations on the house."},
+        {who:"customer",t:"Thank you! I close Friday, so I'm a little panicked. I need homeowners coverage, and the pool worries me."},
+        {who:"rep",t:"You're in good shape. I've run an HO-3 with a dwelling limit matched to your rebuild cost and $500K liability, plus a pool-liability endorsement. Let me compare carriers for the best value."},
+        {who:"customer",t:"Yes please — I want good coverage but I don't want to overpay."},
+        {who:"rep",t:"I quoted three carriers. Meridian came back best: full HO-3, pool liability included, and it bundles with your existing auto and umbrella for a multi-policy discount. It's the strongest value."},
+        {who:"customer",t:"That sounds perfect. Can you lock it in before Friday?"},
+        {who:"rep",t:"Done — I've bound the Meridian policy effective your closing date and issued the certificate of insurance to your mortgage lender. You're covered."},
+        {who:"customer",t:"Oh thank goodness. That was so much easier than I feared."},
+        {who:"rep",t:"Happy to help. I'll send the policy documents and the certificate now — anything else before Friday?"}] },
+    sra:{ suggestedResponse:"Congratulations on the new home, Elena — I'll make sure you're covered before closing. I can quote an HO-3 policy with added pool liability, compare it across carriers for the best value, bind the winning option effective your closing date, and issue a certificate for your lender.",
+      planTitle:"New Homeowners + Pool Liability",
+      planSummary:"Elena Marchetti closed on a new home with an in-ground pool and needs an HO-3 policy with pool liability bound before her closing date, quoted across carriers, plus a certificate for her mortgage lender.",
+      planAvailable:"New Homeowners Policy with Pool Liability. Elena Marchetti needs HO-3 coverage with pool liability, compared across carriers and bound before closing, plus a lender certificate. We recommend:",
+      planBullets:["Gather details — confirm the property, rebuild cost, and pool exposure.","Quote the coverage — build HO-3 with liability and a pool endorsement.","Compare & bind — shop carriers and bind the best-value option.","Issue & document — bind effective closing, issue the certificate, and notify the insured."],
+      groups:[
+        {name:"Gather Details", items:[{text:"Verify the insured against the household profile.", done:true},{text:"Confirm the property, rebuild cost, and in-ground pool exposure.", src:1}]},
+        {name:"Quote the Coverage", items:[{text:"Property details pulled from the new-home record.", done:true},{text:"Build an HO-3 quote with a pool-liability endorsement.", src:1}]},
+        {name:"Compare & Bind", items:[{text:"Compare quotes across carriers for the best value.", action:"Compare Carriers"},{text:"Bind the winning carrier effective the closing date.", action:"Bind Policy"},{text:"Apply the multi-policy discount with existing auto and umbrella."}]},
+        {name:"Wrap Up", items:[{text:"Issue the certificate to the lender and send the confirmation email."}]}],
+      nba:[{t:"Raise umbrella limit",d:"New pool exposure — recommend increasing the umbrella from $1M to $2M."},
+        {t:"Bundle auto renewal",d:"Auto renews in 60 days — align it with the new homeowners policy for a larger discount."}],
+      knowledge:{ title:"Personal Lines — HO-3 Quoting & Pool Liability", rel:"95.9%",
+        steps:["Gather & scope: confirm the property, rebuild cost, protection class, and pool/attractive-nuisance exposure.",
+          "Build the quote: set dwelling and liability limits and add a pool-liability endorsement.",
+          "Compare carriers: shop the risk across carriers and identify the best value, including bundling discounts.",
+          "Bind & educate: bind effective the closing date, issue the certificate to the lender, and deliver documents."] },
+      email:{ subject:"You're covered — homeowners policy bound before closing",
+        body:"Hi Elena,\n\nCongratulations on the new home — you're all set for Friday.\n\n•  We compared three carriers and bound the best value: a full HO-3 policy with pool-liability coverage.\n•  Your dwelling and liability limits are matched to the property, with the pool endorsement included.\n•  A multi-policy discount was applied by bundling with your existing auto and umbrella.\n•  The policy is effective your closing date, and a certificate of insurance has been sent to your mortgage lender.\n\nReply any time if you have questions.\n\nWarm regards,\nChris\nLicensed Insurance Broker" },
+      workSummary:{ summary:"An insured closing on a new home with a pool needed homeowners coverage before closing. Identity was verified, an HO-3 quote with pool liability was built, carriers were compared, the best-value option was bound effective the closing date, and a certificate was issued to the lender.",
+        issue:"Insured needs an HO-3 homeowners policy with pool liability bound before her closing date.",
+        resolution:"HO-3 quoted with pool liability, compared across carriers, bound with the best-value carrier and a multi-policy discount, and a certificate issued to the lender. Insured notified by email." } },
+    callSummary:{ score:87, scoreCaption:"Excellent — bound before closing on first contact", sentiment:"Neutral → Positive",
+      callSummary:"An insured closing on a new home with an in-ground pool needed homeowners coverage fast. Agentforce Voice verified her against the household profile and pulled the property; the broker built an HO-3 quote with pool liability, compared carriers, bound the best-value option effective the closing date with a multi-policy discount, and issued a certificate to the lender.",
+      rubric:[
+        {area:"Build Rapport",tone:"good",score:"9/10",pct:90,note:"Congratulated the client and eased her closing-week stress."},
+        {area:"Active Listening & Needs ID",tone:"good",score:"18/20",pct:90,note:"Identified the pool exposure and lender-certificate need precisely."},
+        {area:"Product / Service Knowledge",tone:"good",score:"15/15",pct:100,note:"Explained HO-3, pool liability, and bundling with authority."},
+        {area:"Handle Concerns & De-escalation",tone:"good",score:"14/15",pct:93,note:"Reassured the client on the Friday closing deadline."},
+        {area:"Resolution & Problem Solving",tone:"good",score:"19/20",pct:95,note:"Quoted, compared, and bound the policy during the call."},
+        {area:"Confirm Next Steps",tone:"good",score:"9/10",pct:90,note:"Confirmed the bind, certificate, and document delivery clearly."}],
+      softSkills:[
+        {name:"Empathy",level:"Strong",tone:"strong",icon:"❤"},
+        {name:"Professionalism",level:"Strong",tone:"strong",icon:"🎖"},
+        {name:"Clarity",level:"Strong",tone:"strong",icon:"💡"},
+        {name:"Patience",level:"Adequate",tone:"adequate",icon:"⏱"}],
+      customerConcern:{status:"Addressed",title:"Homeowners coverage bound before the closing deadline",response:"The broker quoted, compared, and bound the policy on the call and issued the lender certificate ahead of closing."},
+      keyMoments:[{t:"2m 48s",title:"The client raised the Friday closing deadline.",sub:"This anchored the urgency of quoting and binding on the call."}],
+      topics:["HO-3 homeowners quote","Pool-liability coverage","Multi-carrier compare & bind"],
+      recommended:"The broker should confirm the lender received the certificate and follow up to align the auto renewal for additional bundling savings.",
+      justification:"The broker resolved a time-sensitive quoting request in a single contact with strong product knowledge and effective reassurance during a stressful closing week.",
+      wrapFields:{
+        issue:"Insured needs an HO-3 homeowners policy with pool liability bound before a Friday closing.",
+        summary:"The conversation begins with the insured closing on a new home with a pool and needing coverage fast. Agentforce Voice verifies her against the household profile and pulls the property. The broker builds an HO-3 quote with a pool-liability endorsement, compares three carriers, binds the best-value option effective the closing date with a multi-policy discount, and issues a certificate to the mortgage lender.",
+        resolution:"HO-3 quoted with pool liability, carriers compared, the best-value policy bound effective closing with a bundling discount, and a certificate issued to the lender. The insured received documents by email."} },
+    outcomes:{ headline:"Bound before closing — HO-3 with pool liability, certificate issued",
+      detail:"The insured was verified, an HO-3 quote with pool liability built, carriers compared, the best-value option bound effective the closing date with a multi-policy discount, and a certificate issued to the lender — all on first contact, with the wrap-up written back to the case automatically.",
+      metrics:[{l:"Time to bind",v:"First contact"},{l:"Carriers compared",v:"3"},{l:"Certificate",v:"Issued to lender"}] },
+    caseData:{ number:"00006733", subject:"New Homeowners Policy — Pool Liability",
+      aiSummary:"New-home purchase with an in-ground pool required an HO-3 homeowners quote with a pool-liability endorsement, multi-carrier comparison, and binding effective the closing date, plus certificate issuance to the mortgage lender.",
+      planIntro:"Quoting. Elena Marchetti closed on a new home with an in-ground pool and needs an HO-3 policy with pool liability bound before her closing date, quoted across carriers, plus a certificate for her mortgage lender.",
+      previous:[{id:"00006721",subj:"Auto policy — add second vehicle",when:"8/2/2026, 4:19 PM"},
+        {id:"00006702",subj:"Umbrella renewal review",when:"7/29/2026, 10:44 AM"},
+        {id:"00006690",subj:"Chat with Elena Marchetti",when:"7/18/2026, 1:22 PM"}],
+      origin:"Phone", priority:"High", contact:"Elena Marchetti",
+      attrs:[{k:"Household",v:"Marchetti Household"},{k:"Relationship Tier",v:"Preferred Client"},{k:"Customer Type",v:"Personal Lines"},
+        {k:"Client Since",v:"4/9/2021"},{k:"Policies in Force",v:"Auto · Umbrella"},{k:"Next Renewal",v:"10/2/2026"}],
+      history:[{ic:"📞",t:"Voice Call – Inbound",w:"Aug 6, 2026"},{ic:"📞",t:"Voice Call – Inbound",w:"Aug 2, 2026"},
+        {ic:"✉",t:"Email: Umbrella renewal notice",w:"Jul 29, 2026"},{ic:"💬",t:"Messaging Session MS-00000091",w:"Jul 18, 2026"},
+        {ic:"✉",t:"Email: Auto policy — second vehicle added",w:"Jul 15, 2026"}],
+      classification:[{k:"Type",v:"New Business"},{k:"Reason",v:"New homeowners policy (pool liability)"},{k:"Product",v:"HO-3 Homeowners"},{k:"Confidence",v:"High (0.93)"}],
+      similar:[{id:"00006540",match:"38%",status:"Closed",subj:"New homeowners quote — Delgado household",pri:"High"}],
+      planItems:[
+        {g:"Gather Details",t:"Contact Elena Marchetti to confirm the property, rebuild cost, and in-ground pool exposure."},
+        {g:"Quote the Coverage",t:"Build an HO-3 quote with dwelling and liability limits and a pool-liability endorsement.",a:"Build Quote"},
+        {g:"Quote the Coverage",t:"Pull the new-home property details and confirm the protection class and replacement cost."},
+        {g:"Compare & Bind",t:"Compare the risk across carriers and identify the best-value option, including bundling.",a:"Compare Carriers"},
+        {g:"Compare & Bind",t:"Bind the winning carrier effective the closing date and apply the multi-policy discount.",a:"Bind Policy"},
+        {g:"Wrap Up",t:"Issue the certificate of insurance to the lender, then send policy documents to Elena."}] }
+  },
+
   "fintech": {
     id:"fintech", name:"FinTech / API Incident + Escalation",
     segment:"FinTech", useCase:"API Incident + Escalation", icon:"⚡", accent:"#6d3fd6", accentSoft:"#f0eafb",
@@ -932,13 +1191,36 @@ function normHex(v){ if(!v)return""; let s=String(v).trim().replace(/^#/,'');
 function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"Vireo Financial";
   document.documentElement.style.setProperty('--org-accent', normHex(ORG.hex)||"#5b2bb3"); }
 
+/* ---------- Usage tracking (optional; no-op until TRACK_URL is set) ----------
+   Paste your Google Apps Script web-app URL into TRACK_URL to log events to a
+   Google Sheet. Events are fire-and-forget beacons (no CORS/response needed),
+   so a bad/blank URL never blocks the demo. Nothing is sent when TRACK_URL="". */
+const TRACK_URL = "";                 // <-- paste Apps Script web-app URL here
+const INTAKE = { fullName:"", date:"", accountName:"", isOpportunity:false, opportunityName:"", amount:"", opportunityLink:"" };
+const SESSION_ID = (()=>{ try{ return (crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2); }catch(e){ return String(Date.now()); } })();
+function track(event, extra){
+  if(!TRACK_URL) return;              // tracking disabled — safe no-op
+  const payload = Object.assign({
+    ts:new Date().toISOString(), sessionId:SESSION_ID, event,
+    fullName:INTAKE.fullName, accountName:INTAKE.accountName||ORG.name,
+    date:INTAKE.date, isOpportunity:INTAKE.isOpportunity,
+    opportunityName:INTAKE.opportunityName, amount:INTAKE.amount, opportunityLink:INTAKE.opportunityLink,
+    vertical:activeVertical
+  }, extra||{});
+  try{
+    const body = JSON.stringify(payload);
+    if(navigator.sendBeacon){ navigator.sendBeacon(TRACK_URL, body); }
+    else{ fetch(TRACK_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=UTF-8"},body}); }
+  }catch(e){/* never let tracking break the demo */}
+}
+
 /* ============================================================
    PLAYBOOK
    ============================================================ */
 let activeVertical="retail-fraud";
 let V=VERTICALS[activeVertical];
 let STEPS=[];
-function selectVertical(id){ if(!VERTICALS[id])return; activeVertical=id; V=VERTICALS[id]; buildSteps(); }
+function selectVertical(id){ if(!VERTICALS[id])return; activeVertical=id; V=VERTICALS[id]; buildSteps(); _lastTrackedStep=-1; _fired={}; }
 function buildSteps(){
   const cust=V.monitor.caller.split(' ')[0];
   const planName=V.sra.planTitle.toLowerCase();
@@ -1022,7 +1304,19 @@ function buildSteps(){
    ENGINE
    ============================================================ */
 let idx=0,playing=false,timer=null,talkTrack=true;
+let _lastTrackedStep=-1, _fired={};   // usage-tracking de-dupe (per demo run)
 const $=s=>document.querySelector(s);
+function trackMilestones(step,f){
+  if(step.view==="landing") return;               // no telemetry on the placemat
+  const total=STEPS.length;
+  if(idx!==_lastTrackedStep){
+    _lastTrackedStep=idx;
+    track('step_viewed',{ step:idx+1, total, stepTitle:step.title, view:step.view, pct:Math.round(idx/(total-1)*100) });
+  }
+  if(f.emailSent && !_fired.call_ended){ _fired.call_ended=1; track('call_ended',{ step:idx+1 }); }
+  if(f.caseClosed && !_fired.case_closed){ _fired.case_closed=1; track('case_closed',{ caseNumber:V.caseData.number }); }
+  if(idx===total-1 && !_fired.demo_completed){ _fired.demo_completed=1; track('demo_completed',{ total }); }
+}
 function foldState(i){ const st={flags:{},turns:0,view:"landing"};
   for(let k=0;k<=i;k++){const s=STEPS[k]; if(s.view)st.view=s.view;
     if(typeof s.turns==="number")st.turns=Math.max(st.turns,s.turns); if(s.set)Object.assign(st.flags,s.set);}
@@ -1064,6 +1358,7 @@ function render(){
     const sc=t.closest('.sra-scroll,.convo,.dbody');
     if(sc){ const cr=sc.getBoundingClientRect(),er=t.getBoundingClientRect(); sc.scrollTop += (er.top-cr.top)-24; }
     else if(t.scrollIntoView) t.scrollIntoView({behavior:'smooth',block:'center'}); });
+  trackMilestones(step,f);
 }
 let spotEl=null;
 function clearGuides(){
@@ -1097,11 +1392,12 @@ function renderView(v){ return v==="landing"?viewLanding():v==="monitor"?viewMon
 function VMETA(){ return {
   "retail-fraud":{id:"retail-fraud",ready:true,icon:"💳",segment:"Retail Banking",useCase:"Fraud & Disputes",accent:"#0176d3",accentSoft:"#eaf5fe",tagline:"Lock the card, reissue it, dispute the charge, and confirm the refund — first contact."},
   "wealth":{id:"wealth",ready:true,icon:"📈",segment:"Wealth Management",useCase:"Seamless Onboarding",accent:"#1a7f5a",accentSoft:"#e7f6ef",tagline:"Turn a UHNI account-transfer question into a guided, white-glove onboarding."},
-  "commercial":{id:"commercial",ready:false,icon:"🏦",segment:"Commercial Banking",useCase:"sFTP / ACH Onboarding",accent:"#3b4ea8",accentSoft:"#ecefff",tagline:"Stand up sFTP for ACH/Wire + Lockbox so a new client can pay their vendors."},
-  "insurance":{id:"insurance",ready:false,icon:"🛡️",segment:"Insurance Brokerage",useCase:"Multi-Carrier Quoting",accent:"#b0562a",accentSoft:"#fbeee4",tagline:"Broker quotes a new-home + pool policy across carriers for the insured."},
+  "commercial":{id:"commercial",ready:true,icon:"🏦",segment:"Commercial Banking",useCase:"sFTP / ACH Onboarding",accent:"#3b4ea8",accentSoft:"#ecefff",tagline:"Stand up sFTP for ACH/Wire + Lockbox so a new client can pay their vendors."},
+  "insurance":{id:"insurance",ready:true,icon:"🛡️",segment:"Insurance Brokerage",useCase:"Multi-Carrier Quoting",accent:"#b0562a",accentSoft:"#fbeee4",tagline:"Broker quotes a new-home + pool policy across carriers for the insured."},
   "fintech":{id:"fintech",ready:true,icon:"⚡",segment:"FinTech",useCase:"API Incident + Escalation",accent:"#6d3fd6",accentSoft:"#f0eafb",tagline:"Give an enterprise client a live status update, then escalate to a human owner."}
 };}
 function sfCloud(){ return `<svg viewBox="0 0 104 60" width="60" height="35" aria-label="Salesforce"><g fill="#00A1E0"><circle cx="40" cy="30" r="17"/><circle cx="60" cy="24" r="20"/><circle cx="77" cy="34" r="15"/><circle cx="26" cy="36" r="13"/><ellipse cx="52" cy="43" rx="35" ry="14"/></g><text x="52" y="47" text-anchor="middle" fill="#fff" font-size="13" font-style="italic" font-weight="700" font-family="Segoe UI,Arial">salesforce</text></svg>`; }
+function todayISO(){ const d=new Date(); const p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
 function viewLanding(){
   const cards=Object.values(VMETA()).map(m=>`<div class="vcard" id="card-${m.id}" style="--vc:${m.accent};--vc-soft:${m.accentSoft}">
     <div class="ic">${m.icon}</div>
@@ -1109,26 +1405,91 @@ function viewLanding(){
     <div class="usecase">${m.useCase}</div>
     <p>${m.tagline}</p>
     <div class="go">Start Demo ›</div></div>`).join('');
+  if(!INTAKE.date) INTAKE.date = todayISO();
   return `<div class="landing-wrap"><div class="landing">
     <div class="sflogo">${sfCloud()}</div>
     <span class="eyebrow-pill">Agentforce Service for Financial Services</span>
     <h1>Pick your customer's <b>world.</b></h1>
-    <div class="brandfields">
-      <label class="qlabel">Who are you demoing for?</label>
-      <input id="inpName" class="namein" placeholder="e.g. Vireo Financial" autocomplete="off" value="${ORG.name||''}"/>
-      <div class="hint">Brands the workspace org for this session.</div>
-      <div class="hexrow"><span class="sw"></span><input id="inpHex" class="hexin" placeholder="#0176D3" autocomplete="off" value="${ORG.hex||''}"/><span class="cap">Brand color — paste a hex to theme the demo.</span></div>
+    <div class="intake">
+      <div class="ihead"><h2>Before you start</h2><span class="req">All fields required</span></div>
+      <p class="isub">A few details so this run is tied to you and your account.</p>
+      <div class="frow two">
+        <div>
+          <label class="flabel" for="inFull">Full Name<span class="star">*</span></label>
+          <input id="inFull" class="fin" data-req placeholder="e.g. Jordan Rivera" autocomplete="off" value="${INTAKE.fullName||''}"/>
+        </div>
+        <div>
+          <label class="flabel" for="inDate">Date</label>
+          <input id="inDate" class="fin" type="date" value="${INTAKE.date}"/>
+        </div>
+      </div>
+      <div class="frow">
+        <label class="flabel" for="inAcct">Account Name<span class="star">*</span></label>
+        <input id="inAcct" class="fin" data-req placeholder="e.g. Vireo Financial" autocomplete="off" value="${INTAKE.accountName||ORG.name||''}"/>
+        <div class="fhint">Also brands the workspace org for this session.</div>
+      </div>
+      <div class="frow">
+        <label class="flabel">Brand color <span style="color:var(--faint);font-weight:600">(optional)</span></label>
+        <div class="fhex"><span class="sw"></span><input id="inHex" class="fin" placeholder="#0176D3" autocomplete="off" value="${ORG.hex||''}"/></div>
+      </div>
+      <label class="oppcheck"><input type="checkbox" id="inOpp" ${INTAKE.isOpportunity?'checked':''}/><span>Is this related to an opportunity?</span></label>
+      <div class="oppfields" id="oppFields" ${INTAKE.isOpportunity?'':'hidden'}>
+        <div class="frow">
+          <label class="flabel" for="inOppName">Opportunity Name<span class="star">*</span></label>
+          <input id="inOppName" class="fin" data-oreq placeholder="e.g. Vireo — Agentforce Service Expansion" autocomplete="off" value="${INTAKE.opportunityName||''}"/>
+        </div>
+        <div class="frow two">
+          <div>
+            <label class="flabel" for="inAmount">Amount<span class="star">*</span></label>
+            <input id="inAmount" class="fin" type="number" min="0" step="1" data-oreq placeholder="e.g. 120000" value="${INTAKE.amount||''}"/>
+          </div>
+          <div>
+            <label class="flabel" for="inOppLink">Opportunity Link<span class="star">*</span></label>
+            <input id="inOppLink" class="fin" type="url" data-oreq placeholder="https://…lightning.force.com/…" autocomplete="off" value="${INTAKE.opportunityLink||''}"/>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="cards">${cards}</div>
+    <div class="cards locked" id="cardGrid">${cards}</div>
+    <div class="lockmsg" id="lockMsg">Complete the form above to unlock the storylines.</div>
     <div class="foot">Fictional data · synthetic likenesses · no PII · not connected to a live org · for demonstration only.</div>
   </div></div>`;
 }
+function intakeValid(){
+  if(!(INTAKE.fullName||'').trim()) return false;
+  if(!(INTAKE.accountName||'').trim()) return false;
+  if(INTAKE.isOpportunity){
+    if(!(INTAKE.opportunityName||'').trim()) return false;
+    if(!String(INTAKE.amount||'').trim()) return false;
+    if(!(INTAKE.opportunityLink||'').trim()) return false;
+  }
+  return true;
+}
+function refreshGate(){
+  const grid=$('#cardGrid'), msg=$('#lockMsg'), ok=intakeValid();
+  if(grid) grid.classList.toggle('locked', !ok);
+  if(msg) msg.textContent = ok ? 'Storylines unlocked — pick one to begin.' : 'Complete the form above to unlock the storylines.';
+}
 function bindLanding(){
-  const n=$('#inpName'),hx=$('#inpHex');
-  if(n)n.addEventListener('input',e=>{ORG.name=e.target.value;applyOrg();});
-  if(hx)hx.addEventListener('input',e=>{ORG.hex=e.target.value;applyOrg();});
+  const full=$('#inFull'), date=$('#inDate'), acct=$('#inAcct'), hex=$('#inHex'),
+        opp=$('#inOpp'), oppWrap=$('#oppFields'),
+        oname=$('#inOppName'), amt=$('#inAmount'), olink=$('#inOppLink');
+  if(full) full.addEventListener('input',e=>{ INTAKE.fullName=e.target.value; refreshGate(); });
+  if(date) date.addEventListener('input',e=>{ INTAKE.date=e.target.value; });
+  if(acct) acct.addEventListener('input',e=>{ INTAKE.accountName=e.target.value; ORG.name=e.target.value; applyOrg(); refreshGate(); });
+  if(hex)  hex.addEventListener('input',e=>{ ORG.hex=e.target.value; applyOrg(); });
+  if(opp)  opp.addEventListener('change',e=>{ INTAKE.isOpportunity=e.target.checked; if(oppWrap) oppWrap.hidden=!e.target.checked; refreshGate(); });
+  if(oname) oname.addEventListener('input',e=>{ INTAKE.opportunityName=e.target.value; refreshGate(); });
+  if(amt)  amt.addEventListener('input',e=>{ INTAKE.amount=e.target.value; refreshGate(); });
+  if(olink) olink.addEventListener('input',e=>{ INTAKE.opportunityLink=e.target.value; refreshGate(); });
   Object.values(VMETA()).forEach(m=>{const c=$('#card-'+m.id);if(!c)return;
-    c.addEventListener('click',()=>{ if(!m.ready){toast('That storyline is coming soon.');return;} selectVertical(m.id); go(1); });});
+    c.addEventListener('click',()=>{
+      if(!intakeValid()){ toast('Please complete the form first.'); return; }
+      if(!m.ready){ toast('That storyline is coming soon.'); return; }
+      track('demo_started',{ vertical:m.id, useCase:m.useCase });
+      selectVertical(m.id); go(1);
+    });});
+  refreshGate();
 }
 
 /* MONITOR */
@@ -1547,9 +1908,10 @@ function boot(){
   $('#btnPlay').onclick=togglePlay;
   $('#btnNext').onclick=()=>{pause();next();};
   $('#btnBack').onclick=back;
-  $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);render();};
+  $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);_lastTrackedStep=-1;_fired={};render();};
   $('#ttToggle').onclick=()=>{talkTrack=!talkTrack;$('#ttToggle').classList.toggle('on',talkTrack);$('#guidebar').classList.toggle('talk-off',!talkTrack);};
   if(startInDemo) go(1); else render();
+  track('demo_opened',{ deepLink:startInDemo?qv:'' });
 }
 boot();
 </script>
