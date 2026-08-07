@@ -114,12 +114,12 @@ The demo can log **who ran it, for which account/opportunity, and how far they g
 **How it works.** The landing intake form populates an `INTAKE` object; the engine fires fire-and-forget `navigator.sendBeacon` events at milestones: `demo_opened`, `demo_started`, `step_viewed`, `call_ended`, `case_closed`, `demo_completed`. Each beacon carries a per-session id, timestamp, the intake fields, and the vertical/step. When `TRACK_URL` is blank, `track()` is a guaranteed **no-op** — nothing is sent, and a bad URL can never block or slow the demo.
 
 **To enable it:**
-1. Create a Google Sheet with a tab named `Events` and these headers in row 1:
-   `ts · event · sessionId · fullName · accountName · date · isOpportunity · opportunityName · amount · opportunityLink · vertical · useCase · step`
-2. **Extensions → Apps Script**, add a `doPost(e)` that appends `JSON.parse(e.postData.contents)` as a row, then **Deploy → Web app** (Execute as *Me*, Access *Anyone*).
+1. Create a Google Sheet with a tab named `Log`. (The Apps Script auto-writes the header row on the first event, so you can leave it empty.) The columns are:
+   `ts · sessionId · event · fullName · repEmail · accountName · date · isOpportunity · opportunityName · amount · opportunityLink · vertical · step · total · stepTitle · view · pct · caseNumber · useCase · deepLink`
+2. **Extensions → Apps Script**, add a `doPost(e)` that appends `JSON.parse(e.postData.contents)` as a row, then **Deploy → Web app** (Execute as *Me*, Access *Anyone*). Deploy from a **personal `@gmail.com`** account — a `@salesforce.com` Workspace deploy is forced behind Okta SSO and rejects anonymous beacons.
 3. Paste the resulting `/exec` URL into the `TRACK_URL` constant near the top of the `<script>` in `index.html`.
 
-Because beacons are anonymous, **identity comes from the intake form** (Full Name / Account Name) — which is exactly why the storyline cards are gated behind it.
+Because beacons are anonymous, **identity comes from the intake form** — Full Name, the **`@salesforce.com` rep email** (required + validated), and Account Name — which is exactly why the storyline cards are gated behind it. Customers can self-serve the demo by entering their Salesforce rep's email, so every logged run is attributed to a rep.
 
 ---
 

@@ -157,6 +157,8 @@ a{color:var(--brand);text-decoration:none}
 .fhex .sw{width:38px;height:38px;border-radius:8px;border:1px solid var(--line-2);background:var(--org-accent,#5b2bb3);flex:none}
 .fhex .fin{font-family:Consolas,monospace;text-transform:uppercase}
 .fhint{font-size:11.5px;color:var(--faint);margin-top:6px}
+.fin.bad{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.12)}
+.fhint.bad{color:#c0392b}
 .oppcheck{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--line-2);border-radius:9px;background:var(--surface-2,#f7fafc);cursor:pointer;user-select:none;margin:4px 0 0}
 .oppcheck input{width:17px;height:17px;accent-color:var(--brand-1);cursor:pointer}
 .oppcheck span{font-size:13.5px;font-weight:700;color:var(--ink)}
@@ -1196,13 +1198,14 @@ function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"V
    Google Sheet. Events are fire-and-forget beacons (no CORS/response needed),
    so a bad/blank URL never blocks the demo. Nothing is sent when TRACK_URL="". */
 const TRACK_URL = "https://script.google.com/macros/s/AKfycbzSmZDqvH29ivYjjahy5R4fuOmc9po7M8UYJ2-AXH288epj6g1PILxlxNo7YnGWuNUk/exec";  // Apps Script web-app URL
-const INTAKE = { fullName:"", date:"", accountName:"", isOpportunity:false, opportunityName:"", amount:"", opportunityLink:"" };
+const INTAKE = { fullName:"", repEmail:"", date:"", accountName:"", isOpportunity:false, opportunityName:"", amount:"", opportunityLink:"" };
+const SF_EMAIL_RE = /^[^@\s]+@salesforce\.com$/i;   // rep email must be a salesforce.com address
 const SESSION_ID = (()=>{ try{ return (crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2); }catch(e){ return String(Date.now()); } })();
 function track(event, extra){
   if(!TRACK_URL) return;              // tracking disabled — safe no-op
   const payload = Object.assign({
     ts:new Date().toISOString(), sessionId:SESSION_ID, event,
-    fullName:INTAKE.fullName, accountName:INTAKE.accountName||ORG.name,
+    fullName:INTAKE.fullName, repEmail:INTAKE.repEmail, accountName:INTAKE.accountName||ORG.name,
     date:INTAKE.date, isOpportunity:INTAKE.isOpportunity,
     opportunityName:INTAKE.opportunityName, amount:INTAKE.amount, opportunityLink:INTAKE.opportunityLink,
     vertical:activeVertical
@@ -1419,14 +1422,21 @@ function viewLanding(){
           <input id="inFull" class="fin" data-req placeholder="e.g. Jordan Rivera" autocomplete="off" value="${INTAKE.fullName||''}"/>
         </div>
         <div>
+          <label class="flabel" for="inEmail">Salesforce Email<span class="star">*</span></label>
+          <input id="inEmail" class="fin" type="email" data-req placeholder="rep@salesforce.com" autocomplete="off" value="${INTAKE.repEmail||''}"/>
+          <div class="fhint" id="emailHint">Use your Salesforce rep's <b>@salesforce.com</b> email.</div>
+        </div>
+      </div>
+      <div class="frow two">
+        <div>
+          <label class="flabel" for="inAcct">Account Name<span class="star">*</span></label>
+          <input id="inAcct" class="fin" data-req placeholder="e.g. Vireo Financial" autocomplete="off" value="${INTAKE.accountName||ORG.name||''}"/>
+          <div class="fhint">Also brands the workspace org for this session.</div>
+        </div>
+        <div>
           <label class="flabel" for="inDate">Date</label>
           <input id="inDate" class="fin" type="date" value="${INTAKE.date}"/>
         </div>
-      </div>
-      <div class="frow">
-        <label class="flabel" for="inAcct">Account Name<span class="star">*</span></label>
-        <input id="inAcct" class="fin" data-req placeholder="e.g. Vireo Financial" autocomplete="off" value="${INTAKE.accountName||ORG.name||''}"/>
-        <div class="fhint">Also brands the workspace org for this session.</div>
       </div>
       <div class="frow">
         <label class="flabel">Brand color <span style="color:var(--faint);font-weight:600">(optional)</span></label>
@@ -1457,6 +1467,7 @@ function viewLanding(){
 }
 function intakeValid(){
   if(!(INTAKE.fullName||'').trim()) return false;
+  if(!SF_EMAIL_RE.test((INTAKE.repEmail||'').trim())) return false;
   if(!(INTAKE.accountName||'').trim()) return false;
   if(INTAKE.isOpportunity){
     if(!(INTAKE.opportunityName||'').trim()) return false;
@@ -1471,10 +1482,18 @@ function refreshGate(){
   if(msg) msg.textContent = ok ? 'Storylines unlocked — pick one to begin.' : 'Complete the form above to unlock the storylines.';
 }
 function bindLanding(){
-  const full=$('#inFull'), date=$('#inDate'), acct=$('#inAcct'), hex=$('#inHex'),
+  const full=$('#inFull'), email=$('#inEmail'), emailHint=$('#emailHint'),
+        date=$('#inDate'), acct=$('#inAcct'), hex=$('#inHex'),
         opp=$('#inOpp'), oppWrap=$('#oppFields'),
         oname=$('#inOppName'), amt=$('#inAmount'), olink=$('#inOppLink');
   if(full) full.addEventListener('input',e=>{ INTAKE.fullName=e.target.value; refreshGate(); });
+  if(email) email.addEventListener('input',e=>{
+    INTAKE.repEmail=e.target.value;
+    const v=e.target.value.trim(), bad=v && !SF_EMAIL_RE.test(v);
+    email.classList.toggle('bad', !!bad);
+    if(emailHint){ emailHint.classList.toggle('bad', !!bad); emailHint.innerHTML = bad ? 'Must be a valid <b>@salesforce.com</b> email.' : "Use your Salesforce rep's <b>@salesforce.com</b> email."; }
+    refreshGate();
+  });
   if(date) date.addEventListener('input',e=>{ INTAKE.date=e.target.value; });
   if(acct) acct.addEventListener('input',e=>{ INTAKE.accountName=e.target.value; ORG.name=e.target.value; applyOrg(); refreshGate(); });
   if(hex)  hex.addEventListener('input',e=>{ ORG.hex=e.target.value; applyOrg(); });
