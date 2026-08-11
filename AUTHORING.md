@@ -83,6 +83,47 @@ A small notification center: `notifications[]` + `addNotif/removeNotif/updateBel
 
 ---
 
+## 6b. Transcript audio (the 🔊 Voice toggle)
+
+Off by default and persisted per browser (`localStorage` key `a4s.audio`), so the
+demo never starts talking on its own. The control hides itself entirely in
+browsers without speech synthesis.
+
+**You do not have to record anything.** With no extra data, the browser speaks
+each `repConvo` turn as it is revealed, using two different voices for the rep
+and the customer. Because it reads `t` directly, **editing transcript copy
+updates the audio automatically** — there is nothing to re-record.
+
+To use a real recording for a turn, add an `audio` key. It always wins over
+synthesis:
+
+```js
+repConvo:{ speakers:{...},
+  turns:[
+    {who:"rep", t:"Good morning Mr. Ashford…", audio:"audio/wealth/01.mp3"},
+    {who:"customer", t:"Thank you. I want to bring over…"},          // spoken
+    {who:"rep", t:"Wonderful — all three are eligible…", audio:"data:audio/mpeg;base64,…"}
+  ] }
+```
+
+- A **path** (`audio/wealth/01.mp3`) is smallest and easiest to swap, but only
+  works on GitHub Pages — the Claude artifact's CSP blocks external files.
+- A **`data:` URI** works everywhere including the artifact, at roughly +33%
+  size inlined into `index.html`. Reserve it for hero moments.
+- If a clip 404s or autoplay blocks it, that turn **falls back to speech**
+  rather than going silent.
+
+**Pacing.** With audio on, autoplay advances when the utterance ends rather than
+on the step's `dur`, so speech and slides can't drift apart. Muted, `dur` applies
+exactly as before. Every wait is capped, so a dropped `end` event can never
+freeze a run — worst case the demo continues on its own.
+
+**Gotcha:** don't let a turn run long. Chrome cuts synthesis off around 15s
+(there's a keep-alive that mitigates it, but ~200 characters per turn is the
+comfortable ceiling). Keep the 9-turn arc conversational and you'll never hit it.
+
+---
+
 ## 7. Testing (do this before you ship)
 
 There's no framework, but the whole thing is testable headless with **jsdom**. The pattern we used:
