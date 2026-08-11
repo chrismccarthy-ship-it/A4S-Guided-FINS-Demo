@@ -43,9 +43,9 @@ a{color:var(--brand);text-decoration:none}
 .gh .cloud{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#00a1e0,#0176d3);display:grid;place-items:center;color:#fff;font-size:14px;flex:none}
 .gh .org{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
 .gh .org .swatch{width:11px;height:11px;border-radius:3px;background:var(--org-accent,#5b2bb3)}
-.gh .search{flex:1;max-width:520px;height:32px;border:1px solid var(--line-2);border-radius:6px;background:#f7f9fb;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--faint);font-size:13px;margin:0 auto}
-.gh .ask{height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}
-.gh .icons{display:flex;align-items:center;gap:15px;color:var(--muted);margin-left:auto;font-size:15px}
+.gh .search{flex:0 0 auto;width:clamp(240px,42vw,460px);height:32px;border:1px solid var(--line-2);border-radius:6px;background:#f7f9fb;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--faint);font-size:13px;margin-left:auto}
+.gh .ask{height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;margin-right:auto}
+.gh .icons{display:flex;align-items:center;gap:15px;color:var(--muted);font-size:15px}
 .gh .bell{position:relative}
 .gh .bell .dot{position:absolute;top:-6px;right:-7px;min-width:15px;height:15px;border-radius:8px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 3px;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.5,.4,1)}
 .gh .bell.on .dot{transform:scale(1)}
@@ -546,7 +546,9 @@ a{color:var(--brand);text-decoration:none}
 .reduced *{animation:none !important;transition:none !important}
 
 /* ===== Act 0 · Agentforce co-worker ===== */
-.homewrap{padding:18px 20px 40px;max-width:1180px;margin:0 auto}
+#stage[data-view="ask"]{background:radial-gradient(1100px 480px at 10% -8%,#fbe9de 0%,rgba(251,233,222,0) 55%),radial-gradient(1000px 640px at 106% 116%,#e4eafc 0%,rgba(228,234,252,0) 55%),linear-gradient(158deg,#f8f2f2 0%,#eef1fb 100%)}
+#stage[data-view="home"]{background:#f2f4f7}
+.homewrap{padding:18px 20px 40px;max-width:1180px;margin:0 auto;min-height:100%}
 .svcalert{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,#0b7a5f,#0e8f6f);color:#fff;border-radius:12px;padding:13px 18px;margin-bottom:16px;box-shadow:var(--shadow-1)}
 .svcalert .sa-t{font-weight:800;font-size:12px;letter-spacing:.03em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .svcalert .sa-s{font-size:12px;opacity:.92;margin-top:2px}
@@ -608,6 +610,68 @@ a{color:var(--brand);text-decoration:none}
 .askfollow input{flex:1;border:none;outline:none;font-size:13.5px;color:var(--ink);background:transparent}
 .askarrow{width:34px;height:34px;border-radius:9px;background:var(--good);color:#fff;display:grid;place-items:center;flex:none;font-size:14px;cursor:pointer}
 .askarrow.armed{box-shadow:0 0 0 3px var(--guide-soft)}
+.bridgebtn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:var(--good);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-1);text-align:left}
+.bridgebtn:hover{filter:brightness(1.06)}
+
+/* ===== Home dashboard (Case Management & Rep Metrics) ===== */
+.homedash{display:flex;gap:16px;padding:14px 16px 40px;align-items:flex-start}
+.hd-main{flex:1;min-width:0}
+.hd-side{width:352px;flex:none;display:flex;flex-direction:column;gap:14px}
+.dashhead{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow-1)}
+.dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.dh-eyebrow{font-size:11px;color:var(--muted);font-weight:700}
+.dh-title{font-size:22px;font-weight:800;color:var(--ink);margin:2px 0 0}
+.dh-btns{display:flex;gap:8px;flex:none}
+.dh-b{border:1px solid var(--line-2);background:#fff;color:var(--brand);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700}
+.dh-desc{font-size:12px;color:var(--ink-2);margin:8px 0 4px;max-width:900px;line-height:1.5}
+.dh-stamp{font-size:11px;color:var(--muted)}
+.dh-date{margin-top:10px}
+.dh-date label{display:block;font-size:11px;font-weight:700;color:var(--ink-2);margin-bottom:4px}
+.dh-sel{display:inline-flex;justify-content:space-between;align-items:center;min-width:180px;border:1px solid var(--line-2);border-radius:6px;padding:6px 12px;font-size:12.5px;color:var(--ink-2);background:#fff}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.dgrid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.dcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;box-shadow:var(--shadow-1);min-width:0;display:flex;flex-direction:column}
+.dcard .dc-h{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:var(--ink)}
+.dcard .dc-ic{color:var(--faint);font-size:11px;letter-spacing:2px}
+.dc-body{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 0;min-height:150px}
+.dc-foot{display:flex;justify-content:space-between;gap:8px;font-size:9.5px;color:var(--muted);margin-top:6px}
+.dc-foot a{color:var(--brand);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.donutwrap{display:flex;align-items:center;gap:12px}
+.dlegend{font-size:11px;color:var(--ink-2)}
+.dlegend .lgh{color:var(--muted);font-size:10px;margin-bottom:4px}
+.dlegend .lg{display:flex;align-items:center;gap:6px;margin:3px 0}
+.dlegend .lgsw{width:9px;height:9px;border-radius:2px;flex:none}
+.repchart{width:100%;position:relative}
+.repchart .chris{position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--ink-2)}
+.scard2{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-1);overflow:hidden}
+.s2h{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;font-size:13px;font-weight:800;color:var(--ink);border-bottom:1px solid var(--line)}
+.s2ic{color:var(--faint);font-size:11px;font-weight:400}
+.s2badge{background:var(--panel);border:1px solid var(--line-2);color:var(--muted);border-radius:10px;padding:1px 8px;font-size:11px}
+.mystatus{display:flex;align-items:center;gap:12px;padding:14px}
+.ms-av{position:relative;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#7a5cc0,#4a7fd0);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;flex:none}
+.ms-off{position:absolute;right:0;bottom:0;width:12px;height:12px;border-radius:50%;background:#c23934;border:2px solid #fff}
+.ms-mid{flex:1;min-width:0}
+.ms-lab{font-weight:700;font-size:13px;color:var(--ink)}
+.ms-sub{font-size:11px;color:var(--muted)}
+.ms-kpi{text-align:center;flex:none}
+.ms-n{font-size:20px;font-weight:800;color:var(--ink)}
+.ms-l{font-size:9.5px;color:var(--muted)}
+.aitbl{max-height:300px;overflow-y:auto;font-size:11.5px}
+.aithr,.aitr{display:grid;grid-template-columns:56px 1fr 78px;gap:8px;padding:8px 14px;align-items:center}
+.aithr{position:sticky;top:0;background:var(--panel);color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.03em;font-weight:800}
+.aitr{border-top:1px solid var(--line)}
+.aitr .aic{color:var(--brand);font-weight:700}
+.aitr .ais{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aitr .aia{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctt{padding:14px}
+.ctt-scope label{display:block;font-size:11px;font-weight:700;color:var(--ink-2);margin-bottom:4px}
+.ctt-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.ctt-k{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
+.ctt-n{font-size:20px;font-weight:800;color:var(--good)}
+.ctt-l{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.ctt-th{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.ctt-row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);padding:5px 0;border-top:1px solid var(--line)}
+@media(max-width:1120px){.homedash{flex-direction:column}.hd-side{width:100%}.dgrid{grid-template-columns:repeat(2,1fr)}}
 </style>
 
 <div class="app" id="app">
@@ -1443,20 +1507,15 @@ function buildSteps(){
       dothis:"Select ‘Plan my work for today’.", advanceOn:"#planMyWork" },
     { view:"ask", set:{gh:1,subhead:1,planQuery:1}, target:"#askConvo", title:"The co-worker gets to work", autoplay:true, dur:1600,
       talk:"It reasons over your records live — no dashboards to configure, no filters to set." },
-    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1}, target:"#inprogLine", title:"Your work plan for the day",
-      talk:"Here's the plan — calendar, open tasks, and open cases ranked by priority, with a suggested focus order. Notice it flags your in-progress cases for follow-up.",
-      dothis:"Next: dig into the in-progress cases." },
-    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogPrefill:1}, box:"#inprogLine", target:"#askArrow", title:"Ask a grounded follow-up",
-      talk:"Every line is a launch point. The co-worker pre-fills a follow-up to check your in-progress cases — just send it.",
-      dothis:"Click the ➤ send button.", advanceOn:"#askArrow" },
-    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogPrefill:0,inprogQuery:1}, target:"#keyActions", title:"It finds the pattern across your cases",
-      talk:`Every open Working case traces back to one customer — ${cust}. The co-worker clusters them, spots the duplicates and the aging risk, and proposes Key Actions.`,
-      dothis:"Next: turn a Key Action into a draft." },
-    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogQuery:1,draftPrefill:1}, box:"#keyActions", target:"#askArrow", title:"Turn insight into action",
-      talk:`One Key Action is a proactive outreach. The co-worker pre-fills the ask — draft a summary for ${cust}. Send it.`,
-      dothis:"Click the ➤ send button.", advanceOn:"#askArrow" },
-    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogQuery:1,draftPrefill:0,draftQuery:1}, target:"#askConvo", title:"A ready-to-send outreach — and the call comes in",
-      talk:`In seconds the co-worker drafts a personalized outreach for ${cust}. That's the proactive save — and right on cue, ${cust} calls in. Let's take that call.` },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogPrefill:1}, box:"#inprogLine", target:"#askArrow", title:"Your work plan — send a grounded follow-up",
+      talk:"Here's the plan — calendar, tasks, and open cases by priority, with a suggested focus order. The co-worker has already pre-filled a follow-up to check your in-progress cases. Send it with the green arrow.",
+      dothis:"Click the ➤ green send arrow.", advanceOn:"#askArrow" },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogPrefill:0,inprogQuery:1,draftPrefill:1}, box:"#keyActions", target:"#askArrow", title:"It finds the pattern — then pre-fills the outreach",
+      talk:`Every open Working case traces back to one customer — ${cust}. The co-worker clusters them, flags the duplicates and the aging risk, and proposes Key Actions — then pre-fills a proactive outreach. Send it with the green arrow.`,
+      dothis:"Click the ➤ green send arrow.", advanceOn:"#askArrow" },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogQuery:1,draftPrefill:0,draftQuery:1}, target:"#bridgeBtn", title:"A ready-to-send outreach — and the call comes in",
+      talk:`In seconds the co-worker drafts a personalized outreach for ${cust}. That's the proactive save — and right on cue, ${cust} calls in.`,
+      dothis:"Click ‘Let's take that call’ to answer.", advanceOn:"#bridgeBtn" },
 
     { view:"monitor", set:{gh:1,subhead:1}, target:"#monitorLink", title:"Act 1 · A live Agentforce Voice call, monitored",
       talk:"A customer called in and was met by Agentforce Voice. The supervisor sees the live call here in the Command Center. Click Monitor to watch the conversation before the hand-off.",
@@ -2286,13 +2345,81 @@ const COWORKER = {
 function cwToday(){ try{ return new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}); }catch(e){ return (typeof todayISO==="function"?todayISO():""); } }
 function cw(){ return COWORKER[activeVertical]||COWORKER["retail-fraud"]; }
 
-function viewHome(){ const c=cw();
-  return `<div class="homewrap">
-    <div class="svcalert"><div class="sa-l"><div class="sa-t">🔴 Service Alert · ${c.alert.title}</div><div class="sa-s">${c.alert.sub}</div></div><div class="sa-btn">Notify Affected Customers</div></div>
-    <div class="startday">
-      <h2>Start Your Day</h2><div class="sd-sub">Chris McCarthy · ${cwToday()}</div>
-      <div class="aisum"><div class="ai-h">🤖 AI Summary</div><p>${c.homeSummary}</p></div>
-      <div class="ctiles">${c.tiles.map(t=>`<div class="ctile"><div class="cn">${t.n}</div><div class="cl">${t.l}</div></div>`).join('')}</div>
+const DASH_STAMP = "As of Aug 11, 2026, 11:13 AM";
+function dcard(title,body,report){ return `<div class="dcard"><div class="dc-h"><span>${title}</span><span class="dc-ic">↻ ⤢</span></div><div class="dc-body">${body}</div><div class="dc-foot"><a>${report||'View Report'}</a><span>${DASH_STAMP}</span></div></div>`; }
+function dashGauge(val,max){
+  const cx=110,cy=112,r=80,sw=17;
+  const pt=f=>[cx+r*Math.cos(Math.PI*(1-f)),cy-r*Math.sin(Math.PI*(1-f))];
+  const seg=(a,b,col)=>{const p0=pt(a),p1=pt(b);const lg=(b-a)>0.5?1:0;return `<path d="M${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A ${r} ${r} 0 ${lg} 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw}"/>`;};
+  const vf=Math.max(0,Math.min(1,val/max));
+  const na=Math.PI*(1-vf),nx=cx+(r-14)*Math.cos(na),ny=cy-(r-14)*Math.sin(na);
+  const ticks=[0,20,40,60,80,100].map(t=>{const f=t/100,x=cx+(r+13)*Math.cos(Math.PI*(1-f)),y=cy-(r+13)*Math.sin(Math.PI*(1-f))+3;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="9" fill="#98a3b1" text-anchor="middle">${t}</text>`;}).join('');
+  const col=vf<0.34?'#c23934':vf<0.67?'#e08a00':'#1a7f5a';
+  return `<svg viewBox="0 0 220 148" width="100%" style="max-height:150px">${seg(0,0.34,'#c23934')}${seg(0.34,0.67,'#f5a623')}${seg(0.67,1,'#1a7f5a')}${ticks}<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0c1622" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="#0c1622"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="26" font-weight="800" fill="${col}">${val}</text></svg>`;
+}
+function dashDonut(){
+  const segs=[{v:75,c:'#7cc0f4',l:'Website'},{v:7,c:'#1b96ff',l:'SMS'},{v:7,c:'#9050e9',l:'Web'},{v:1,c:'#57b39b',l:'Other'}];
+  const cx=90,cy=90,r=60,sw=27,C=2*Math.PI*r; let acc=0;
+  const arcs=segs.map(s=>{const frac=s.v/90,dash=`${(frac*C).toFixed(1)} ${C.toFixed(1)}`,off=(-acc*C).toFixed(1);acc+=frac;return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-dasharray="${dash}" stroke-dashoffset="${off}" transform="rotate(-90 ${cx} ${cy})"/>`;}).join('');
+  const legend=segs.map(s=>`<div class="lg"><span class="lgsw" style="background:${s.c}"></span>${s.l}</div>`).join('');
+  return `<div class="donutwrap"><svg viewBox="0 0 180 180" width="146">${arcs}<text x="90" y="99" text-anchor="middle" font-size="27" font-weight="800" fill="#0c1622">90</text></svg><div class="dlegend"><div class="lgh">Case Origin</div>${legend}</div></div>`;
+}
+function dashHBar(rows,max,ticks,labelW){
+  const x0=labelW, w=300-x0, H=28, top=22; let y=top;
+  const grid=ticks.map(t=>`<line x1="${(x0+t/max*w).toFixed(1)}" y1="16" x2="${(x0+t/max*w).toFixed(1)}" y2="${top+rows.length*(H+10)}" stroke="#eef1f5"/><text x="${(x0+t/max*w).toFixed(1)}" y="12" font-size="8.5" fill="#98a3b1" text-anchor="middle">${t}</text>`).join('');
+  const bars=rows.map(r=>{const bw=r.v/max*w;const b=`<rect x="${x0}" y="${y}" width="${bw.toFixed(1)}" height="${H}" fill="${r.c||'#1b96ff'}"/>${r.v?`<text x="${(x0+bw-5).toFixed(1)}" y="${y+H/2+4}" font-size="11" fill="#fff" text-anchor="end" font-weight="700">${r.v}</text>`:''}${r.l?`<text x="${x0-6}" y="${y+H/2+4}" font-size="9.5" fill="#3e4b5b" text-anchor="end">${r.l}</text>`:''}`;y+=H+10;return b;}).join('');
+  return `<svg viewBox="0 0 300 ${top+rows.length*(H+10)+6}" width="100%">${grid}${bars}</svg>`;
+}
+function viewHome(){
+  const aiRows=[
+    ['00005401','[SAMPLE] Can I take BART to dreamfest?','bsom'],
+    ['00005396','[SAMPLE] Are service animals allowed?','nadp'],
+    ['00005364','System Outages and Holdings Report Performance','TechCo Dealership'],
+    ['00005363','System Outages and Holdings Report','TechCo Dealership'],
+    ['00005309','URGENT: Payment Gateway API Outage Preventing Money Movement','TechCo Dealership'],
+    ['00005257','Urgent Transition Analysis for $50M Multi-Asset Portfolio','TechCo Asset Mgmt'],
+    ['00005255','Transition Analysis Request — High Net Worth Migration','TechCo — Transition'],
+    ['00005253','Urgent: Transition Analysis Extraction Error — Thompson','TechCo — Transition'],
+    ['00005251','Urgent: Transition Analysis Request — Miller Family Trust','TechCo Dealership'] ];
+  const tags=[['500 Errors',1],['503 Errors',1],['API Outage',1],['Account Support',1],['Agent Impact',1]];
+  return `<div class="homedash">
+    <div class="hd-main">
+      <div class="dashhead">
+        <div class="dh-top"><div><div class="dh-eyebrow">◎ Dashboard</div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
+          <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe ▾</button></div></div>
+        <p class="dh-desc">This dashboard provides key insights into rep performance, including average handle time, speed to answer, and active time, as well as case metrics such as the number of open, escalated, and closed cases, case origin, and case reason.</p>
+        <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Automated Process</div>
+        <div class="dh-date"><label>Date</label><div class="dh-sel">All ▾</div></div>
+      </div>
+      <div class="dgrid">
+        ${dcard('Total Cases by Priority', dashHBar([{l:'Medium',v:90,c:'#1b96ff'}],100,[0,20,40,60,80,100],60), 'View Report (Rep Work by Case Priority a…)')}
+        ${dcard('Total Cases by Origin', dashDonut(), 'View Report (Rep Work by Case Priority a…)')}
+        ${dcard('Total Cases by Case Type', dashHBar([{l:'',v:4,c:'#1b96ff'},{l:'Account Support',v:80,c:'#1b96ff'}],100,[0,20,40,60,80,100],86), 'View Report (Rep Work by Case Type)')}
+        ${dcard('Total Open Cases', dashGauge(42,100), 'View Report (Open Cases by Rep and Status)')}
+        ${dcard('Total Closed Cases', dashGauge(48,100), 'View Report (Closed Cases by Rep)')}
+        ${dcard('Total Escalated Cases', dashGauge(0,100), 'View Report (Rep Work by Case Priority a…)')}
+      </div>
+      <div class="dgrid2">
+        ${dcard('Total Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:30,c:'#1b96ff'},{l:'Working',v:3,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:1,c:'#57b39b'}],30,[0,6,12,18,24,30],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
+        ${dcard('Total Closed Cases by Rep', `<div class="repchart">${dashHBar([{l:'Chris McCarthy',v:48,c:'#1b96ff'}],48,[0,8,16,24,32,40,48],96)}</div>`, 'View Report (Closed Cases by Rep)')}
+      </div>
+    </div>
+    <div class="hd-side">
+      <div class="scard2"><div class="s2h">📊 My Status <span class="s2ic">▾ ⤢</span></div>
+        <div class="mystatus"><div class="ms-av">CM<span class="ms-off"></span></div>
+          <div class="ms-mid"><div class="ms-lab">Offline</div><div class="ms-sub">since Aug 11 10:50 AM</div></div>
+          <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">open items</div></div>
+          <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">% capacity</div></div></div>
+      </div>
+      <div class="scard2"><div class="s2h">🗂️ AI Cases Pending Review <span class="s2badge">20</span></div>
+        <div class="aitbl"><div class="aithr"><span>Case</span><span>Subject</span><span>Account</span></div>
+          ${aiRows.map(r=>`<div class="aitr"><span class="aic">${r[0]}</span><span class="ais">${r[1]}</span><span class="aia">${r[2]}</span></div>`).join('')}</div>
+      </div>
+      <div class="scard2"><div class="s2h">🏷️ Case Tag Trends <span class="s2ic">▾</span></div>
+        <div class="ctt"><div class="ctt-scope"><label>Time scope</label><div class="dh-sel">Last 2 months ▾</div></div>
+          <div class="ctt-kpis"><div class="ctt-k"><div class="ctt-n">1</div><div class="ctt-l">Cases Tagged</div></div><div class="ctt-k"><div class="ctt-n">20</div><div class="ctt-l">Unique Tags</div></div></div>
+          <div class="ctt-top"><div class="ctt-th">Top 5 trending tags</div>${tags.map((t,i)=>`<div class="ctt-row"><span>${i+1}&nbsp;&nbsp;${t[0]}</span><span>${t[1]}</span></div>`).join('')}</div></div>
+      </div>
     </div>
   </div>`;
 }
@@ -2301,9 +2428,9 @@ function ddItems(opts,isPlan){ return opts.map((o,i)=>`<div class="ddi"${isPlan&
 function viewAsk(){
   return `<div class="askwrap">
     <div class="askgreet" id="askGreeting">
-      <h1>Hi, Chris. Let's dive in.</h1>
-      <div class="ag-sub">Just ask. We're on it.</div>
-      <div class="askbox">Try "What's changed with my top accounts this week?"<span class="ab-send">➤</span></div>
+      <h1>Hi, Chris. What's on your radar?</h1>
+      <div class="ag-sub">Ask a question. See the big picture.</div>
+      <div class="askbox">Try "What do I need to know about ${cw().account} before tomorrow's meeting?"<span class="ab-send">➤</span></div>
       <div class="askpills">
         <div class="pillwrap"><div class="askpill" id="pillFind">Find 🔍 ⌄</div><div class="askdd" id="ddFind" hidden>${ddItems(FIND_OPTS)}</div></div>
         <div class="pillwrap"><div class="askpill" id="pillCatch">Catch Up ⇄ ⌄</div><div class="askdd" id="ddCatch" hidden>${ddItems(CATCH_OPTS)}</div></div>
@@ -2385,7 +2512,7 @@ function renderInprog(c){
 function renderDraft(c){ const d=c.draft;
   return `<div class="aresp"><p>Here's ${/^[aeiou]/i.test(d.kind)?'an':'a'} ${d.kind} you can send ${c.customer} to consolidate everything into one thread:</p>
     <div class="adraft"><div class="ad-h">${d.kind==='email'?`<b>To:</b> ${c.customer} &nbsp;·&nbsp; <b>Subject:</b> ${d.subject}`:`<b>Call script · ${c.customer}</b>`}</div><div class="ad-b">${d.body}</div></div>
-    <p class="amt">Ready when you are — and it looks like ${c.customer} is calling in now. Let's take that call. →</p></div>`;
+    <button class="bridgebtn" id="bridgeBtn">Ready when you are — and it looks like ${c.customer} is calling in now. Let's take that call. →</button></div>`;
 }
 
 /* ---------- utils ---------- */
