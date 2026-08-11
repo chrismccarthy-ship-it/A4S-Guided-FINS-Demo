@@ -544,6 +544,70 @@ a{color:var(--brand);text-decoration:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast .ok{color:#6ee79a}
 .reduced *{animation:none !important;transition:none !important}
+
+/* ===== Act 0 · Agentforce co-worker ===== */
+.homewrap{padding:18px 20px 40px;max-width:1180px;margin:0 auto}
+.svcalert{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,#0b7a5f,#0e8f6f);color:#fff;border-radius:12px;padding:13px 18px;margin-bottom:16px;box-shadow:var(--shadow-1)}
+.svcalert .sa-t{font-weight:800;font-size:12px;letter-spacing:.03em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.svcalert .sa-s{font-size:12px;opacity:.92;margin-top:2px}
+.svcalert .sa-btn{background:#ba0517;color:#fff;border-radius:8px;padding:8px 14px;font-weight:800;font-size:12px;white-space:nowrap}
+.startday{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow-1)}
+.startday h2{margin:0 0 2px;font-size:20px;font-weight:800;color:var(--ink)}
+.startday .sd-sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+.aisum{background:linear-gradient(180deg,#f3f0fc,#f7f5fe);border:1px solid #e6e0f7;border-radius:12px;padding:14px 16px}
+.aisum .ai-h{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.aisum p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2)}
+.ctiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+.ctile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow-1)}
+.ctile .cn{font-size:26px;font-weight:800;color:var(--ink);line-height:1}
+.ctile .cl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+@media(max-width:900px){.ctiles{grid-template-columns:repeat(2,1fr)}}
+
+.askwrap{max-width:940px;margin:0 auto;padding:24px 20px 30px;min-height:100%}
+.askgreet{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:56px}
+.askgreet h1{font-size:33px;font-weight:800;color:var(--ink);margin:0 0 6px}
+.askgreet .ag-sub{font-size:14px;color:var(--muted);margin-bottom:22px}
+.askbox{width:100%;max-width:620px;min-height:112px;border:1.5px solid var(--line-2);border-radius:14px;background:#fff;box-shadow:var(--shadow-1);padding:15px 18px;text-align:left;color:var(--faint);font-size:14px;position:relative}
+.askbox .ab-send{position:absolute;right:14px;bottom:12px;color:var(--faint)}
+.askpills{display:flex;gap:12px;justify-content:center;margin-top:20px}
+.pillwrap{position:relative}
+.askpill{display:flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--line-2);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer}
+.askpill.open{border-color:var(--good);color:var(--good)}
+.askdd{position:absolute;top:44px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow-2);padding:6px;min-width:300px;z-index:20;text-align:left}
+.askdd .ddi{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:7px;font-size:13px;color:var(--ink-2);white-space:nowrap}
+.askdd .ddi::before{content:"➤";font-size:9px;color:var(--good)}
+.askdd .ddi:first-child{background:var(--good-bg);color:var(--ink)}
+.askconvo{display:flex;flex-direction:column;gap:14px;padding-bottom:10px}
+.abubble.user{align-self:flex-end;background:#eef4fd;border:1px solid #dbe7fb;border-radius:16px;padding:9px 15px;font-size:13.5px;color:var(--ink);max-width:72%}
+.athinking{color:var(--purple);font-weight:700;font-size:13px}
+.aresp{font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.aresp p{margin:7px 0}
+.aresp .amuted{color:var(--muted);font-size:12px}
+.aresp .amt{margin-top:11px}
+.arule{height:1px;background:var(--line);margin:12px 0}
+.acase{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 11px;margin:6px 0}
+.acase .ci{width:26px;height:26px;border-radius:6px;background:var(--bad-bg);color:var(--bad);display:grid;place-items:center;font-size:13px;flex:none}
+.acase .cnum{font-weight:800;font-size:12.5px;color:var(--ink)}
+.acase .cmeta{font-size:11px;color:var(--muted)}
+.ctable{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.5px}
+.ctable th{text-align:left;padding:7px 10px;background:var(--panel);color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.04em;font-weight:800}
+.ctable td{padding:7px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+.ctable .cnl{color:var(--brand);font-weight:700;white-space:nowrap}
+.acluster{margin:12px 0}
+.acluster .cl-h{font-weight:800;font-size:13.5px;color:var(--ink);margin-bottom:4px}
+.akey{border:1.5px solid #e6e0f7;background:#faf8ff;border-radius:12px;padding:14px 16px;margin-top:16px}
+.akey .ak-h{font-weight:800;font-size:13px;color:var(--purple);display:flex;gap:7px;align-items:center;margin-bottom:6px}
+.akey .ak-row{margin-top:8px}
+.akey .ak-i{font-weight:800;font-size:13px;color:var(--ink)}
+.adraft{border:1px solid var(--line-2);border-radius:12px;background:#fff;box-shadow:var(--shadow-1);overflow:hidden;margin-top:4px}
+.adraft .ad-h{background:var(--panel);padding:10px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.adraft .ad-h b{color:var(--ink)}
+.adraft .ad-b{padding:14px 16px;font-size:13px;color:var(--ink-2);line-height:1.6;white-space:pre-wrap}
+.askfollow{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 30%);padding:14px 0 2px;display:flex;justify-content:center}
+.askfollow .af-in{width:100%;max-width:760px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;box-shadow:var(--shadow-1);padding:9px 12px}
+.askfollow input{flex:1;border:none;outline:none;font-size:13.5px;color:var(--ink);background:transparent}
+.askarrow{width:34px;height:34px;border-radius:9px;background:var(--good);color:#fff;display:grid;place-items:center;flex:none;font-size:14px;cursor:pointer}
+.askarrow.armed{box-shadow:0 0 0 3px var(--guide-soft)}
 </style>
 
 <div class="app" id="app">
@@ -552,7 +616,7 @@ a{color:var(--brand);text-decoration:none}
     <div class="cloud">☁</div>
     <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div>
     <div class="search">🔍 Search…</div>
-    <div class="ask">✦ Ask</div>
+    <div class="ask" id="askBtn">✦ Ask</div>
     <div class="icons"><span>★</span><span>＋</span><span>📖</span><span>?</span><span>⚙</span>
       <span class="bellwrap"><span class="bell" id="bell">🔔<span class="dot" id="bellDot">0</span></span>
         <div class="bellpanel" id="bellPanel" hidden></div></span>
@@ -593,6 +657,7 @@ a{color:var(--brand);text-decoration:none}
     <div class="dothis" id="gDo" hidden></div>
   </div>
   <label class="toggle on" id="ttToggle"><span>Talk track</span><span class="sw"></span></label>
+  <label class="toggle" id="auToggle" title="Speak the call transcript aloud" hidden><span>🔊 Voice</span><span class="sw"></span></label>
   <div class="gctrls">
     <button class="gbtn" id="btnRestart" title="Restart">↺</button>
     <button class="gbtn" id="btnBack" title="Back">‹</button>
@@ -1219,6 +1284,110 @@ function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"V
   rs.setProperty('--guide', g.css);
   rs.setProperty('--guide-rgb', g.rgb); }
 
+/* ---------- Transcript audio (optional; off by default) ----------
+   Speaks each newly revealed transcript turn during the Act 2 voice call.
+
+   A turn may carry its own recording, which always wins:
+       {who:"customer", t:"…", audio:"audio/wealth/02.mp3"}
+       {who:"rep",      t:"…", audio:"data:audio/mpeg;base64,…"}
+   With no `audio` key the browser's speech synthesiser reads `t`, so the audio
+   regenerates itself whenever you edit transcript copy — nothing to re-record.
+
+   Audio never blocks the demo. If it is off, unsupported, blocked by autoplay
+   policy, or the clip 404s, playback resolves and autoplay falls back to the
+   step's `dur`. Every wait is capped so a dropped 'end' event can't freeze the
+   run. Default is OFF: an AE opening this in an open office should not have it
+   start talking. */
+const AUDIO_PREF='a4s.audio';
+const AUDIO={on:false, token:0, voices:{rep:null,customer:null}, el:null, keep:null};
+
+function audioSupported(){ try{
+  return typeof speechSynthesis!=='undefined' && typeof SpeechSynthesisUtterance!=='undefined';
+}catch(e){ return false; } }
+
+/* Voice inventory is OS/browser dependent, so pick by preference with fallbacks
+   rather than by name. Two distinct voices keeps rep and customer apart. */
+function pickVoices(){
+  if(!audioSupported()) return;
+  let vs=[]; try{ vs=speechSynthesis.getVoices()||[]; }catch(e){ return; }
+  if(!vs.length) return;                       // Chrome populates this async
+  const en=vs.filter(v=>/^en\b|^en[-_]/i.test(v.lang||''));
+  const pool=en.length?en:vs;
+  AUDIO.voices.rep=pool[0]||null;
+  AUDIO.voices.customer=pool.find(v=>v!==AUDIO.voices.rep)||AUDIO.voices.rep;
+}
+
+/* Chrome silently stops synthesis after ~15s. A periodic resume keeps longer
+   turns from being cut off mid-sentence; it is a no-op when nothing is speaking. */
+function startKeepAlive(){ stopKeepAlive();
+  AUDIO.keep=setInterval(()=>{ try{
+    if(speechSynthesis.speaking && !speechSynthesis.paused){ speechSynthesis.pause(); speechSynthesis.resume(); }
+  }catch(e){} }, 9000); }
+function stopKeepAlive(){ if(AUDIO.keep){ clearInterval(AUDIO.keep); AUDIO.keep=null; } }
+
+/* Invalidates every in-flight callback via the token, so a step change mid-
+   sentence can never advance the demo or leave two voices overlapping. */
+function cancelAudio(){
+  AUDIO.token++;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  if(AUDIO.el){ try{ AUDIO.el.pause(); AUDIO.el.removeAttribute('src'); }catch(e){} AUDIO.el=null; }
+}
+
+function speakTurn(turn, token, finish){
+  if(!audioSupported() || token!==AUDIO.token) return finish();
+  try{
+    const u=new SpeechSynthesisUtterance(String(turn.t||''));
+    const v=turn.who==='rep'?AUDIO.voices.rep:AUDIO.voices.customer;
+    if(v){ u.voice=v; u.lang=v.lang||'en-US'; }
+    u.rate=1.02; u.pitch=turn.who==='rep'?1.0:0.94;
+    u.onend=finish; u.onerror=finish;
+    speechSynthesis.speak(u);
+  }catch(e){ finish(); }
+}
+
+function playTurn(turn, token){
+  return new Promise(resolve=>{
+    if(token!==AUDIO.token) return resolve();
+    let done=false;
+    const finish=()=>{ if(done)return; done=true; clearTimeout(guard); resolve(); };
+    // Upper bound on the wait: roughly 13 chars/sec, doubled, plus slack.
+    const est=1500+(String(turn.t||'').length/13)*1000;
+    const guard=setTimeout(finish, Math.min(45000, est*2+2000));
+    if(turn.audio){
+      try{
+        const el=new Audio(turn.audio); AUDIO.el=el;
+        el.onended=finish;
+        el.onerror=()=>speakTurn(turn, token, finish);   // missing clip → speak it
+        const p=el.play();
+        if(p && p.catch) p.catch(()=>speakTurn(turn, token, finish));
+        return;
+      }catch(e){ /* fall through to synthesis */ }
+    }
+    speakTurn(turn, token, finish);
+  });
+}
+
+async function playTurns(turns){
+  const token=AUDIO.token;
+  for(const t of turns){
+    if(token!==AUDIO.token) return;               // navigated away mid-sequence
+    await playTurn(t, token);
+  }
+}
+
+/* Set by render() to a promise that settles when this step's turns finish
+   speaking; tick() waits on it instead of the fixed `dur`. */
+let audioWait=null;
+function speakForStep(prevTurns, nowTurns){
+  audioWait=null;
+  if(!AUDIO.on || !(nowTurns>prevTurns)) return;
+  const all=V&&V.repConvo&&V.repConvo.turns;
+  if(!all||!all.length) return;
+  const fresh=all.slice(prevTurns, nowTurns).filter(Boolean);
+  if(!fresh.length) return;
+  audioWait=playTurns(fresh);
+}
+
 /* ---------- Usage tracking (optional; no-op until TRACK_URL is set) ----------
    Paste your Google Apps Script web-app URL into TRACK_URL to log events to a
    Google Sheet. Events are fire-and-forget beacons (no CORS/response needed),
@@ -1249,13 +1418,45 @@ function track(event, extra){
 let activeVertical="retail-fraud";
 let V=VERTICALS[activeVertical];
 let STEPS=[];
-function selectVertical(id){ if(!VERTICALS[id])return; activeVertical=id; V=VERTICALS[id]; buildSteps(); _lastTrackedStep=-1; _fired={}; }
+function selectVertical(id){ if(!VERTICALS[id])return; cancelAudio(); activeVertical=id; V=VERTICALS[id]; buildSteps(); _lastTrackedStep=-1; _fired={}; }
 function buildSteps(){
   const cust=V.monitor.caller.split(' ')[0];
   const planName=V.sra.planTitle.toLowerCase();
   STEPS=[
     { view:"landing", title:"Pick your customer's world",
       talk:"Brand the demo to your customer, then choose a storyline to begin." },
+
+    { view:"home", set:{gh:1,subhead:1}, target:"#askBtn", title:"Act 0 · Start your day with your Agentforce co-worker",
+      talk:"Before any customer calls, the rep opens Home in the Service Console. Agentforce rides along as a co-worker — one ‘Ask’ box for the whole org, grounded in your real Salesforce data. Open it from the top bar.",
+      dothis:"Click ‘✦ Ask’ next to the search bar.", advanceOn:"#askBtn" },
+    { view:"ask", set:{gh:1,subhead:1,askFind:1}, target:"#pillFind", title:"Ask anything — Find, Catch Up, or Plan",
+      talk:"The co-worker opens with three ways in. Find retrieves records — open opportunities, high-priority cases, contacts — in plain language.",
+      dothis:"Open the ‘Find’ menu.", advanceOn:"#pillFind" },
+    { view:"ask", set:{gh:1,subhead:1,askFind:0,askCatch:1}, target:"#pillCatch", title:"Catch Up on what moved",
+      talk:"Catch Up summarizes recent cases, key accounts, pipeline changes and overdue tasks — the morning brief you'd otherwise assemble by hand.",
+      dothis:"Open the ‘Catch Up’ menu.", advanceOn:"#pillCatch" },
+    { view:"ask", set:{gh:1,subhead:1,askCatch:0,askPlan:1}, target:"#pillPlan", title:"Plan the day",
+      talk:"Plan turns your open work into an ordered plan — at-risk deals, SLA-risk cases, meeting prep. Let's plan the whole day.",
+      dothis:"Open the ‘Plan’ menu.", advanceOn:"#pillPlan" },
+    { view:"ask", set:{gh:1,subhead:1,askPlan:1}, target:"#planMyWork", title:"Plan my work for today",
+      talk:"One prompt asks the co-worker to build today's plan across tasks, events and open cases — all at once.",
+      dothis:"Select ‘Plan my work for today’.", advanceOn:"#planMyWork" },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1}, target:"#askConvo", title:"The co-worker gets to work", autoplay:true, dur:1600,
+      talk:"It reasons over your records live — no dashboards to configure, no filters to set." },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1}, target:"#inprogLine", title:"Your work plan for the day",
+      talk:"Here's the plan — calendar, open tasks, and open cases ranked by priority, with a suggested focus order. Notice it flags your in-progress cases for follow-up.",
+      dothis:"Next: dig into the in-progress cases." },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogPrefill:1}, box:"#inprogLine", target:"#askArrow", title:"Ask a grounded follow-up",
+      talk:"Every line is a launch point. The co-worker pre-fills a follow-up to check your in-progress cases — just send it.",
+      dothis:"Click the ➤ send button.", advanceOn:"#askArrow" },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogPrefill:0,inprogQuery:1}, target:"#keyActions", title:"It finds the pattern across your cases",
+      talk:`Every open Working case traces back to one customer — ${cust}. The co-worker clusters them, spots the duplicates and the aging risk, and proposes Key Actions.`,
+      dothis:"Next: turn a Key Action into a draft." },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogQuery:1,draftPrefill:1}, box:"#keyActions", target:"#askArrow", title:"Turn insight into action",
+      talk:`One Key Action is a proactive outreach. The co-worker pre-fills the ask — draft a summary for ${cust}. Send it.`,
+      dothis:"Click the ➤ send button.", advanceOn:"#askArrow" },
+    { view:"ask", set:{gh:1,subhead:1,planQuery:1,planResult:1,inprogQuery:1,draftPrefill:0,draftQuery:1}, target:"#askConvo", title:"A ready-to-send outreach — and the call comes in",
+      talk:`In seconds the co-worker drafts a personalized outreach for ${cust}. That's the proactive save — and right on cue, ${cust} calls in. Let's take that call.` },
 
     { view:"monitor", set:{gh:1,subhead:1}, target:"#monitorLink", title:"Act 1 · A live Agentforce Voice call, monitored",
       talk:"A customer called in and was met by Agentforce Voice. The supervisor sees the live call here in the Command Center. Click Monitor to watch the conversation before the hand-off.",
@@ -1354,11 +1555,13 @@ function render(){
   const step=STEPS[idx],st=foldState(idx),f=st.flags,v=step.view;
   $('#gh').hidden=!f.gh; $('#omnirail').hidden=!f.gh; $('#subhead').hidden=!f.subhead; $('#navtabs').hidden=(v!=="monitor");
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
-  $('#tabPrimary').hidden=(v!=="monitor");
+  const primaryViews=(v==="monitor"||v==="home"||v==="ask");
+  $('#tabPrimary').hidden=!primaryViews;
+  $('#tabPrimary').textContent = v==="home"?"Home" : v==="ask"?"✦ Ask: Home" : "Command Center for Service";
   $('#tabCase').hidden=!consoleTabs; $('#tabVoice').hidden=!consoleTabs;
   $('#tabCase').innerHTML=`${V.caseData.number} <span class="chev">⌄</span> <span class="close">✕</span>`;
   $('#tabVoice').textContent=V.monitor.voiceCallId;
-  $('#tabPrimary').classList.toggle('active', v==="monitor");
+  $('#tabPrimary').classList.toggle('active', primaryViews);
   $('#tabCase').classList.toggle('active', v==="case");
   $('#tabVoice').classList.toggle('active', v==="voice");
   if(f.bell) addNotif('score',`Service Quality Scorecard: ${V.callSummary.score}/100`,'Call scored — sent to supervisor','📊'); else removeNotif('score');
@@ -1366,8 +1569,10 @@ function render(){
   const stage=$('#stage');
   if(stage.dataset.view!==st.view){ stage.dataset.view=st.view; stage.innerHTML=renderView(st.view);
     if(st.view==="landing") bindLanding(); if(st.view==="voice") voiceTab="service"; }
+  if(st.view==="ask") updateAsk(f);
   if(st.view==="monitor") updateMonitor(f);
-  if(st.view==="voice") updateVoice(st,f);
+  if(st.view==="voice"){ updateVoice(st,f); speakForStep(idx>0?foldState(idx-1).turns:0, st.turns); }
+  else audioWait=null;
   if(st.view==="case") updateCase(f);
   $('#glabelText').textContent=`Guided demo · ${V.segment}`;
   $('#gTitle').textContent=step.title; $('#gTalk').textContent=step.talk;
@@ -1401,21 +1606,27 @@ function applySpotlight(step){
   if(step.target){ const el=$(step.target); if(el){ el.classList.add('guided'); spotEl=el; } }
   if(step.advanceOn){const a=$(step.advanceOn); if(a){a.classList.add('clickable');a.onclick=(e)=>{e.stopPropagation();next();};}}
 }
-function go(i){idx=Math.max(0,Math.min(STEPS.length-1,i));render();}
+function go(i){cancelAudio();idx=Math.max(0,Math.min(STEPS.length-1,i));render();}
 function next(){ if(idx<STEPS.length-1)go(idx+1); else stop(); }
 function back(){pause();go(idx-1);}
 function play(){ if(idx>=STEPS.length-1)return; playing=true; $('#btnPlay').innerHTML='❚❚ Pause'; tick(); }
 function tick(){ clearTimeout(timer); const cur=STEPS[idx];
-  timer=setTimeout(()=>{ if(idx>=STEPS.length-1){stop();return;}
-    go(idx+1); const ns=STEPS[idx]; if(ns.stopHere||!ns.autoplay){stop();return;} tick(); }, cur.dur||1500); }
-function pause(){playing=false;clearTimeout(timer);$('#btnPlay').innerHTML='▶ Play';}
+  const advance=()=>{ if(idx>=STEPS.length-1){stop();return;}
+    go(idx+1); const ns=STEPS[idx]; if(ns.stopHere||!ns.autoplay){stop();return;} tick(); };
+  // With audio on the spoken turn sets the pace, so speech and steps can't drift
+  // apart. Muted, or on a step that reveals no new turns, the fixed dur applies.
+  if(AUDIO.on && audioWait){ const w=audioWait, token=AUDIO.token;
+    w.then(()=>{ if(!playing || token!==AUDIO.token) return; timer=setTimeout(advance, 400); });
+    return; }
+  timer=setTimeout(advance, cur.dur||1500); }
+function pause(){playing=false;clearTimeout(timer);cancelAudio();$('#btnPlay').innerHTML='▶ Play';}
 function stop(){pause();}
 function togglePlay(){playing?pause():play();}
 
 /* ============================================================
    VIEWS
    ============================================================ */
-function renderView(v){ return v==="landing"?viewLanding():v==="monitor"?viewMonitor():v==="voice"?viewVoice():v==="case"?viewCase():""; }
+function renderView(v){ return v==="landing"?viewLanding():v==="home"?viewHome():v==="ask"?viewAsk():v==="monitor"?viewMonitor():v==="voice"?viewVoice():v==="case"?viewCase():""; }
 
 /* LANDING */
 function VMETA(){ return {
@@ -1913,6 +2124,270 @@ function renderOutcome(){ const o=V.outcomes;
     <div class="cb" style="font-size:12.5px;color:var(--ink-2)">${o.detail}
       <div style="display:flex;gap:8px;margin-top:12px">${o.metrics.map(m=>`<div style="flex:1;background:var(--good-bg);border-radius:8px;padding:9px;text-align:center"><div style="font-weight:800;color:var(--good);font-size:12.5px">${m.v}</div><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">${m.l}</div></div>`).join('')}</div></div></div>`; }
 
+/* ============================================================
+   ACT 0 · Agentforce co-worker ("Ask") — Home + Ask panel
+   ============================================================ */
+const FIND_OPTS=["Show me my open opportunities","Find all high-priority cases assigned to me","Show me contacts for my top account","Which cases should I follow up on?","What campaigns are running?"];
+const CATCH_OPTS=["Summarize my most recent case","Catch me up on my key accounts","Summarize changes in my pipeline this month","Show me trending support topics this month","What are my overdue tasks from last week?"];
+const PLAN_OPTS=["Plan my work for today","Which of my deals are at risk?","Which cases are at risk of missing SLA?","Help me prepare for my next meeting","Do I have enough pipeline to hit my quota this quarter?"];
+
+const COWORKER = {
+  "retail-fraud":{
+    customer:"Lauren Bailey", account:"TechCo",
+    alert:{title:"SFTP Reporting Latency", sub:"Updating file transfer software · Incident ID: AW-77402"},
+    homeSummary:"You have a busy day ahead — several approvals pending review and a cluster of cases tied to Lauren Bailey at TechCo. Start with the new high-priority cases that need a first response, then the aging disputes.",
+    tiles:[{n:"50",l:"Open Tasks"},{n:"14",l:"High-Priority Cases"},{n:"47",l:"Overdue Opps"},{n:"1",l:"Apps to Review"},{n:"25",l:"Alerts"}],
+    calendar:"No meetings scheduled for today — you've got a clear runway to focus!",
+    taskNote:"You have one open task with no due date:",
+    task:{title:"Upstyle Inc. Announces Layoffs Amid Restructuring", meta:"Task · linked to Upstyle Inc. · Normal priority"},
+    caseCount:20, highCount:13, highMore:7,
+    high:[
+      {num:"00001125",subj:"Can I use the mobile banking SDK?",status:"Working"},
+      {num:"00001116",subj:"I have a question about my bill",status:"New"},
+      {num:"00001104",subj:"Customer would like to upgrade",status:"Waiting on Customer"},
+      {num:"00001188",subj:"New high capacity battery stopped working and charging",status:"New"},
+      {num:"00001142",subj:"How do I diagnose this banking system issue?",status:"Working"},
+      {num:"00001136",subj:"Transaction processing timing out intermittently",status:"Working"}],
+    lowCount:7, lowNote:"Two are Escalated (00001128 — banking system config, 00001163 — system activation failed) — even though they're marked Low, escalated status means they may need attention sooner.",
+    focusNew:"7 untouched cases need a first response",
+    focusAccount:"review the layoff news and consider a proactive outreach",
+    inprogIntro:"There's a clear pattern worth flagging! All 20 of your Working cases are tied to the same customer — Lauren Bailey at TechCo. Here's the breakdown:",
+    clusters:[
+      {badge:"🔴",title:"Urgent — System Services Outage (3 cases, all opened today)",body:"Three nearly identical cases were opened within the last few hours, all reporting API connectivity failures impacting Lauren's team's operations. These are your most time-sensitive items:",cases:[{num:"00005625",meta:"opened 3:34 PM · last updated 3:34 PM"},{num:"00005624",meta:"opened 3:24 PM · last updated 3:26 PM"},{num:"00005622",meta:"opened 3:19 PM · last updated 3:23 PM"}],note:"These look like duplicates — worth consolidating into one and driving to resolution quickly since it's actively impacting business operations."},
+      {badge:"🟡",title:"Transactions Dispute & Overdraft (14 cases, spanning July 13 – Aug 11)",body:"Lauren has a large cluster of open dispute cases going back to mid-July. The most recently updated ones are:",cases:[{num:"00005518",meta:"last updated today (Aug 11)"},{num:"00005526",meta:"last updated Aug 8"},{num:"00005516",meta:"last updated Aug 5"},{num:"00005061",meta:"opened May 6 · last updated Aug 5 ⚠"}],note:"The oldest one (00005061) has been open for over 3 months — that one really needs a resolution or at least a status update."},
+      {badge:"💬",title:"Chat Cases (3 cases)",body:'Three "Chat with Lauren Bailey" cases with no description:',cases:[{num:"00005608",meta:"Aug 10"},{num:"00005525",meta:"Aug 6"},{num:"00005466",meta:"Jul 15"}],note:"These may be chat transcripts that need follow-up actions logged."}],
+    keyActions:[
+      {title:"Merge the 3 outage cases",body:"they're duplicates and need one focused resolution thread",case:{num:"00005061",meta:"Prioritize the May 6 dispute case · 3+ months open is a risk"}},
+      {title:"Consider a proactive call to Lauren",body:"she has 17+ open cases, which signals a deeper relationship issue worth addressing directly"}],
+    followPrompt:"Draft a summary email or call script for Lauren Bailey to address all her open issues at once",
+    draft:{kind:"email",subject:"A single point of contact for your open items",body:"Hi Lauren,\n\nI wanted to reach out personally. I've reviewed everything currently open on your account and I'm pulling it into one place so nothing slips.\n\n• The three system-outage tickets from today are being merged into a single incident and prioritized.\n• Your dispute and overdraft items — including the one open since May — now have a single owner (me) and a target resolution date.\n• I'll close out the older chat cases with a quick summary of what was resolved.\n\nI'll call you today to walk through it. You'll have one point of contact from here on.\n\nBest,\nChris"}},
+
+  "wealth":{
+    customer:"Jonathan Ashford III", account:"Ashford Family Office",
+    alert:{title:"ACATS Transfer Delays", sub:"Custodian batch processing slower than normal · Incident ID: AW-51188"},
+    homeSummary:"A high-value onboarding is in motion for the Ashford Family Office. Start with confirming ACATS milestones and the trust registration review, then schedule the portfolio-construction session.",
+    tiles:[{n:"38",l:"Open Tasks"},{n:"9",l:"High-Priority Cases"},{n:"12",l:"Overdue Opps"},{n:"2",l:"Apps to Review"},{n:"18",l:"Alerts"}],
+    calendar:"No meetings scheduled for today — a clear runway to move the Ashford onboarding forward!",
+    taskNote:"You have one open task with no due date:",
+    task:{title:"Ashford Family Office — confirm beneficiary registrations", meta:"Task · linked to Ashford Family Office · High priority"},
+    caseCount:16, highCount:9, highMore:4,
+    high:[
+      {num:"00009125",subj:"New Client Onboarding — Account Consolidation",status:"Working"},
+      {num:"00009118",subj:"ACATS in-kind eligibility question",status:"New"},
+      {num:"00009102",subj:"Trust registration review — expedite",status:"Working"},
+      {num:"00009094",subj:"Fidelity brokerage transfer status",status:"Waiting on Customer"},
+      {num:"00009087",subj:"Schwab IRA — rollover paperwork",status:"New"},
+      {num:"00009071",subj:"Premier Portfolio welcome packet",status:"Working"}],
+    lowCount:7, lowNote:"Two are Escalated (00009040 — cost-basis mismatch, 00009033 — wire instruction verification) — worth a look sooner given the dollar amounts involved.",
+    focusNew:"4 untouched onboarding cases need a first response",
+    focusAccount:"confirm each ACATS milestone and book the portfolio-construction session",
+    inprogIntro:"There's a clear pattern worth flagging! All 16 of your Working cases are tied to the same relationship — Jonathan Ashford III at the Ashford Family Office. Here's the breakdown:",
+    clusters:[
+      {badge:"🔴",title:"Time-Sensitive — Account Consolidation (3 cases, opened this week)",body:"Three linked cases cover the three external accounts being consolidated into the new Premier Portfolio. These gate the whole onboarding:",cases:[{num:"00009125",meta:"Fidelity brokerage · $22M in-kind"},{num:"00009094",meta:"Schwab IRA · rollover"},{num:"00009102",meta:"JP Morgan trust · registration review"}],note:"These are all part of one ACATS event — consolidating them into a single onboarding thread will keep the timeline clean."},
+      {badge:"🟡",title:"In-Kind & Cost-Basis Questions (6 cases, spanning July 28 – Aug 11)",body:"A cluster of eligibility and cost-basis questions has built up since the mandate was signed. The most recent are:",cases:[{num:"00009118",meta:"last updated today (Aug 11)"},{num:"00009087",meta:"last updated Aug 8"},{num:"00009040",meta:"opened Jul 28 · escalated ⚠"}],note:"The cost-basis mismatch (00009040) has been open since the mandate signed — resolve it before the first statement runs."},
+      {badge:"💬",title:"Advisor Chat Cases (2 cases)",body:'Two "Chat with Jonathan Ashford" cases with no description:',cases:[{num:"00009060",meta:"Aug 9"},{num:"00009051",meta:"Aug 2"}],note:"Likely white-glove chat threads that need follow-up actions logged."}],
+    keyActions:[
+      {title:"Consolidate the 3 transfer cases",body:"they're one ACATS event and need a single onboarding thread",case:{num:"00009040",meta:"Prioritize the cost-basis mismatch · open since the mandate signed"}},
+      {title:"Schedule a white-glove check-in with Jonathan",body:"a $40M new relationship with 11+ open items deserves a proactive call this week"}],
+    followPrompt:"Draft a summary email or call script for Jonathan Ashford III to walk him through his consolidation status",
+    draft:{kind:"email",subject:"Your consolidation — one clear status, start to finish",body:"Dear Mr. Ashford,\n\nWelcome again to Vireo Private Wealth. I've pulled every open item on your onboarding into a single view so you always know where things stand.\n\n• Your three external accounts — Fidelity, Schwab, and the JP Morgan trust — are consolidating into your Premier Portfolio via ACATS, in-kind where eligible.\n• The trust registration review is expedited; I'll confirm each milestone as it clears.\n• I'll resolve the cost-basis question before your first statement runs.\n\nI'll call today to schedule your portfolio-construction session. You'll have a single point of contact throughout.\n\nWarm regards,\nChris"}},
+
+  "fintech":{
+    customer:"Derek Vaughn", account:"PayCadence, Inc.",
+    alert:{title:"Payments API — Elevated 5xx", sub:"Upstream provider timeout · Incident ID: INC-4821"},
+    homeSummary:"An enterprise incident is live for PayCadence. Start by confirming mitigation on the payments API, applying the SLA credit, and committing an RCA — then clear the related follow-ups.",
+    tiles:[{n:"44",l:"Open Tasks"},{n:"11",l:"High-Priority Cases"},{n:"29",l:"Overdue Opps"},{n:"1",l:"Apps to Review"},{n:"31",l:"Alerts"}],
+    calendar:"One incident bridge at 2:00 PM — otherwise a clear runway to drive the RCA.",
+    taskNote:"You have one open task with no due date:",
+    task:{title:"PayCadence — circuit-breaker change request", meta:"Task · linked to PayCadence, Inc. · High priority"},
+    caseCount:20, highCount:12, highMore:6,
+    high:[
+      {num:"00007843",subj:"Payments API Degradation — Enterprise Incident",status:"Working"},
+      {num:"00007836",subj:"5xx errors on /charge endpoint",status:"New"},
+      {num:"00007829",subj:"Retry queue backing up",status:"Working"},
+      {num:"00007815",subj:"SLA credit request — June downtime",status:"Waiting on Customer"},
+      {num:"00007802",subj:"Webhook delivery delays",status:"New"},
+      {num:"00007790",subj:"Status page subscription not working",status:"Working"}],
+    lowCount:8, lowNote:"Two are Escalated (00007744 — sandbox parity, 00007731 — API key rotation) — escalated status means they may need attention sooner despite the Low flag.",
+    focusNew:"6 untouched incident cases need a first response",
+    focusAccount:"confirm the INC-4821 mitigation and commit the RCA timeline",
+    inprogIntro:"There's a clear pattern worth flagging! All 20 of your Working cases are tied to the same customer — Derek Vaughn at PayCadence. Here's the breakdown:",
+    clusters:[
+      {badge:"🔴",title:"Urgent — Payments API Incident (3 cases, opened today)",body:"Three cases opened in the last hour all report 5xx errors on production payments traffic from the same upstream timeout:",cases:[{num:"00007843",meta:"opened 3:31 PM · production impact"},{num:"00007836",meta:"opened 3:22 PM"},{num:"00007829",meta:"opened 3:12 PM"}],note:"These are the same incident (INC-4821) — consolidate into one and drive mitigation before more retries pile up."},
+      {badge:"🟡",title:"SLA Credits & Follow-ups (11 cases, spanning July 10 – Aug 11)",body:"A cluster of credit and reliability follow-ups from prior incidents. The most recent are:",cases:[{num:"00007815",meta:"last updated today (Aug 11)"},{num:"00007802",meta:"last updated Aug 8"},{num:"00007744",meta:"opened Jul 10 · escalated ⚠"}],note:"The June downtime credit (00007744) has been open a month — resolve it before the QBR."},
+      {badge:"💬",title:"Support Chat Cases (3 cases)",body:'Three "Chat with Derek Vaughn" cases with no description:',cases:[{num:"00007780",meta:"Aug 10"},{num:"00007766",meta:"Aug 5"},{num:"00007750",meta:"Jul 20"}],note:"Likely eng-support chat threads that need follow-up actions logged."}],
+    keyActions:[
+      {title:"Merge the 3 incident cases",body:"they're all INC-4821 and need one focused resolution thread",case:{num:"00007744",meta:"Prioritize the June SLA credit · a month open is a risk"}},
+      {title:"Offer Derek a technical account review",body:"an enterprise logo with 14+ open items and at-risk health warrants a proactive call"}],
+    followPrompt:"Draft a summary email or call script for Derek Vaughn to give him one clear incident status",
+    draft:{kind:"email",subject:"INC-4821 — mitigation, credit, and RCA in one place",body:"Hi Derek,\n\nPulling everything into one thread so your team has a single source of truth.\n\n• The three tickets from today are consolidated under INC-4821. Mitigation is deploying and error rates are recovering.\n• I'm applying the SLA credit now and clearing the outstanding June credit.\n• RCA is scheduled with a preventive circuit-breaker + alerting change; I'll share the doc on the committed date.\n\nI'll call to confirm and to set up a short architecture review. One point of contact from here.\n\nBest,\nChris"}},
+
+  "commercial":{
+    customer:"Marcus Bell", account:"PayFlow Logistics, LLC",
+    alert:{title:"SFTP Provisioning Queue", sub:"Onboarding batch delayed · Incident ID: AW-63120"},
+    homeSummary:"A time-boxed treasury onboarding is in flight for PayFlow Logistics — vendors must be paid this week. Start by provisioning sFTP, enabling ACH with limits, and validating the test file.",
+    tiles:[{n:"41",l:"Open Tasks"},{n:"10",l:"High-Priority Cases"},{n:"22",l:"Overdue Opps"},{n:"3",l:"Apps to Review"},{n:"20",l:"Alerts"}],
+    calendar:"No meetings scheduled for today — a clear runway to get PayFlow to go-live.",
+    taskNote:"You have one open task with no due date:",
+    task:{title:"PayFlow Logistics — validate test NACHA file", meta:"Task · linked to PayFlow Logistics · High priority"},
+    caseCount:18, highCount:10, highMore:5,
+    high:[
+      {num:"00009214",subj:"Treasury Onboarding — sFTP + ACH Origination",status:"Working"},
+      {num:"00009207",subj:"ACH exposure limit configuration",status:"New"},
+      {num:"00009199",subj:"Dual-approval workflow setup",status:"Working"},
+      {num:"00009185",subj:"Lockbox remittance mapping",status:"Waiting on Customer"},
+      {num:"00009176",subj:"Wire origination entitlement",status:"New"},
+      {num:"00009168",subj:"Public-key credential exchange",status:"Working"}],
+    lowCount:8, lowNote:"Two are Escalated (00009140 — file-format mismatch, 00009133 — sanction-screening config) — worth attention sooner since they block go-live.",
+    focusNew:"5 untouched onboarding cases need a first response",
+    focusAccount:"provision the sFTP channel and validate the test payment file before go-live",
+    inprogIntro:"There's a clear pattern worth flagging! All 18 of your Working cases are tied to the same client — Marcus Bell at PayFlow Logistics. Here's the breakdown:",
+    clusters:[
+      {badge:"🔴",title:"Go-Live Blockers — sFTP + ACH (3 cases, opened this week)",body:"Three linked cases cover the provisioning steps that gate PayFlow's ability to pay vendors this week:",cases:[{num:"00009214",meta:"sFTP + ACH origination · this week"},{num:"00009207",meta:"exposure limits · dual approval"},{num:"00009168",meta:"public-key credential"}],note:"These are one onboarding — consolidate into a single thread and drive to a validated test file today."},
+      {badge:"🟡",title:"Setup & Mapping Follow-ups (7 cases, spanning July 28 – Aug 11)",body:"A cluster of configuration and mapping items has built up since the account opened. The most recent are:",cases:[{num:"00009185",meta:"last updated today (Aug 11)"},{num:"00009176",meta:"last updated Aug 8"},{num:"00009140",meta:"opened Jul 28 · escalated ⚠"}],note:"The file-format mismatch (00009140) blocks the test file — clear it first."},
+      {badge:"💬",title:"Treasury Chat Cases (2 cases)",body:'Two "Chat with Marcus Bell" cases with no description:',cases:[{num:"00009155",meta:"Aug 9"},{num:"00009147",meta:"Aug 1"}],note:"Likely onboarding chat threads that need follow-up actions logged."}],
+    keyActions:[
+      {title:"Consolidate the 3 go-live cases",body:"they're one onboarding and need a single provisioning thread",case:{num:"00009140",meta:"Prioritize the file-format mismatch · it blocks the test file"}},
+      {title:"Schedule a go-live check-in with Marcus",body:"a hard vendor-payment deadline this week warrants a proactive call today"}],
+    followPrompt:"Draft a summary email or call script for Marcus Bell to confirm his path to go-live",
+    draft:{kind:"email",subject:"Your path to go-live — one checklist, this week",body:"Hi Marcus,\n\nConsolidating every open item so you have one clear path to paying vendors this week.\n\n• Your sFTP channel is being provisioned with your public-key credential.\n• ACH origination is enabled with your daily limit and dual approval; wire and Lockbox are added.\n• I'll validate a test NACHA file end-to-end and confirm the round-trip before go-live.\n\nI'll call today to confirm timing. One point of contact from here through go-live.\n\nBest,\nChris"}},
+
+  "insurance":{
+    customer:"Elena Marchetti", account:"Marchetti Household",
+    alert:{title:"Carrier Quote API Latency", sub:"Rating service slower than normal · Incident ID: AW-48802"},
+    homeSummary:"A time-sensitive new-business bind is in flight for the Marchetti Household — coverage must be bound before closing. Start with the HO-3 quote with pool liability and issuing the certificate to the lender.",
+    tiles:[{n:"36",l:"Open Tasks"},{n:"8",l:"High-Priority Cases"},{n:"14",l:"Overdue Opps"},{n:"2",l:"Apps to Review"},{n:"17",l:"Alerts"}],
+    calendar:"No meetings scheduled for today — a clear runway to bind before Elena's closing.",
+    taskNote:"You have one open task with no due date:",
+    task:{title:"Marchetti Household — issue certificate to lender", meta:"Task · linked to Marchetti Household · High priority"},
+    caseCount:15, highCount:8, highMore:3,
+    high:[
+      {num:"00006733",subj:"New Homeowners Policy — Pool Liability",status:"Working"},
+      {num:"00006726",subj:"Multi-carrier quote comparison",status:"New"},
+      {num:"00006719",subj:"Pool liability endorsement question",status:"Working"},
+      {num:"00006705",subj:"Certificate of insurance for lender",status:"Waiting on Customer"},
+      {num:"00006698",subj:"Umbrella limit increase — new exposure",status:"New"},
+      {num:"00006690",subj:"Auto renewal bundling",status:"Working"}],
+    lowCount:7, lowNote:"Two are Escalated (00006670 — replacement-cost mismatch, 00006663 — inspection scheduling) — worth attention sooner since they gate the bind.",
+    focusNew:"3 untouched new-business cases need a first response",
+    focusAccount:"build the HO-3 with pool liability and bind before the closing date",
+    inprogIntro:"There's a clear pattern worth flagging! All 15 of your Working cases are tied to the same household — Elena Marchetti at the Marchetti Household. Here's the breakdown:",
+    clusters:[
+      {badge:"🔴",title:"Deadline — Bind Before Closing (3 cases, opened this week)",body:"Three linked cases cover the quote, endorsement, and certificate needed before Elena's closing date:",cases:[{num:"00006733",meta:"HO-3 + pool liability · before closing"},{num:"00006726",meta:"multi-carrier comparison"},{num:"00006705",meta:"certificate to lender"}],note:"These are one new-business bind — consolidate into a single thread and bind the best-value option before closing."},
+      {badge:"🟡",title:"Coverage & Bundling Follow-ups (6 cases, spanning July 20 – Aug 11)",body:"A cluster of coverage and bundling items has built up since the quote started. The most recent are:",cases:[{num:"00006698",meta:"last updated today (Aug 11)"},{num:"00006690",meta:"last updated Aug 8"},{num:"00006670",meta:"opened Jul 20 · escalated ⚠"}],note:"The replacement-cost mismatch (00006670) gates the final premium — resolve it before you bind."},
+      {badge:"💬",title:"Broker Chat Cases (2 cases)",body:'Two "Chat with Elena Marchetti" cases with no description:',cases:[{num:"00006681",meta:"Aug 9"},{num:"00006674",meta:"Jul 30"}],note:"Likely broker chat threads that need follow-up actions logged."}],
+    keyActions:[
+      {title:"Consolidate the 3 bind cases",body:"they're one new-business bind and need a single thread",case:{num:"00006670",meta:"Prioritize the replacement-cost mismatch · it gates the premium"}},
+      {title:"Schedule a pre-closing check-in with Elena",body:"a hard closing deadline plus cross-sell potential warrants a proactive call today"}],
+    followPrompt:"Draft a summary email or call script for Elena Marchetti to confirm she's covered before closing",
+    draft:{kind:"email",subject:"You're covered before closing — everything in one place",body:"Hi Elena,\n\nConsolidating every open item so you have one clear picture before your closing.\n\n• Your HO-3 with pool liability is quoted across three carriers; I'll bind the best value effective your closing date.\n• The certificate of insurance goes to your lender as soon as we bind.\n• I'll align your auto renewal and umbrella limit for the multi-policy discount.\n\nI'll call today to confirm. One point of contact from here through closing.\n\nBest,\nChris"}}
+};
+
+function cwToday(){ try{ return new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}); }catch(e){ return (typeof todayISO==="function"?todayISO():""); } }
+function cw(){ return COWORKER[activeVertical]||COWORKER["retail-fraud"]; }
+
+function viewHome(){ const c=cw();
+  return `<div class="homewrap">
+    <div class="svcalert"><div class="sa-l"><div class="sa-t">🔴 Service Alert · ${c.alert.title}</div><div class="sa-s">${c.alert.sub}</div></div><div class="sa-btn">Notify Affected Customers</div></div>
+    <div class="startday">
+      <h2>Start Your Day</h2><div class="sd-sub">Chris McCarthy · ${cwToday()}</div>
+      <div class="aisum"><div class="ai-h">🤖 AI Summary</div><p>${c.homeSummary}</p></div>
+      <div class="ctiles">${c.tiles.map(t=>`<div class="ctile"><div class="cn">${t.n}</div><div class="cl">${t.l}</div></div>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function ddItems(opts,isPlan){ return opts.map((o,i)=>`<div class="ddi"${isPlan&&i===0?' id="planMyWork"':''}>${o}</div>`).join(''); }
+function viewAsk(){
+  return `<div class="askwrap">
+    <div class="askgreet" id="askGreeting">
+      <h1>Hi, Chris. Let's dive in.</h1>
+      <div class="ag-sub">Just ask. We're on it.</div>
+      <div class="askbox">Try "What's changed with my top accounts this week?"<span class="ab-send">➤</span></div>
+      <div class="askpills">
+        <div class="pillwrap"><div class="askpill" id="pillFind">Find 🔍 ⌄</div><div class="askdd" id="ddFind" hidden>${ddItems(FIND_OPTS)}</div></div>
+        <div class="pillwrap"><div class="askpill" id="pillCatch">Catch Up ⇄ ⌄</div><div class="askdd" id="ddCatch" hidden>${ddItems(CATCH_OPTS)}</div></div>
+        <div class="pillwrap"><div class="askpill" id="pillPlan">Plan ☰ ⌄</div><div class="askdd" id="ddPlan" hidden>${ddItems(PLAN_OPTS,true)}</div></div>
+      </div>
+    </div>
+    <div class="askconvo" id="askConvo" hidden></div>
+    <div class="askfollow" id="askFollowBar" hidden><div class="af-in"><input id="askFollowInput" placeholder="Ask a follow-up question…" readonly/><div class="askarrow" id="askArrow">➤</div></div></div>
+  </div>`;
+}
+function updateAsk(f){
+  const inConvo=!!(f.planQuery||f.planResult||f.inprogQuery||f.draftQuery);
+  const g=$('#askGreeting'),c=$('#askConvo'),fb=$('#askFollowBar');
+  if(g)g.hidden=inConvo; if(c)c.hidden=!inConvo; if(fb)fb.hidden=!inConvo;
+  const dF=$('#ddFind'),dC=$('#ddCatch'),dP=$('#ddPlan');
+  if(dF)dF.hidden=!f.askFind; if(dC)dC.hidden=!f.askCatch; if(dP)dP.hidden=!f.askPlan;
+  const pF=$('#pillFind'),pC=$('#pillCatch'),pP=$('#pillPlan');
+  if(pF)pF.classList.toggle('open',!!f.askFind); if(pC)pC.classList.toggle('open',!!f.askCatch); if(pP)pP.classList.toggle('open',!!f.askPlan);
+  if(inConvo&&c) c.innerHTML=renderAskConvo(f);
+  const inp=$('#askFollowInput');
+  if(inp){ inp.value = f.draftPrefill?cw().followPrompt : f.inprogPrefill?"In-progress cases — check for updates on your Working cases" : ""; }
+  const arrow=$('#askArrow'); if(arrow) arrow.classList.toggle('armed', !!(f.inprogPrefill||f.draftPrefill));
+}
+function renderAskConvo(f){ const c=cw(); let h='';
+  h+=`<div class="abubble user">Plan my work for today</div>`;
+  if(!f.planResult){ h+=`<div class="athinking">Thinking ✦ ✦ ✦</div>`; return h; }
+  h+=renderWorkPlan(c);
+  if(f.inprogQuery){
+    h+=`<div class="abubble user">In-progress cases — check for updates on your Working cases</div>`;
+    h+=renderInprog(c);
+  }
+  if(f.draftQuery){
+    h+=`<div class="abubble user">${c.followPrompt}</div>`;
+    h+=renderDraft(c);
+  }
+  return h;
+}
+function renderWorkPlan(c){
+  return `<div class="aresp">
+    <p>Let me pull together everything relevant for your day — tasks, events, and open cases, all at once.</p>
+    <p>Here's your work plan for today, <b>${cwToday()}</b>!</p>
+    <div class="arule"></div>
+    <p>📅 <b>Calendar</b> — ${c.calendar}</p>
+    <div class="arule"></div>
+    <p>✅ <b>Tasks (1 open)</b> — ${c.taskNote}</p>
+    <div class="acase"><div class="ci">📋</div><div><div class="cnum">${c.task.title}</div><div class="cmeta">${c.task.meta}</div></div></div>
+    <div class="arule"></div>
+    <p>📁 <b>Open Cases (${c.caseCount} shown)</b> — here's the breakdown by priority:</p>
+    <p>🔴 <b>High Priority (${c.highCount} cases)</b> — tackle these first:</p>
+    <table class="ctable"><thead><tr><th>Case</th><th>Subject</th><th>Status</th></tr></thead><tbody>
+      ${c.high.map(r=>`<tr><td class="cnl">${r.num}</td><td>${r.subj}</td><td>${r.status}</td></tr>`).join('')}
+    </tbody></table>
+    ${c.highMore?`<p class="amuted">…and ${c.highMore} more high-priority cases.</p>`:''}
+    <p>🟡 <b>Low Priority (${c.lowCount} cases)</b> — ${c.lowNote}</p>
+    <div class="arule"></div>
+    <p>💡 <b>Suggested Focus Order:</b></p>
+    <p><b>New high-priority cases</b> — ${c.focusNew}</p>
+    <p id="inprogLine"><b>In-progress cases</b> — check for updates on your Working cases</p>
+    <p><b>${c.customer} account</b> — ${c.focusAccount}</p>
+    <p class="amt">Want me to dig into any specific case, or draft a customer outreach for the ${c.account} account?</p>
+  </div>`;
+}
+function renderInprog(c){
+  return `<div class="aresp">
+    <p>${c.inprogIntro}</p>
+    ${c.clusters.map(cl=>`<div class="acluster">
+      <div class="cl-h">${cl.badge} ${cl.title}</div>
+      <p>${cl.body}</p>
+      ${cl.cases.map(cc=>`<div class="acase"><div class="ci">📁</div><div><div class="cnum">${cc.num}</div><div class="cmeta">${cc.meta}</div></div></div>`).join('')}
+      <p class="amuted">${cl.note}</p>
+    </div>`).join('')}
+    <div class="akey" id="keyActions">
+      <div class="ak-h">💡 Key Actions</div>
+      ${c.keyActions.map(k=>`<div class="ak-row"><div class="ak-i">${k.title}</div><p>${k.body}</p>${k.case?`<div class="acase"><div class="ci">📁</div><div><div class="cnum">${k.case.num}</div><div class="cmeta">${k.case.meta}</div></div></div>`:''}</div>`).join('')}
+      <p class="amt">Want me to draft a summary email or call script for ${c.customer} to address all their open issues at once?</p>
+    </div>
+  </div>`;
+}
+function renderDraft(c){ const d=c.draft;
+  return `<div class="aresp"><p>Here's ${/^[aeiou]/i.test(d.kind)?'an':'a'} ${d.kind} you can send ${c.customer} to consolidate everything into one thread:</p>
+    <div class="adraft"><div class="ad-h">${d.kind==='email'?`<b>To:</b> ${c.customer} &nbsp;·&nbsp; <b>Subject:</b> ${d.subject}`:`<b>Call script · ${c.customer}</b>`}</div><div class="ad-b">${d.body}</div></div>
+    <p class="amt">Ready when you are — and it looks like ${c.customer} is calling in now. Let's take that call. →</p></div>`;
+}
+
 /* ---------- utils ---------- */
 let timerH=null,timerSec=0;
 function startTimer(){ if(timerH)return; timerH=setInterval(()=>{timerSec++;const t=$('#phoneTimer');
@@ -1955,6 +2430,24 @@ function boot(){
   $('#btnBack').onclick=back;
   $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);_lastTrackedStep=-1;_fired={};render();};
   $('#ttToggle').onclick=()=>{talkTrack=!talkTrack;$('#ttToggle').classList.toggle('on',talkTrack);$('#guidebar').classList.toggle('talk-off',!talkTrack);};
+  // Voice toggle. Hidden entirely where synthesis is unavailable, so the control
+  // never promises something the browser can't deliver. The click itself is the
+  // user gesture that satisfies autoplay policy.
+  if(audioSupported()){
+    const au=$('#auToggle'); au.hidden=false;
+    try{ AUDIO.on = localStorage.getItem(AUDIO_PREF)==='1'; }catch(e){ AUDIO.on=false; }
+    au.classList.toggle('on',AUDIO.on);
+    if(AUDIO.on) startKeepAlive();
+    pickVoices();
+    try{ speechSynthesis.onvoiceschanged=pickVoices; }catch(e){}
+    au.onclick=()=>{
+      AUDIO.on=!AUDIO.on;
+      au.classList.toggle('on',AUDIO.on);
+      try{ localStorage.setItem(AUDIO_PREF, AUDIO.on?'1':'0'); }catch(e){}
+      if(AUDIO.on){ pickVoices(); startKeepAlive(); }
+      else { cancelAudio(); stopKeepAlive(); }
+    };
+  }
   if(startInDemo) go(1); else render();
   track('demo_opened',{ deepLink:startInDemo?qv:'' });
 }
