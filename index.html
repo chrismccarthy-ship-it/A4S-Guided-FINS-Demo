@@ -115,7 +115,10 @@ a{color:var(--brand);text-decoration:none}
    ============================================================ */
 .landing-wrap{background:radial-gradient(1200px 520px at 50% -60px,#eaf2fc 0%,#f4f8fc 46%,#ffffff 100%);min-height:100vh}
 .landing{max-width:1240px;margin:0 auto;padding:42px 24px 40px;text-align:center}
-.sflogo{display:flex;justify-content:center;margin-bottom:16px}
+.sflogo{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:18px}
+.aflock{font-size:29px;font-weight:800;color:#032D60;line-height:1;letter-spacing:-.015em;white-space:nowrap}
+.aflock .afsub{font-weight:600}
+@media(max-width:560px){.aflock{font-size:22px;white-space:normal}}
 .eyebrow-pill{display:inline-block;background:#e6f1fb;color:#0b7fd4;font-weight:800;letter-spacing:.1em;font-size:12.5px;text-transform:uppercase;padding:8px 18px;border-radius:20px}
 .landing h1{font-size:52px;line-height:1.03;margin:22px 0 36px;font-weight:400;text-wrap:balance;color:#1a1a1a}
 .landing h1 b{font-weight:800}
@@ -1410,8 +1413,8 @@ function viewLanding(){
     <div class="go">Start Demo ›</div></div>`).join('');
   if(!INTAKE.date) INTAKE.date = todayISO();
   return `<div class="landing-wrap"><div class="landing">
-    <div class="sflogo">${sfCloud()}</div>
-    <span class="eyebrow-pill">Agentforce Service for Financial Services</span>
+    <div class="sflogo">${sfCloud()}<span class="aflock">Agentforce <span class="afsub">for Financial Services</span></span></div>
+    <span class="eyebrow-pill">Guided Interactive Demo</span>
     <h1>Pick your customer's <b>world.</b></h1>
     <div class="intake">
       <div class="ihead"><h2>Before you start</h2><span class="req">All fields required</span></div>
