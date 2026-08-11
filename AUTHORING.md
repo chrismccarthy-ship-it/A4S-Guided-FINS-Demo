@@ -106,12 +106,29 @@ repConvo:{ speakers:{...},
   ] }
 ```
 
-- A **path** (`audio/wealth/01.mp3`) is smallest and easiest to swap, but only
-  works on GitHub Pages — the Claude artifact's CSP blocks external files.
+- A **path** (`audio/wealth/agent-1.mp3`) is smallest and easiest to swap, and
+  Pages streams it on demand. The artifact's CSP blocks external files.
 - A **`data:` URI** works everywhere including the artifact, at roughly +33%
-  size inlined into `index.html`. Reserve it for hero moments.
+  size once base64-encoded.
 - If a clip 404s or autoplay blocks it, that turn **falls back to speech**
   rather than going silent.
+
+**You don't have to choose.** Reference clips by path in `index.html`, then run:
+
+```bash
+node build-artifact.js out.html
+```
+
+It extracts the body (by searching for `<body>`, not by line number) and inlines
+every referenced clip as a data URI, so Pages stays lean while the artifact gets
+a self-contained copy. Publish `out.html` with the Artifact tool, passing the
+existing artifact URL so it updates in place.
+
+**Wealth is fully recorded** — `audio/wealth/`, `agent-1..5` for Marcus (the
+advisor, `who:"rep"`) and `customer-1..4` for Jonathan, interleaved
+agent-1, customer-1, agent-2 … agent-5 across the 9 turns. Source is 128kbps
+mono; a 48kbps mono re-encode would cut the artifact build by roughly half if
+load time ever becomes a problem.
 
 **Pacing.** With audio on, autoplay advances when the utterance ends rather than
 on the step's `dur`, so speech and slides can't drift apart. Muted, `dur` applies

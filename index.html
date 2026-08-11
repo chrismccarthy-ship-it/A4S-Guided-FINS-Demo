@@ -1237,16 +1237,21 @@ const VERTICALS = {
         {who:"ai",t:"Those consolidate through ACATS, and eligible positions move in-kind so you stay invested. I'll connect you with your Private Wealth Advisor to confirm the timeline and next steps."},
         {who:"sys",t:"Identity verified · 3 external accounts captured · Case 00009125 created · Routing to Private Wealth"}] },
     repConvo:{ speakers:{rep:"Marcus · Private Wealth Advisor", customer:"Jonathan Ashford III"},
+      /* Recorded call audio. `rep` is Marcus (the advisor) so those are the
+         agent-N clips; `customer` is Jonathan, the customer-N clips. Paths are
+         rewritten to inlined data: URIs by build-artifact.js when publishing to
+         the Claude artifact, whose CSP blocks external files. A missing clip
+         falls back to speech, so re-recording one is a drop-in replacement. */
       turns:[
-        {who:"rep",t:"Good morning Mr. Ashford, this is Marcus, your Private Wealth Advisor — our assistant already briefed me and captured your three accounts, so you won't have to repeat anything."},
-        {who:"customer",t:"Thank you. I want to bring over my Fidelity brokerage, my Schwab IRA, and the JP Morgan trust into the new portfolio."},
-        {who:"rep",t:"Wonderful — all three are eligible for ACATS. Let me confirm the registrations so the trust and IRA map correctly. Eligible holdings transfer in-kind, so you stay invested throughout."},
-        {who:"customer",t:"That's important to me — I don't want to be out of the market. How long does it usually take?"},
-        {who:"rep",t:"A standard ACATS transfer settles in about six business days; the trust registration adds a short review. I'll initiate all three today and set milestone alerts so you see each one land."},
-        {who:"customer",t:"Excellent. That's exactly the white-glove experience I was hoping for."},
-        {who:"rep",t:"All set — I've initiated the three transfers, flagged the trust for expedited registration review, and scheduled your onboarding welcome and portfolio-construction session."},
-        {who:"customer",t:"I appreciate you making this so seamless."},
-        {who:"rep",t:"My pleasure. You'll receive a summary email shortly with the timeline and your advisor line. Anything else I can help with?"}] },
+        {who:"rep",audio:"audio/wealth/agent-1.mp3",t:"Good morning Mr. Ashford, this is Marcus, your Private Wealth Advisor — our assistant already briefed me and captured your three accounts, so you won't have to repeat anything."},
+        {who:"customer",audio:"audio/wealth/customer-1.mp3",t:"Thank you. I want to bring over my Fidelity brokerage, my Schwab IRA, and the JP Morgan trust into the new portfolio."},
+        {who:"rep",audio:"audio/wealth/agent-2.mp3",t:"Wonderful — all three are eligible for ACATS. Let me confirm the registrations so the trust and IRA map correctly. Eligible holdings transfer in-kind, so you stay invested throughout."},
+        {who:"customer",audio:"audio/wealth/customer-2.mp3",t:"That's important to me — I don't want to be out of the market. How long does it usually take?"},
+        {who:"rep",audio:"audio/wealth/agent-3.mp3",t:"A standard ACATS transfer settles in about six business days; the trust registration adds a short review. I'll initiate all three today and set milestone alerts so you see each one land."},
+        {who:"customer",audio:"audio/wealth/customer-3.mp3",t:"Excellent. That's exactly the white-glove experience I was hoping for."},
+        {who:"rep",audio:"audio/wealth/agent-4.mp3",t:"All set — I've initiated the three transfers, flagged the trust for expedited registration review, and scheduled your onboarding welcome and portfolio-construction session."},
+        {who:"customer",audio:"audio/wealth/customer-4.mp3",t:"I appreciate you making this so seamless."},
+        {who:"rep",audio:"audio/wealth/agent-5.mp3",t:"My pleasure. You'll receive a summary email shortly with the timeline and your advisor line. Anything else I can help with?"}] },
     sra:{ suggestedResponse:"Welcome aboard, Mr. Ashford — I'll make this seamless. All three accounts are ACATS-eligible, eligible holdings transfer in-kind so you stay invested, and I can initiate the consolidation today with milestone alerts.",
       planTitle:"New Client Account Consolidation",
       planSummary:"Jonathan Ashford III is a new UHNI client consolidating a Fidelity brokerage, a Schwab IRA, and a JP Morgan trust into a new Premier Portfolio via ACATS, and wants to confirm the transfer timeline and in-kind handling.",
@@ -1351,9 +1356,11 @@ function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"V
 /* ---------- Transcript audio (optional; off by default) ----------
    Speaks each newly revealed transcript turn during the Act 2 voice call.
 
-   A turn may carry its own recording, which always wins:
-       {who:"customer", t:"…", audio:"audio/wealth/02.mp3"}
-       {who:"rep",      t:"…", audio:"data:audio/mpeg;base64,…"}
+   A turn may carry its own recording, which always wins. Written with a space
+   after the key so build-artifact.js's inliner doesn't treat this example as a
+   real reference:
+       audio: "audio/wealth/agent-1.mp3"    — file beside index.html (Pages)
+       audio: "data:audio/mpeg;base64,…"    — inlined; required by the artifact
    With no `audio` key the browser's speech synthesiser reads `t`, so the audio
    regenerates itself whenever you edit transcript copy — nothing to re-record.
 
