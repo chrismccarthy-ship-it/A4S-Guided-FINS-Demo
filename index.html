@@ -45,7 +45,10 @@ a{color:var(--brand);text-decoration:none}
 .gh .org .swatch{width:11px;height:11px;border-radius:3px;background:var(--org-accent,#5b2bb3)}
 .gh .search{flex:0 0 auto;width:clamp(240px,42vw,460px);height:32px;border:1px solid var(--line-2);border-radius:6px;background:#f7f9fb;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--faint);font-size:13px;margin-left:auto}
 .gh .ask{height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;margin-right:auto}
-.gh .icons{display:flex;align-items:center;gap:15px;color:var(--muted);font-size:15px}
+.gh .icons{display:flex;align-items:center;gap:13px;color:#54698a;font-size:15px}
+.gh .icons .gi{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;line-height:1}
+.gh .icons .star{gap:1px}
+.gh .icons .star i{font-size:8px;font-style:normal;color:var(--faint)}
 .gh .bell{position:relative}
 .gh .bell .dot{position:absolute;top:-6px;right:-7px;min-width:15px;height:15px;border-radius:8px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 3px;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.5,.4,1)}
 .gh .bell.on .dot{transform:scale(1)}
@@ -61,6 +64,7 @@ a{color:var(--brand);text-decoration:none}
 .notif-empty{padding:18px;text-align:center;color:var(--muted);font-size:12px}
 
 .subhead{height:42px;display:flex;align-items:center;gap:4px;padding:0 12px;background:#f7f9fb;border-bottom:1px solid var(--line)}
+.subhead .appwaffle{width:15px;height:15px;flex:none;background:radial-gradient(circle,#7084a8 1.1px,transparent 1.4px);background-size:5px 5px;background-position:1px 1px;margin:0 4px}
 .subhead .appname{font-weight:700;font-size:13.5px;margin-right:10px;color:var(--ink);display:flex;align-items:center;gap:6px}
 .tab{height:30px;display:flex;align-items:center;gap:8px;padding:0 13px;border:1px solid transparent;border-radius:6px 6px 0 0;font-size:13px;color:var(--ink-2)}
 .tab.active{background:#fff;border-color:var(--line);border-bottom-color:#fff;font-weight:600}
@@ -79,7 +83,7 @@ a{color:var(--brand);text-decoration:none}
 .workarea{flex:1;min-width:0;display:flex;flex-direction:column}
 .omnirail{width:54px;flex:none;background:#fff;border-right:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 0}
 .omnirail .oi{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-size:17px;color:#54698a}
-.omnirail .oi.omni{background:#0b7fd4;color:#fff;border-radius:10px;font-size:16px;font-weight:800}
+.omnirail .oi.omni{background:#0b7fd4;color:#fff;border-radius:50%;font-size:16px;font-weight:800}
 .omnirail .oi.active{background:#032d60;color:#fff}
 .omnirail .oi.dot{width:15px;height:15px;border-radius:50%;background:#2e844a;box-shadow:0 0 0 3px #d7f0de;margin:3px 0}
 /* Omni-Channel Inbox panel (opens from the rail) */
@@ -671,17 +675,30 @@ a{color:var(--brand);text-decoration:none}
 .ctt-l{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .ctt-th{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px}
 .ctt-row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);padding:5px 0;border-top:1px solid var(--line)}
+.s2more{color:var(--brand);font-size:12px;font-weight:600;cursor:pointer}
+.aoc-sub{display:flex;gap:10px;align-items:center;padding:11px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+.aoc-ic{width:30px;height:30px;border-radius:6px;background:#fde7ef;color:#e0517a;display:grid;place-items:center;font-size:14px;flex:none}
+.aoc-t{font-weight:800;font-size:13px;color:var(--ink)}
+.aoc-m{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4}
+.aoc-chev{margin-left:auto;color:var(--faint);font-size:18px}
+.aoc-list{max-height:360px;overflow-y:auto}
+.aoc-row{padding:11px 14px;border-bottom:1px solid var(--line)}
+.aoc-row:last-child{border-bottom:0}
+.aoc-num{font-weight:800;font-size:13px;color:var(--ink);margin-bottom:5px}
+.aoc-kv{display:grid;grid-template-columns:92px 1fr;gap:6px;font-size:11.5px;padding:1.5px 0}
+.aoc-kv span:first-child{color:var(--muted)}
+.aoc-kv span:last-child{color:var(--ink-2)}
+.aoc-kv a{color:var(--brand);cursor:pointer}
 @media(max-width:1120px){.homedash{flex-direction:column}.hd-side{width:100%}.dgrid{grid-template-columns:repeat(2,1fr)}}
 </style>
 
 <div class="app" id="app">
   <div class="gh" id="gh" hidden>
-    <span class="waffle">▦</span>
     <div class="cloud">☁</div>
     <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div>
     <div class="search">🔍 Search…</div>
     <div class="ask" id="askBtn">✦ Ask</div>
-    <div class="icons"><span>★</span><span>＋</span><span>📖</span><span>?</span><span>⚙</span>
+    <div class="icons"><span class="gi">🤖</span><span class="gi star">★<i>▾</i></span><span class="gi">＋</span><span class="gi">⚡</span><span class="gi">?</span><span class="gi">🚀</span><span class="gi">⚙</span>
       <span class="bellwrap"><span class="bell" id="bell">🔔<span class="dot" id="bellDot">0</span></span>
         <div class="bellpanel" id="bellPanel" hidden></div></span>
       <span class="avatar">CM</span></div>
@@ -692,12 +709,13 @@ a{color:var(--brand);text-decoration:none}
       <div class="oi omni" id="omniLauncher" title="Omni-Channel">➜</div>
       <div class="oi dot" title="Available"></div>
       <div class="oi" title="Cases">💼</div>
-      <div class="oi active" title="Phone">📞</div>
+      <div class="oi" title="Phone">📞</div>
       <div class="oi" title="Setup">⚙</div>
     </div>
     <div class="workarea">
       <div class="subhead" id="subhead" hidden>
-        <span class="appname">＊Service Console</span>
+        <span class="appwaffle" title="App Launcher"></span>
+        <span class="appname">Service - Console</span>
         <div class="tab active" id="tabPrimary">Command Center for Service</div>
         <div class="tab folder" id="tabCase" hidden>00005518 <span class="chev">⌄</span> <span class="close">✕</span></div>
         <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
@@ -2688,6 +2706,12 @@ function viewHome(){
     ['00005253','Urgent: Transition Analysis Extraction Error — Thompson','TechCo — Transition'],
     ['00005251','Urgent: Transition Analysis Request — Miller Family Trust','TechCo Dealership'] ];
   const tags=[['500 Errors',1],['503 Errors',1],['API Outage',1],['Account Support',1],['Agent Impact',1]];
+  const openCases=[
+    {num:'00001067',contact:'Sophia Patel',subj:'Reorder checks',status:'New',pri:'Low',origin:'Website'},
+    {num:'00001068',contact:'Daniel Wu',subj:'ACH payment returned',status:'Working',pri:'High',origin:'Chat'},
+    {num:'00001069',contact:'Sophia Patel',subj:'Unable to access online banking portal',status:'Waiting on Customer',pri:'High',origin:'Chat'},
+    {num:'00001070',contact:'Daniel Wu',subj:'Request to increase Line of Credit limit',status:'Escalated',pri:'Medium',origin:'Website'},
+    {num:'00001074',contact:'Sophia Patel',subj:'Dispute a recent debit charge',status:'New',pri:'Medium',origin:'Phone'}];
   return `<div class="homedash">
     <div class="hd-main">
       <div class="dashhead">
@@ -2716,6 +2740,18 @@ function viewHome(){
           <div class="ms-mid"><div class="ms-lab">Offline</div><div class="ms-sub">since Aug 11 10:50 AM</div></div>
           <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">open items</div></div>
           <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">% capacity</div></div></div>
+      </div>
+      <div class="scard2"><div class="s2h">All Open Cases <a class="s2more">More</a></div>
+        <div class="aoc-sub"><span class="aoc-ic">🗂️</span><div><div class="aoc-t">All Open Cases</div><div class="aoc-m">6+ items · sorted by Case Number<br>Filtered by Closed, Date/Time Opened</div></div><span class="aoc-chev">›</span></div>
+        <div class="aoc-list">${openCases.map(c=>`<div class="aoc-row">
+          <div class="aoc-num">${c.num}</div>
+          <div class="aoc-kv"><span>Contact Name:</span><span>${c.contact}</span></div>
+          <div class="aoc-kv"><span>Subject:</span><a>${c.subj}</a></div>
+          <div class="aoc-kv"><span>Status:</span><span>${c.status}</span></div>
+          <div class="aoc-kv"><span>Priority:</span><span>${c.pri}</span></div>
+          <div class="aoc-kv"><span>Case Owner:</span><span>Chris McCarthy</span></div>
+          <div class="aoc-kv"><span>Case Origin:</span><span>${c.origin}</span></div>
+        </div>`).join('')}</div>
       </div>
       <div class="scard2"><div class="s2h">🗂️ AI Cases Pending Review <span class="s2badge">20</span></div>
         <div class="aitbl"><div class="aithr"><span>Case</span><span>Subject</span><span>Account</span></div>
