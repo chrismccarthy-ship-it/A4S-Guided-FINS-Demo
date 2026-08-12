@@ -88,15 +88,19 @@ a{color:var(--brand);text-decoration:none}
 /* console body = omni-channel rail + workarea */
 .console{display:flex;flex:1;min-height:0}
 .workarea{flex:1;min-width:0;display:flex;flex-direction:column}
-.omnirail{width:54px;flex:none;background:#fff;border-right:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 0}
+.omnirail{width:54px;flex:none;background:#fff;border-right:1px solid var(--line-2);display:flex;flex-direction:column;gap:0;padding:0}
+.omnirail .oicell{display:flex;align-items:center;justify-content:center;padding:11px 0;border-bottom:1px solid #DCDCDC}
+.omnirail .oicell:last-child{border-bottom:0}
 .omnirail .oi{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-size:17px;color:#54698a}
 .omnirail .oi svg{width:23px;height:23px;display:block}
 .omnirail .oi.omni{width:40px;height:40px;background:#107CAD;color:#fff;border-radius:11px;font-size:16px;font-weight:800}
 .omnirail .oi.omni svg{width:22px;height:22px}
-.omnirail .oi.active{background:#032d60;color:#fff}
-.omnirail .oi.dot{width:16px;height:16px;border-radius:50%;background:#2E844A;margin:4px 0}
+.omnirail .oi.cases{width:40px;height:40px;background:#03234D;border-radius:11px}
+.omnirail .oi.cases svg{width:22px;height:22px}
+.omnirail .oi.dot{width:16px;height:16px;border-radius:50%;background:#2E844A}
 .omnirail .oi.hasnotif{position:relative}
-.omnirail .oi.hasnotif::after{content:"";position:absolute;top:4px;right:6px;width:8px;height:8px;border-radius:50%;background:#ea001e;border:1.6px solid #fff}
+.omnirail .oi.hasnotif::after{content:"";position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#ea001e;border:1.6px solid #fff;animation:railpulse 1.3s ease-in-out infinite}
+@keyframes railpulse{0%{box-shadow:0 0 0 0 rgba(234,0,30,.55)}70%{box-shadow:0 0 0 6px rgba(234,0,30,0)}100%{box-shadow:0 0 0 0 rgba(234,0,30,0)}}
 /* Omni-Channel Inbox panel (opens from the rail) */
 .omniinbox{position:fixed;left:54px;top:50px;bottom:118px;width:340px;max-width:72vw;background:#fff;border-right:1px solid var(--line-2);box-shadow:8px 0 22px rgba(16,32,50,.09);z-index:38;display:flex;flex-direction:column;overflow:hidden}
 .oi-head{display:flex;align-items:center;gap:10px;padding:13px 16px;font-weight:800;font-size:17px;color:#04315f}
@@ -719,11 +723,11 @@ a{color:var(--brand);text-decoration:none}
 
   <div class="console" id="console">
     <div class="omnirail" id="omnirail" hidden>
-      <div class="oi omni" id="omniLauncher" title="Omni-Channel"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11"/><path d="M11 6l6 6-6 6"/></svg></div>
-      <div class="oi dot" title="Available"></div>
-      <div class="oi hasnotif" title="Cases"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M9 3a2 2 0 0 0-2 2v1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3V5a2 2 0 0 0-2-2H9zm0 2h6v1H9V5z"/></svg></div>
-      <div class="oi" title="Phone"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.85 21 3 13.15 3 3.5 3 2.95 3.45 2.5 4 2.5h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.58.11.35.03.75-.24 1.02L6.6 10.8z"/></svg></div>
-      <div class="oi" title="Setup"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm0 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 0 0 .12-.64l-1.76-3.05a.5.5 0 0 0-.6-.22l-2.19.88a6.9 6.9 0 0 0-1.62-.94l-.33-2.33A.5.5 0 0 0 14.05 3h-4.1a.5.5 0 0 0-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 0 0-.6.22L2.62 9.43a.5.5 0 0 0 .12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 0 0-.12.64l1.76 3.05a.5.5 0 0 0 .6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 0 0 .5.42h4.1a.5.5 0 0 0 .5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 0 0 .6-.22l1.76-3.05a.5.5 0 0 0-.12-.64l-1.86-1.45z"/></svg></div>
+      <div class="oicell"><div class="oi omni" id="omniLauncher" title="Omni-Channel"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11"/><path d="M11 6l6 6-6 6"/></svg></div></div>
+      <div class="oicell"><div class="oi dot" title="Available"></div></div>
+      <div class="oicell"><div class="oi cases hasnotif" title="Cases"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 3a2 2 0 0 0-2 2v1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3V5a2 2 0 0 0-2-2H9zm0 2h6v1H9V5z"/></svg></div></div>
+      <div class="oicell"><div class="oi" title="Phone"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.85 21 3 13.15 3 3.5 3 2.95 3.45 2.5 4 2.5h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.58.11.35.03.75-.24 1.02L6.6 10.8z"/></svg></div></div>
+      <div class="oicell"><div class="oi" title="Setup"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm0 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 0 0 .12-.64l-1.76-3.05a.5.5 0 0 0-.6-.22l-2.19.88a6.9 6.9 0 0 0-1.62-.94l-.33-2.33A.5.5 0 0 0 14.05 3h-4.1a.5.5 0 0 0-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 0 0-.6.22L2.62 9.43a.5.5 0 0 0 .12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 0 0-.12.64l1.76 3.05a.5.5 0 0 0 .6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 0 0 .5.42h4.1a.5.5 0 0 0 .5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 0 0 .6-.22l1.76-3.05a.5.5 0 0 0-.12-.64l-1.86-1.45z"/></svg></div></div>
     </div>
     <div class="workarea">
       <div class="navtabs" id="navtabs" hidden>
@@ -798,15 +802,15 @@ const VERTICALS = {
         {who:"sys",t:"Identity verified · Card locked · Case 00005518 created · Routing to Fraud & Disputes"}] },
     repConvo:{ speakers:{rep:"Chris · Fraud Specialist", customer:"Lauren Bailey"},
       turns:[
-        {who:"rep",t:"Hi Lauren, this is Chris in fraud — our voice assistant already briefed me and locked your card, so you won't have to repeat anything. I'll get this sorted."},
-        {who:"customer",t:"Thank you. There's a $75 Amazon Marketplace charge I never made, and it overdrew my checking."},
-        {who:"rep",t:"I see it — posted this morning. The card ending 7201 is already frozen. Let me confirm the transaction and check it against our fraud patterns."},
-        {who:"customer",t:"Okay… will I actually get that money back? And when?"},
-        {who:"rep",t:"Yes. It matches a known fraud pattern, so I can issue a provisional credit to your account today while we investigate — and reverse the overdraft fee it triggered."},
-        {who:"customer",t:"Oh good, that's a huge relief."},
-        {who:"rep",t:"All done — dispute filed, provisional credit posted, the overdraft fee reversed, and a new card is shipping to you today."},
-        {who:"customer",t:"Thank you so much for handling all of it."},
-        {who:"rep",t:"Of course. You'll get a confirmation email in a moment. Anything else I can help with?"}] },
+        {who:"rep",audio:"audio/retail/agent-1.mp3",t:"Hi Lauren, this is Chris in fraud — our voice assistant already briefed me and locked your card, so you won't have to repeat anything. I'll get this sorted."},
+        {who:"customer",audio:"audio/retail/customer-1.mp3",t:"Thank you. There's a $75 Amazon Marketplace charge I never made, and it overdrew my checking."},
+        {who:"rep",audio:"audio/retail/agent-2.mp3",t:"I see it — posted this morning. The card ending 7201 is already frozen. Let me confirm the transaction and check it against our fraud patterns."},
+        {who:"customer",audio:"audio/retail/customer-2.mp3",t:"Okay… will I actually get that money back? And when?"},
+        {who:"rep",audio:"audio/retail/agent-3.mp3",t:"Yes. It matches a known fraud pattern, so I can issue a provisional credit to your account today while we investigate — and reverse the overdraft fee it triggered."},
+        {who:"customer",audio:"audio/retail/customer-3.mp3",t:"Oh good, that's a huge relief."},
+        {who:"rep",audio:"audio/retail/agent-4.mp3",t:"All done — dispute filed, provisional credit posted, the overdraft fee reversed, and a new card is shipping to you today."},
+        {who:"customer",audio:"audio/retail/customer-4.mp3",t:"Thank you so much for handling all of it."},
+        {who:"rep",audio:"audio/retail/agent-5.mp3",t:"Of course. You'll get a confirmation email in a moment. Anything else I can help with?"}] },
     sra:{ suggestedResponse:"I hear you, Lauren, and I'll get this resolved right now. Based on your account I can issue a provisional credit for the disputed $75 Amazon charge and reverse the overdraft fee it caused.",
       planTitle:"Fraud Dispute & Overdraft",
       planSummary:"Lauren Bailey is disputing an unrecognized $75 Amazon Marketplace charge that caused an overdraft and is requesting an investigation, fee reversal, and account security.",
