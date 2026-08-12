@@ -38,21 +38,28 @@ a{color:var(--brand);text-decoration:none}
 .tnum{font-variant-numeric:tabular-nums}
 
 /* ---------- console chrome ---------- */
-.gh{height:50px;display:flex;align-items:center;gap:14px;padding:0 16px;background:#fff;border-bottom:1px solid var(--line-2)}
-.gh .waffle{color:var(--muted);font-size:16px}
-.gh .cloud{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#00a1e0,#0176d3);display:grid;place-items:center;color:#fff;font-size:14px;flex:none}
-.gh .org{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
-.gh .org .swatch{width:11px;height:11px;border-radius:3px;background:var(--org-accent,#5b2bb3)}
-.gh .search{flex:0 0 auto;width:clamp(240px,42vw,460px);height:32px;border:1px solid var(--line-2);border-radius:6px;background:#f7f9fb;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--faint);font-size:13px;margin-left:auto}
-.gh .ask{height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;margin-right:auto}
-.gh .icons{display:flex;align-items:center;gap:13px;color:#54698a;font-size:15px}
+.gh{height:50px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px;background:#fff;border-bottom:1px solid var(--line-2)}
+.gh .ghleft{justify-self:start;display:flex;align-items:center;gap:8px;min-width:0}
+.gh .appwaffle{width:15px;height:15px;flex:none;background:radial-gradient(circle,#7084a8 1.1px,transparent 1.4px);background-size:5px 5px;background-position:1px 1px}
+.gh .appname{font-weight:700;font-size:13.5px;color:var(--ink);white-space:nowrap;flex:none}
+.gh .ghleft .tab{height:30px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid transparent;border-radius:6px;font-size:13px;color:var(--ink-2);white-space:nowrap;flex:none}
+.gh .ghleft .tab.active{background:#fff;border-color:var(--line-2);font-weight:700;color:var(--ink)}
+.gh .ghleft .tab.voice.active{background:#d7f5e3;border-color:#8fdcae;color:#0a4a22}
+.gh .ghleft .org{display:flex;align-items:center;gap:7px;font-weight:700;font-size:13.5px;color:var(--ink);margin-left:4px;white-space:nowrap;flex:none}
+.gh .ghleft .org .swatch{width:12px;height:12px;border-radius:3px;background:var(--org-accent,#5b2bb3);flex:none}
+.gh .ghmid{justify-self:center;position:relative;display:flex;align-items:center}
+.gh .cloud{display:flex;align-items:center;flex:none}
+.gh .search{flex:0 0 auto;width:clamp(260px,44vw,560px);height:34px;border:1px solid var(--line-2);border-radius:8px;background:#fff;display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--faint);font-size:13px}
+.gh .ask{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:12px;height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.gh .icons{justify-self:end;display:flex;align-items:center;gap:14px;color:#54698a;font-size:15px}
 .gh .icons .gi{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;line-height:1}
-.gh .icons .star{gap:1px}
+.gh .icons .star{border:1px solid var(--line-2);border-radius:5px;padding:2px 5px;gap:2px;color:#54698a}
 .gh .icons .star i{font-size:8px;font-style:normal;color:var(--faint)}
+.gh .icons .plus{width:21px;height:21px;border-radius:50%;background:#0176d3;color:#fff;font-size:13px;font-weight:700}
 .gh .bell{position:relative}
 .gh .bell .dot{position:absolute;top:-6px;right:-7px;min-width:15px;height:15px;border-radius:8px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 3px;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.5,.4,1)}
 .gh .bell.on .dot{transform:scale(1)}
-.gh .avatar{width:27px;height:27px;border-radius:50%;background:linear-gradient(135deg,#6d3fd6,#b45cf0);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.gh .avatar{width:27px;height:27px;border-radius:50%;background:linear-gradient(135deg,#032d60,#0b5cab);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
 .bellwrap{position:relative;display:inline-flex}
 .bellpanel{position:absolute;right:0;top:30px;width:308px;max-width:80vw;background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow-2);z-index:70;overflow:hidden}
 .bellpanel .bp-h{padding:9px 13px;font-weight:800;font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);background:var(--panel)}
@@ -83,9 +90,13 @@ a{color:var(--brand);text-decoration:none}
 .workarea{flex:1;min-width:0;display:flex;flex-direction:column}
 .omnirail{width:54px;flex:none;background:#fff;border-right:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 0}
 .omnirail .oi{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-size:17px;color:#54698a}
-.omnirail .oi.omni{background:#0b7fd4;color:#fff;border-radius:50%;font-size:16px;font-weight:800}
+.omnirail .oi svg{width:23px;height:23px;display:block}
+.omnirail .oi.omni{width:40px;height:40px;background:#107CAD;color:#fff;border-radius:11px;font-size:16px;font-weight:800}
+.omnirail .oi.omni svg{width:22px;height:22px}
 .omnirail .oi.active{background:#032d60;color:#fff}
-.omnirail .oi.dot{width:15px;height:15px;border-radius:50%;background:#2e844a;box-shadow:0 0 0 3px #d7f0de;margin:3px 0}
+.omnirail .oi.dot{width:16px;height:16px;border-radius:50%;background:#2E844A;margin:4px 0}
+.omnirail .oi.hasnotif{position:relative}
+.omnirail .oi.hasnotif::after{content:"";position:absolute;top:4px;right:6px;width:8px;height:8px;border-radius:50%;background:#ea001e;border:1.6px solid #fff}
 /* Omni-Channel Inbox panel (opens from the rail) */
 .omniinbox{position:fixed;left:54px;top:50px;bottom:118px;width:340px;max-width:72vw;background:#fff;border-right:1px solid var(--line-2);box-shadow:8px 0 22px rgba(16,32,50,.09);z-index:38;display:flex;flex-direction:column;overflow:hidden}
 .oi-head{display:flex;align-items:center;gap:10px;padding:13px 16px;font-weight:800;font-size:17px;color:#04315f}
@@ -694,11 +705,13 @@ a{color:var(--brand);text-decoration:none}
 
 <div class="app" id="app">
   <div class="gh" id="gh" hidden>
-    <div class="cloud">☁</div>
-    <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div>
-    <div class="search">🔍 Search…</div>
-    <div class="ask" id="askBtn">✦ Ask</div>
-    <div class="icons"><span class="gi">🤖</span><span class="gi star">★<i>▾</i></span><span class="gi">＋</span><span class="gi">⚡</span><span class="gi">?</span><span class="gi">🚀</span><span class="gi">⚙</span>
+    <div class="ghleft"><span class="appwaffle" title="App Launcher"></span><span class="appname">Service - Console</span>
+      <div class="tab active" id="tabPrimary">Home</div>
+      <div class="tab folder" id="tabCase" hidden>00005518 <span class="chev">⌄</span> <span class="close">✕</span></div>
+      <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
+      <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div></div>
+    <div class="ghmid"><div class="search">🔍 Search…</div><div class="ask" id="askBtn">✦ Ask</div></div>
+    <div class="icons"><span class="gi">🤖</span><span class="gi star">★<i>▾</i></span><span class="gi plus">＋</span><span class="gi">☁</span><span class="gi">?</span><span class="gi">🚀</span><span class="gi">⚙</span>
       <span class="bellwrap"><span class="bell" id="bell">🔔<span class="dot" id="bellDot">0</span></span>
         <div class="bellpanel" id="bellPanel" hidden></div></span>
       <span class="avatar">CM</span></div>
@@ -706,20 +719,13 @@ a{color:var(--brand);text-decoration:none}
 
   <div class="console" id="console">
     <div class="omnirail" id="omnirail" hidden>
-      <div class="oi omni" id="omniLauncher" title="Omni-Channel">➜</div>
+      <div class="oi omni" id="omniLauncher" title="Omni-Channel"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11"/><path d="M11 6l6 6-6 6"/></svg></div>
       <div class="oi dot" title="Available"></div>
-      <div class="oi" title="Cases">💼</div>
-      <div class="oi" title="Phone">📞</div>
-      <div class="oi" title="Setup">⚙</div>
+      <div class="oi hasnotif" title="Cases"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M9 3a2 2 0 0 0-2 2v1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3V5a2 2 0 0 0-2-2H9zm0 2h6v1H9V5z"/></svg></div>
+      <div class="oi" title="Phone"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.85 21 3 13.15 3 3.5 3 2.95 3.45 2.5 4 2.5h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.58.11.35.03.75-.24 1.02L6.6 10.8z"/></svg></div>
+      <div class="oi" title="Setup"><svg viewBox="0 0 24 24" fill="#5C5C5C"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm0 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 0 0 .12-.64l-1.76-3.05a.5.5 0 0 0-.6-.22l-2.19.88a6.9 6.9 0 0 0-1.62-.94l-.33-2.33A.5.5 0 0 0 14.05 3h-4.1a.5.5 0 0 0-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 0 0-.6.22L2.62 9.43a.5.5 0 0 0 .12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 0 0-.12.64l1.76 3.05a.5.5 0 0 0 .6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 0 0 .5.42h4.1a.5.5 0 0 0 .5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 0 0 .6-.22l1.76-3.05a.5.5 0 0 0-.12-.64l-1.86-1.45z"/></svg></div>
     </div>
     <div class="workarea">
-      <div class="subhead" id="subhead" hidden>
-        <span class="appwaffle" title="App Launcher"></span>
-        <span class="appname">Service - Console</span>
-        <div class="tab active" id="tabPrimary">Command Center for Service</div>
-        <div class="tab folder" id="tabCase" hidden>00005518 <span class="chev">⌄</span> <span class="close">✕</span></div>
-        <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
-      </div>
       <div class="navtabs" id="navtabs" hidden>
         <div class="nt">Wallboard</div><div class="nt">Service Reps</div><div class="nt">AI Agents</div>
         <div class="nt active">Agentforce</div><div class="nt">Queues Backlog</div><div class="nt">In-Progress Work</div>
@@ -1874,7 +1880,7 @@ function foldState(i){ const st={flags:{},turns:0,view:"landing"};
   return st; }
 function render(){
   const step=STEPS[idx],st=foldState(idx),f=st.flags,v=step.view;
-  $('#gh').hidden=!f.gh; $('#omnirail').hidden=!f.gh; $('#subhead').hidden=!f.subhead; $('#navtabs').hidden=(v!=="monitor");
+  $('#gh').hidden=!f.gh; $('#omnirail').hidden=!f.gh; $('#navtabs').hidden=(v!=="monitor");
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
   const primaryViews=(v==="monitor"||v==="home"||v==="ask");
   $('#tabPrimary').hidden=!primaryViews;
