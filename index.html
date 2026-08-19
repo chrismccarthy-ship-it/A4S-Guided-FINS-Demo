@@ -564,6 +564,9 @@ a{color:var(--brand);text-decoration:none}
 .guided{position:relative;box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft) !important;border-radius:10px;z-index:5;animation:ring 1.7s ease-in-out infinite}
 @keyframes ring{0%,100%{box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft)}50%{box-shadow:0 0 0 3px var(--guide),0 0 0 11px rgba(var(--guide-rgb),.05)}}
 .guided::after{content:"";position:absolute;top:-9px;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--guide);box-shadow:0 0 0 4px rgba(var(--guide-rgb),.28);animation:pulse 1.4s ease-out infinite;z-index:6}
+.guided.no-pulse::after{display:none}
+.afvhist{margin-bottom:12px}
+.convo .vcatch{margin-bottom:12px}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(var(--guide-rgb),.5)}70%{box-shadow:0 0 0 12px rgba(var(--guide-rgb),0)}100%{box-shadow:0 0 0 0 rgba(var(--guide-rgb),0)}}
 /* When a full-bleed .reveal row is guided, ring the inner .planwrap card so the glow
    doesn't overlap the hero/row above. The wrapper carries no ring or dot of its own. */
@@ -1847,7 +1850,7 @@ function buildSteps(){
       talk:"One click accepts the call — and the rep drops straight into the Voice workspace with the full 360 and the Agentforce summary already in place.",
       dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
 
-    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:["#idCard","#phoneCard"], target:"#phonePause", title:"Act 2 · The rep picks up with full context",
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:["#idCard","#phoneCard"], target:"#phonePause", noPulse:true, title:"Act 2 · The rep picks up with full context",
       talk:`The screen pivots to the live Voice Call. The rep has ${cust}'s full 360 and the call is connected — no re-explaining. The Service Assistant is standing by on the right.`,
       dothis:"Click the ▮▮ Pause control to begin (or press ▶ Play).", advanceOn:"#phonePause" },
     { view:"voice", set:{phoneLive:1}, turns:1, target:"#convo", title:"Live transcript — greeting with context", autoplay:true, dur:1600,
@@ -1966,14 +1969,14 @@ function render(){
 }
 let spotEl=null;
 function clearGuides(){
-  if(spotEl){spotEl.classList.remove('guided');spotEl=null;}
+  if(spotEl){spotEl.classList.remove('guided','no-pulse');spotEl=null;}
   document.querySelectorAll('.clickable').forEach(e=>{e.classList.remove('clickable');e.onclick=null;});
   document.querySelectorAll('.boxed').forEach(e=>e.classList.remove('boxed'));
 }
 function applySpotlight(step){
   clearGuides();
   if(step.box){ (Array.isArray(step.box)?step.box:[step.box]).forEach(sel=>{const el=$(sel);if(el)el.classList.add('boxed');}); }
-  if(step.target){ const el=$(step.target); if(el){ el.classList.add('guided'); spotEl=el; } }
+  if(step.target){ const el=$(step.target); if(el){ el.classList.add('guided'); if(step.noPulse)el.classList.add('no-pulse'); spotEl=el; } }
   if(step.advanceOn){const a=$(step.advanceOn); if(a){a.classList.add('clickable');a.onclick=(e)=>{e.stopPropagation();next();};}}
 }
 function go(i){cancelAudio();idx=Math.max(0,Math.min(STEPS.length-1,i));render();}
@@ -2294,6 +2297,13 @@ function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
           <div id="serviceP">
             <div class="convo" id="convo">
               <div class="lead"><span class="convo-ic"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#149b93"/><path d="M8 9.5h12a1.6 1.6 0 0 1 1.6 1.6v4.2a1.6 1.6 0 0 1-1.6 1.6h-6.6L9 20.6v-3.7H8a1.6 1.6 0 0 1-1.6-1.6v-4.2A1.6 1.6 0 0 1 8 9.5z" fill="#fff"/></svg></span> Conversation <span class="live-dot" id="liveDot"></span><span id="convoTag" style="font-size:11px;color:var(--muted);font-weight:500">live transcript</span></div>
+              <div class="catchup vcatch" id="voiceCatchup"><div class="cu-main">
+                <div class="cu-head"><span class="cu-title">Conversation Catch-Up</span><span class="cu-dismiss" id="voiceCatchupDismiss" onclick="event.stopPropagation();document.getElementById('voiceCatchup').style.display='none'">Dismiss</span></div>
+                <p class="cu-p">${V.voice.catchupText.summary}</p>
+                <div class="cu-issue-h">Issue</div>
+                <p class="cu-p">${V.voice.catchupText.issue}</p>
+              </div></div>
+              <div class="bubbles afvhist">${V.voice.transcript.map(b=>bubble(b)).join('')}</div>
               <div class="rbwrap" id="repBubbles"></div>
             </div>
           </div>
