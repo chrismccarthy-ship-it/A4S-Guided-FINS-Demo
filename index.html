@@ -663,10 +663,13 @@ a{color:var(--brand);text-decoration:none}
 .acase .ci{width:26px;height:26px;border-radius:6px;background:var(--bad-bg);color:var(--bad);display:grid;place-items:center;font-size:13px;flex:none}
 .acase .cnum{font-weight:800;font-size:12.5px;color:var(--ink)}
 .acase .cmeta{font-size:11px;color:var(--muted)}
-.ctable{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.5px}
-.ctable th{text-align:left;padding:7px 10px;background:var(--panel);color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.04em;font-weight:800}
-.ctable td{padding:7px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+.ctwrap{overflow-x:auto;margin:8px 0}
+.ctable{width:100%;border-collapse:collapse;font-size:12px;min-width:680px}
+.ctable th{text-align:left;padding:7px 10px;background:var(--panel);color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;white-space:nowrap}
+.ctable td{padding:7px 10px;border-top:1px solid var(--line);color:var(--ink-2);vertical-align:top}
 .ctable .cnl{color:var(--brand);font-weight:700;white-space:nowrap}
+.ctable .cdesc{color:var(--muted);min-width:200px}
+.ctable .cnw{white-space:nowrap}
 .acluster{margin:12px 0}
 .acluster .cl-h{font-weight:800;font-size:13.5px;color:var(--ink);margin-bottom:4px}
 .akey{border:1.5px solid #e6e0f7;background:#faf8ff;border-radius:12px;padding:14px 16px;margin-top:16px}
@@ -2596,16 +2599,26 @@ const COWORKER = {
     lowCount:7, lowNote:"Two are Escalated (00001128 — banking system config, 00001163 — system activation failed) — even though they're marked Low, escalated status means they may need attention sooner.",
     focusNew:"7 untouched cases need a first response",
     focusAccount:"review the layoff news and consider a proactive outreach",
-    inprogIntro:"There's a clear pattern worth flagging! All 20 of your Working cases are tied to the same customer — Lauren Bailey at TechCo. Here's the breakdown:",
+    inprogIntro:"There's a clear pattern worth flagging! All 20 of your Working cases are tied to the same customer — Lauren Bailey. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"Urgent — System Services Outage (3 cases, all opened today)",body:"Three nearly identical cases were opened within the last few hours, all reporting API connectivity failures impacting Lauren's team's operations. These are your most time-sensitive items:",cases:[{num:"00005625",meta:"opened 3:34 PM · last updated 3:34 PM"},{num:"00005624",meta:"opened 3:24 PM · last updated 3:26 PM"},{num:"00005622",meta:"opened 3:19 PM · last updated 3:23 PM"}],note:"These look like duplicates — worth consolidating into one and driving to resolution quickly since it's actively impacting business operations."},
-      {badge:"🟡",title:"Transactions Dispute & Overdraft (14 cases, spanning July 13 – Aug 11)",body:"Lauren has a large cluster of open dispute cases going back to mid-July. The most recently updated ones are:",cases:[{num:"00005518",meta:"last updated today (Aug 11)"},{num:"00005526",meta:"last updated Aug 8"},{num:"00005516",meta:"last updated Aug 5"},{num:"00005061",meta:"opened May 6 · last updated Aug 5 ⚠"}],note:"The oldest one (00005061) has been open for over 3 months — that one really needs a resolution or at least a status update."},
-      {badge:"💬",title:"Chat Cases (3 cases)",body:'Three "Chat with Lauren Bailey" cases with no description:',cases:[{num:"00005608",meta:"Aug 10"},{num:"00005525",meta:"Aug 6"},{num:"00005466",meta:"Jul 15"}],note:"These may be chat transcripts that need follow-up actions logged."}],
+      {badge:"🔴",title:"Urgent — Duplicate Fraud Reports (3 cases, all opened today)",body:"Three cases were opened within the last hour, all tied to the same $75 unauthorized charge, the card lock, and the resulting overdraft — the same event reported across channels:",cases:[
+        {num:"00005625",subj:"Unauthorized card charge — $75 Amazon",desc:"Disputes a $75 Marketplace charge; card ending 7201 locked",status:"Working",created:"Aug 11, 3:34 PM",owner:"Chris McCarthy"},
+        {num:"00005624",subj:"Replacement debit card request",desc:"Reissue card ending 7201 after the fraud lock; expedite",status:"Working",created:"Aug 11, 3:24 PM",owner:"Chris McCarthy"},
+        {num:"00005622",subj:"Overdraft fee reversal",desc:"Waive the $35 overdraft caused by the disputed charge",status:"Working",created:"Aug 11, 3:19 PM",owner:"Chris McCarthy"}],note:"These three are the same fraud event reported across channels — consolidate into one and drive to resolution quickly."},
+      {badge:"🟡",title:"Disputes & Transactions (14 cases, spanning July 13 – Aug 11)",body:"A large cluster of open dispute, overdraft, and card cases going back to mid-July. The most recently updated ones are:",cases:[
+        {num:"00005518",subj:"Transaction dispute — merchant double charge",desc:"Merchant billed twice; provisional credit pending",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00005526",subj:"Recurring overdraft fee dispute",desc:"Disputes repeated overdraft charges on checking",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00005516",subj:"Debit card replacement — worn chip",desc:"Chip failing at POS terminals; reissue requested",status:"Working",created:"Aug 5",owner:"Chris McCarthy"},
+        {num:"00005061",subj:"Statement discrepancy — missing deposit",desc:"Reports a missing May deposit; open 3+ months",status:"Escalated",created:"May 6",owner:"Chris McCarthy"}],note:"The oldest one (00005061) has been open for over 3 months — that one really needs a resolution or at least a status update."},
+      {badge:"💬",title:"Online Banking Access (3 cases)",body:"Three digital-access cases — likely quick wins that lift CSAT if closed today:",cases:[
+        {num:"00005608",subj:"Online banking password reset",desc:"Locked out after failed logins; reset link sent",status:"Working",created:"Aug 10",owner:"Chris McCarthy"},
+        {num:"00005525",subj:"Mobile app login failure",desc:"Biometric login errors on the mobile app",status:"Working",created:"Aug 6",owner:"Chris McCarthy"},
+        {num:"00005466",subj:"Bill pay — scheduled payment missing",desc:"Scheduled payment not showing in online banking",status:"Working",created:"Jul 15",owner:"Chris McCarthy"}],note:"These digital-access issues are quick wins — closing them today improves the customer's experience."}],
     keyActions:[
-      {title:"Merge the 3 outage cases",body:"they're duplicates and need one focused resolution thread",case:{num:"00005061",meta:"Prioritize the May 6 dispute case · 3+ months open is a risk"}},
+      {title:"Merge the 3 duplicate fraud reports",body:"they're the same $75 fraud event and need one resolution thread",case:{num:"00005061",meta:"Prioritize the May 6 statement case · 3+ months open is a risk"}},
       {title:"Consider a proactive call to Lauren",body:"she has 17+ open cases, which signals a deeper relationship issue worth addressing directly"}],
     followPrompt:"Draft a summary email or call script for Lauren Bailey to address all her open issues at once",
-    draft:{kind:"email",subject:"A single point of contact for your open items",body:"Hi Lauren,\n\nI wanted to reach out personally. I've reviewed everything currently open on your account and I'm pulling it into one place so nothing slips.\n\n• The three system-outage tickets from today are being merged into a single incident and prioritized.\n• Your dispute and overdraft items — including the one open since May — now have a single owner (me) and a target resolution date.\n• I'll close out the older chat cases with a quick summary of what was resolved.\n\nI'll call you today to walk through it. You'll have one point of contact from here on.\n\nBest,\nChris"}},
+    draft:{kind:"email",subject:"A single point of contact for your open items",body:"Hi Lauren,\n\nI wanted to reach out personally. I've reviewed everything currently open on your account and I'm pulling it into one place so nothing slips.\n\n• The three duplicate fraud reports from today are being merged into a single case and prioritized.\n• Your dispute and overdraft items — including the one open since May — now have a single owner (me) and a target resolution date.\n• I'll close out the older chat cases with a quick summary of what was resolved.\n\nI'll call you today to walk through it. You'll have one point of contact from here on.\n\nBest,\nChris"}},
 
   "wealth":{
     customer:"Jonathan Ashford III", account:"Ashford Family Office",
@@ -2628,9 +2641,17 @@ const COWORKER = {
     focusAccount:"confirm each ACATS milestone and book the portfolio-construction session",
     inprogIntro:"There's a clear pattern worth flagging! All 16 of your Working cases are tied to the same relationship — Jonathan Ashford III at the Ashford Family Office. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"Time-Sensitive — Account Consolidation (3 cases, opened this week)",body:"Three linked cases cover the three external accounts being consolidated into the new Premier Portfolio. These gate the whole onboarding:",cases:[{num:"00009125",meta:"Fidelity brokerage · $22M in-kind"},{num:"00009094",meta:"Schwab IRA · rollover"},{num:"00009102",meta:"JP Morgan trust · registration review"}],note:"These are all part of one ACATS event — consolidating them into a single onboarding thread will keep the timeline clean."},
-      {badge:"🟡",title:"In-Kind & Cost-Basis Questions (6 cases, spanning July 28 – Aug 11)",body:"A cluster of eligibility and cost-basis questions has built up since the mandate was signed. The most recent are:",cases:[{num:"00009118",meta:"last updated today (Aug 11)"},{num:"00009087",meta:"last updated Aug 8"},{num:"00009040",meta:"opened Jul 28 · escalated ⚠"}],note:"The cost-basis mismatch (00009040) has been open since the mandate signed — resolve it before the first statement runs."},
-      {badge:"💬",title:"Advisor Chat Cases (2 cases)",body:'Two "Chat with Jonathan Ashford" cases with no description:',cases:[{num:"00009060",meta:"Aug 9"},{num:"00009051",meta:"Aug 2"}],note:"Likely white-glove chat threads that need follow-up actions logged."}],
+      {badge:"🔴",title:"Time-Sensitive — Account Consolidation (3 cases, opened this week)",body:"Three linked cases cover the three external accounts being consolidated into the new Premier Portfolio. These gate the whole onboarding:",cases:[
+        {num:"00009125",subj:"New Client Onboarding — Account Consolidation",desc:"Fidelity brokerage transfer, $22M in-kind, into Premier Portfolio",status:"Working",created:"Aug 10",owner:"Chris McCarthy"},
+        {num:"00009094",subj:"Schwab IRA rollover",desc:"IRA rollover paperwork and receiving-account setup",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00009102",subj:"JP Morgan trust — registration review",desc:"Verify trust registration maps to the Premier Portfolio",status:"Working",created:"Aug 8",owner:"Chris McCarthy"}],note:"These are all part of one ACATS event — consolidating them into a single onboarding thread will keep the timeline clean."},
+      {badge:"🟡",title:"In-Kind & Cost-Basis Questions (6 cases, spanning July 28 – Aug 11)",body:"A cluster of eligibility and cost-basis questions has built up since the mandate was signed. The most recent are:",cases:[
+        {num:"00009118",subj:"In-kind eligibility question",desc:"Which holdings transfer in-kind vs. require liquidation",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00009087",subj:"Cost-basis carryover confirmation",desc:"Confirm cost basis carries over on transferred lots",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00009040",subj:"Cost-basis mismatch — receiving account",desc:"Basis mismatch on transferred lots; open since mandate",status:"Escalated",created:"Jul 28",owner:"Chris McCarthy"}],note:"The cost-basis mismatch (00009040) has been open since the mandate signed — resolve it before the first statement runs."},
+      {badge:"💬",title:"Advisor Chat Cases (2 cases)",body:'Two "Chat with Jonathan Ashford" cases with no description:',cases:[
+        {num:"00009060",subj:"Advisor chat — onboarding follow-up",desc:"White-glove chat thread; log follow-up actions",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00009051",subj:"Advisor chat — timeline question",desc:"Client asked about ACATS timing; needs a logged reply",status:"Working",created:"Aug 2",owner:"Chris McCarthy"}],note:"Likely white-glove chat threads that need follow-up actions logged."}],
     keyActions:[
       {title:"Consolidate the 3 transfer cases",body:"they're one ACATS event and need a single onboarding thread",case:{num:"00009040",meta:"Prioritize the cost-basis mismatch · open since the mandate signed"}},
       {title:"Schedule a white-glove check-in with Jonathan",body:"a $40M new relationship with 11+ open items deserves a proactive call this week"}],
@@ -2658,9 +2679,18 @@ const COWORKER = {
     focusAccount:"confirm the INC-4821 mitigation and commit the RCA timeline",
     inprogIntro:"There's a clear pattern worth flagging! All 20 of your Working cases are tied to the same customer — Derek Vaughn at PayCadence. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"Urgent — Payments API Incident (3 cases, opened today)",body:"Three cases opened in the last hour all report 5xx errors on production payments traffic from the same upstream timeout:",cases:[{num:"00007843",meta:"opened 3:31 PM · production impact"},{num:"00007836",meta:"opened 3:22 PM"},{num:"00007829",meta:"opened 3:12 PM"}],note:"These are the same incident (INC-4821) — consolidate into one and drive mitigation before more retries pile up."},
-      {badge:"🟡",title:"SLA Credits & Follow-ups (11 cases, spanning July 10 – Aug 11)",body:"A cluster of credit and reliability follow-ups from prior incidents. The most recent are:",cases:[{num:"00007815",meta:"last updated today (Aug 11)"},{num:"00007802",meta:"last updated Aug 8"},{num:"00007744",meta:"opened Jul 10 · escalated ⚠"}],note:"The June downtime credit (00007744) has been open a month — resolve it before the QBR."},
-      {badge:"💬",title:"Support Chat Cases (3 cases)",body:'Three "Chat with Derek Vaughn" cases with no description:',cases:[{num:"00007780",meta:"Aug 10"},{num:"00007766",meta:"Aug 5"},{num:"00007750",meta:"Jul 20"}],note:"Likely eng-support chat threads that need follow-up actions logged."}],
+      {badge:"🔴",title:"Urgent — Payments API Incident (3 cases, opened today)",body:"Three cases opened in the last hour all report 5xx errors on production payments traffic from the same upstream timeout:",cases:[
+        {num:"00007843",subj:"Payments API returning 5xx — production",desc:"Elevated 5xx on live payments traffic; INC-4821",status:"Working",created:"Aug 11, 3:31 PM",owner:"Chris McCarthy"},
+        {num:"00007836",subj:"Checkout failures — timeout errors",desc:"Upstream provider timeout cascading to checkout",status:"Working",created:"Aug 11, 3:22 PM",owner:"Chris McCarthy"},
+        {num:"00007829",subj:"Webhook retries backing up",desc:"Failed calls piling into the retry queue",status:"Working",created:"Aug 11, 3:12 PM",owner:"Chris McCarthy"}],note:"These are the same incident (INC-4821) — consolidate into one and drive mitigation before more retries pile up."},
+      {badge:"🟡",title:"SLA Credits & Follow-ups (11 cases, spanning July 10 – Aug 11)",body:"A cluster of credit and reliability follow-ups from prior incidents. The most recent are:",cases:[
+        {num:"00007815",subj:"SLA credit request — August incident",desc:"Client requesting credit for elevated error rate",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00007802",subj:"Latency regression — reporting API",desc:"P95 latency above target on the reporting endpoint",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00007744",subj:"June downtime credit — unresolved",desc:"Outstanding SLA credit from the June outage",status:"Escalated",created:"Jul 10",owner:"Chris McCarthy"}],note:"The June downtime credit (00007744) has been open a month — resolve it before the QBR."},
+      {badge:"💬",title:"Support Chat Cases (3 cases)",body:'Three "Chat with Derek Vaughn" cases with no description:',cases:[
+        {num:"00007780",subj:"Eng-support chat — retry config",desc:"Chat about retry/backoff settings; log actions",status:"Working",created:"Aug 10",owner:"Chris McCarthy"},
+        {num:"00007766",subj:"Eng-support chat — sandbox keys",desc:"Sandbox API key question; needs a logged reply",status:"Working",created:"Aug 5",owner:"Chris McCarthy"},
+        {num:"00007750",subj:"Eng-support chat — webhook signing",desc:"Webhook signature verification thread",status:"Working",created:"Jul 20",owner:"Chris McCarthy"}],note:"Likely eng-support chat threads that need follow-up actions logged."}],
     keyActions:[
       {title:"Merge the 3 incident cases",body:"they're all INC-4821 and need one focused resolution thread",case:{num:"00007744",meta:"Prioritize the June SLA credit · a month open is a risk"}},
       {title:"Offer Derek a technical account review",body:"an enterprise logo with 14+ open items and at-risk health warrants a proactive call"}],
@@ -2688,9 +2718,17 @@ const COWORKER = {
     focusAccount:"provision the sFTP channel and validate the test payment file before go-live",
     inprogIntro:"There's a clear pattern worth flagging! All 18 of your Working cases are tied to the same client — Marcus Bell at PayFlow Logistics. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"Go-Live Blockers — sFTP + ACH (3 cases, opened this week)",body:"Three linked cases cover the provisioning steps that gate PayFlow's ability to pay vendors this week:",cases:[{num:"00009214",meta:"sFTP + ACH origination · this week"},{num:"00009207",meta:"exposure limits · dual approval"},{num:"00009168",meta:"public-key credential"}],note:"These are one onboarding — consolidate into a single thread and drive to a validated test file today."},
-      {badge:"🟡",title:"Setup & Mapping Follow-ups (7 cases, spanning July 28 – Aug 11)",body:"A cluster of configuration and mapping items has built up since the account opened. The most recent are:",cases:[{num:"00009185",meta:"last updated today (Aug 11)"},{num:"00009176",meta:"last updated Aug 8"},{num:"00009140",meta:"opened Jul 28 · escalated ⚠"}],note:"The file-format mismatch (00009140) blocks the test file — clear it first."},
-      {badge:"💬",title:"Treasury Chat Cases (2 cases)",body:'Two "Chat with Marcus Bell" cases with no description:',cases:[{num:"00009155",meta:"Aug 9"},{num:"00009147",meta:"Aug 1"}],note:"Likely onboarding chat threads that need follow-up actions logged."}],
+      {badge:"🔴",title:"Go-Live Blockers — sFTP + ACH (3 cases, opened this week)",body:"Three linked cases cover the provisioning steps that gate PayFlow's ability to pay vendors this week:",cases:[
+        {num:"00009214",subj:"sFTP + ACH origination onboarding",desc:"Provision sFTP channel and enable ACH origination",status:"Working",created:"Aug 10",owner:"Chris McCarthy"},
+        {num:"00009207",subj:"Exposure limits — dual approval",desc:"Set origination exposure limits with dual approval",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00009168",subj:"sFTP public-key credential",desc:"Register client public key for the sFTP channel",status:"Working",created:"Aug 7",owner:"Chris McCarthy"}],note:"These are one onboarding — consolidate into a single thread and drive to a validated test file today."},
+      {badge:"🟡",title:"Setup & Mapping Follow-ups (7 cases, spanning July 28 – Aug 11)",body:"A cluster of configuration and mapping items has built up since the account opened. The most recent are:",cases:[
+        {num:"00009185",subj:"Lockbox remittance mapping",desc:"Map inbound Lockbox remittance file to the ledger",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00009176",subj:"ACH addenda record formatting",desc:"Confirm addenda formatting for vendor payments",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00009140",subj:"Payment file-format mismatch",desc:"NACHA field mismatch blocks the test file",status:"Escalated",created:"Jul 28",owner:"Chris McCarthy"}],note:"The file-format mismatch (00009140) blocks the test file — clear it first."},
+      {badge:"💬",title:"Treasury Chat Cases (2 cases)",body:'Two "Chat with Marcus Bell" cases with no description:',cases:[
+        {num:"00009155",subj:"Treasury chat — cutoff times",desc:"ACH cutoff-time question; log follow-up",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00009147",subj:"Treasury chat — test file timing",desc:"Asked when the test file validates; needs reply",status:"Working",created:"Aug 1",owner:"Chris McCarthy"}],note:"Likely onboarding chat threads that need follow-up actions logged."}],
     keyActions:[
       {title:"Consolidate the 3 go-live cases",body:"they're one onboarding and need a single provisioning thread",case:{num:"00009140",meta:"Prioritize the file-format mismatch · it blocks the test file"}},
       {title:"Schedule a go-live check-in with Marcus",body:"a hard vendor-payment deadline this week warrants a proactive call today"}],
@@ -2718,9 +2756,17 @@ const COWORKER = {
     focusAccount:"build the HO-3 with pool liability and bind before the closing date",
     inprogIntro:"There's a clear pattern worth flagging! All 15 of your Working cases are tied to the same household — Elena Marchetti at the Marchetti Household. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"Deadline — Bind Before Closing (3 cases, opened this week)",body:"Three linked cases cover the quote, endorsement, and certificate needed before Elena's closing date:",cases:[{num:"00006733",meta:"HO-3 + pool liability · before closing"},{num:"00006726",meta:"multi-carrier comparison"},{num:"00006705",meta:"certificate to lender"}],note:"These are one new-business bind — consolidate into a single thread and bind the best-value option before closing."},
-      {badge:"🟡",title:"Coverage & Bundling Follow-ups (6 cases, spanning July 20 – Aug 11)",body:"A cluster of coverage and bundling items has built up since the quote started. The most recent are:",cases:[{num:"00006698",meta:"last updated today (Aug 11)"},{num:"00006690",meta:"last updated Aug 8"},{num:"00006670",meta:"opened Jul 20 · escalated ⚠"}],note:"The replacement-cost mismatch (00006670) gates the final premium — resolve it before you bind."},
-      {badge:"💬",title:"Broker Chat Cases (2 cases)",body:'Two "Chat with Elena Marchetti" cases with no description:',cases:[{num:"00006681",meta:"Aug 9"},{num:"00006674",meta:"Jul 30"}],note:"Likely broker chat threads that need follow-up actions logged."}],
+      {badge:"🔴",title:"Deadline — Bind Before Closing (3 cases, opened this week)",body:"Three linked cases cover the quote, endorsement, and certificate needed before Elena's closing date:",cases:[
+        {num:"00006733",subj:"HO-3 quote + pool liability endorsement",desc:"New-home HO-3 with pool liability; bind before closing",status:"Working",created:"Aug 10",owner:"Chris McCarthy"},
+        {num:"00006726",subj:"Multi-carrier premium comparison",desc:"Compare HO-3 quotes across carriers for best value",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00006705",subj:"Certificate of insurance — lender",desc:"Issue COI to the mortgage lender for closing",status:"Working",created:"Aug 8",owner:"Chris McCarthy"}],note:"These are one new-business bind — consolidate into a single thread and bind the best-value option before closing."},
+      {badge:"🟡",title:"Coverage & Bundling Follow-ups (6 cases, spanning July 20 – Aug 11)",body:"A cluster of coverage and bundling items has built up since the quote started. The most recent are:",cases:[
+        {num:"00006698",subj:"Auto + home bundle discount",desc:"Apply multi-policy discount to the new HO-3",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00006690",subj:"Scheduled valuables coverage",desc:"Add scheduled personal-property endorsement",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00006670",subj:"Replacement-cost valuation mismatch",desc:"Dwelling replacement-cost estimate under review",status:"Escalated",created:"Jul 20",owner:"Chris McCarthy"}],note:"The replacement-cost mismatch (00006670) gates the final premium — resolve it before you bind."},
+      {badge:"💬",title:"Broker Chat Cases (2 cases)",body:'Two "Chat with Elena Marchetti" cases with no description:',cases:[
+        {num:"00006681",subj:"Broker chat — deductible options",desc:"Discussed deductible tiers; log the follow-up",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00006674",subj:"Broker chat — closing timeline",desc:"Asked when coverage binds; needs a logged reply",status:"Working",created:"Jul 30",owner:"Chris McCarthy"}],note:"Likely broker chat threads that need follow-up actions logged."}],
     keyActions:[
       {title:"Consolidate the 3 bind cases",body:"they're one new-business bind and need a single thread",case:{num:"00006670",meta:"Prioritize the replacement-cost mismatch · it gates the premium"}},
       {title:"Schedule a pre-closing check-in with Elena",body:"a hard closing deadline plus cross-sell potential warrants a proactive call today"}],
@@ -2748,9 +2794,17 @@ const COWORKER = {
     focusAccount:"file the FNOL, assign an adjuster, and arrange the rental before end of day",
     inprogIntro:"There's a clear pattern worth flagging! All 15 of your Working cases are tied to the same policyholder — Ray Delgado at the Delgado Household. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"New Collision Claim — FNOL (3 cases, opened today)",body:"Three linked cases cover the accident report, adjuster assignment, and rental for this morning's rear-end collision:",cases:[{num:"00006844",meta:"FNOL · rear-end collision"},{num:"00006838",meta:"adjuster scheduling"},{num:"00006829",meta:"rental reimbursement"}],note:"These are one claim — consolidate into a single FNOL thread and drive the adjuster + rental today."},
-      {badge:"🟡",title:"Claim Follow-ups (6 cases, spanning July 15 – Aug 11)",body:"A cluster of open claim items has built up over the last few weeks. The most recent are:",cases:[{num:"00006815",meta:"last updated today (Aug 11)"},{num:"00006802",meta:"last updated Aug 8"},{num:"00006770",meta:"opened Jul 15 · escalated ⚠"}],note:"The injury-claim review (00006770) has been open nearly a month — resolve it or set a status update."},
-      {badge:"💬",title:"Policyholder Chat Cases (2 cases)",body:'Two "Chat with Ray Delgado" cases with no description:',cases:[{num:"00006788",meta:"Aug 9"},{num:"00006779",meta:"Jul 30"}],note:"Likely claim-status chat threads that need follow-up actions logged."}],
+      {badge:"🔴",title:"New Collision Claim — FNOL (3 cases, opened today)",body:"Three linked cases cover the accident report, adjuster assignment, and rental for this morning's rear-end collision:",cases:[
+        {num:"00006844",subj:"FNOL — rear-end collision",desc:"First notice of loss; drivable vehicle, no injuries",status:"Working",created:"Aug 11, 9:12 AM",owner:"Chris McCarthy"},
+        {num:"00006838",subj:"Adjuster assignment & scheduling",desc:"Assign adjuster and schedule the damage inspection",status:"Working",created:"Aug 11, 9:20 AM",owner:"Chris McCarthy"},
+        {num:"00006829",subj:"Rental car reimbursement setup",desc:"Arrange rental under the policy while in repair",status:"Working",created:"Aug 11, 9:28 AM",owner:"Chris McCarthy"}],note:"These are one claim — consolidate into a single FNOL thread and drive the adjuster + rental today."},
+      {badge:"🟡",title:"Claim Follow-ups (6 cases, spanning July 15 – Aug 11)",body:"A cluster of open claim items has built up over the last few weeks. The most recent are:",cases:[
+        {num:"00006815",subj:"Repair shop estimate review",desc:"Review body-shop estimate against coverage",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00006802",subj:"Deductible confirmation",desc:"Confirm collision deductible with the policyholder",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00006770",subj:"Injury-claim review — third party",desc:"Third-party injury review; open nearly a month",status:"Escalated",created:"Jul 15",owner:"Chris McCarthy"}],note:"The injury-claim review (00006770) has been open nearly a month — resolve it or set a status update."},
+      {badge:"💬",title:"Policyholder Chat Cases (2 cases)",body:'Two "Chat with Ray Delgado" cases with no description:',cases:[
+        {num:"00006788",subj:"Policyholder chat — claim status",desc:"Asked for a status update; log the follow-up",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00006779",subj:"Policyholder chat — rental extension",desc:"Requested a rental extension; needs a reply",status:"Working",created:"Jul 30",owner:"Chris McCarthy"}],note:"Likely claim-status chat threads that need follow-up actions logged."}],
     keyActions:[
       {title:"Consolidate the 3 FNOL cases",body:"they're one collision claim and need a single thread",case:{num:"00006770",meta:"Prioritize the injury-claim review · liability exposure is a risk"}},
       {title:"Proactively call Ray with a status",body:"a new accident plus 6+ open items warrants a reassuring call today"}],
@@ -2778,9 +2832,17 @@ const COWORKER = {
     focusAccount:"confirm eligibility, validate the designation, and submit the change on the call",
     inprogIntro:"There's a clear pattern worth flagging! All 13 of your Working cases are tied to the same owner — Patricia Lee at the Lee Household. Here's the breakdown:",
     clusters:[
-      {badge:"🔴",title:"Beneficiary Change — In Progress (3 cases, opened this week)",body:"Three linked cases cover the beneficiary designation, the contingent question, and the confirmation notice for Patricia's whole life policy:",cases:[{num:"00006902",meta:"replace designation · primary + contingent"},{num:"00006896",meta:"contingent beneficiary question"},{num:"00006889",meta:"ownership change inquiry"}],note:"These are one policy change — consolidate into a single thread and submit the validated designation today."},
-      {badge:"🟡",title:"Policy-Service Follow-ups (6 cases, spanning July 2 – Aug 11)",body:"A cluster of service items has built up over the last few weeks. The most recent are:",cases:[{num:"00006874",meta:"last updated today (Aug 11)"},{num:"00006861",meta:"last updated Aug 8"},{num:"00006828",meta:"opened Jul 2 · escalated ⚠"}],note:"The lapse-risk notice (00006828) has been open over a month — resolve it to protect the policy."},
-      {badge:"💬",title:"Owner Chat Cases (2 cases)",body:'Two "Chat with Patricia Lee" cases with no description:',cases:[{num:"00006842",meta:"Aug 9"},{num:"00006835",meta:"Jul 28"}],note:"Likely policy-service chat threads that need follow-up actions logged."}],
+      {badge:"🔴",title:"Beneficiary Change — In Progress (3 cases, opened this week)",body:"Three linked cases cover the beneficiary designation, the contingent question, and the confirmation notice for Patricia's whole life policy:",cases:[
+        {num:"00006902",subj:"Replace beneficiary designation",desc:"Primary Jordan/Casey Lee; contingent Morgan Lee",status:"Working",created:"Aug 10",owner:"Chris McCarthy"},
+        {num:"00006896",subj:"Contingent beneficiary question",desc:"Clarify contingent split before submitting",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00006889",subj:"Policy ownership change inquiry",desc:"Owner asked about a future ownership change",status:"Working",created:"Aug 8",owner:"Chris McCarthy"}],note:"These are one policy change — consolidate into a single thread and submit the validated designation today."},
+      {badge:"🟡",title:"Policy-Service Follow-ups (6 cases, spanning July 2 – Aug 11)",body:"A cluster of service items has built up over the last few weeks. The most recent are:",cases:[
+        {num:"00006874",subj:"Premium payment method update",desc:"Update bank draft for the annual premium",status:"Working",created:"Aug 11",owner:"Chris McCarthy"},
+        {num:"00006861",subj:"Address change — mailing",desc:"Update policyholder mailing address of record",status:"Working",created:"Aug 8",owner:"Chris McCarthy"},
+        {num:"00006828",subj:"Lapse-risk notice — premium overdue",desc:"Policy at lapse risk; premium overdue, open a month",status:"Escalated",created:"Jul 2",owner:"Chris McCarthy"}],note:"The lapse-risk notice (00006828) has been open over a month — resolve it to protect the policy."},
+      {badge:"💬",title:"Owner Chat Cases (2 cases)",body:'Two "Chat with Patricia Lee" cases with no description:',cases:[
+        {num:"00006842",subj:"Owner chat — beneficiary forms",desc:"Asked which forms to sign; log the follow-up",status:"Working",created:"Aug 9",owner:"Chris McCarthy"},
+        {num:"00006835",subj:"Owner chat — confirmation timing",desc:"Asked when the change confirms; needs a reply",status:"Working",created:"Jul 28",owner:"Chris McCarthy"}],note:"Likely policy-service chat threads that need follow-up actions logged."}],
     keyActions:[
       {title:"Consolidate the 3 policy-change cases",body:"they're one beneficiary update and need a single thread",case:{num:"00006828",meta:"Prioritize the lapse-risk notice · protecting the policy is urgent"}},
       {title:"Proactively call Patricia to confirm the change",body:"a sensitive beneficiary update with 6+ open items warrants a reassuring call today"}],
@@ -2963,9 +3025,9 @@ function renderInprog(c){
     ${c.clusters.map((cl,ci)=>`<div class="acluster">
       <div class="cl-h">${ci+1}. ${cl.title}</div>
       <p>${cl.body}</p>
-      <table class="ctable"><thead><tr><th>Case</th><th>Subject</th><th>Status</th></tr></thead><tbody>
-        ${cl.cases.map(cc=>`<tr><td class="cnl">${cc.num}</td><td>${cc.meta}</td><td>Working</td></tr>`).join('')}
-      </tbody></table>
+      <div class="ctwrap"><table class="ctable"><thead><tr><th>Case</th><th>Subject</th><th>Description</th><th>Status</th><th>Date Created</th><th>Owner</th></tr></thead><tbody>
+        ${cl.cases.map(cc=>`<tr><td class="cnl">${cc.num}</td><td>${cc.subj||''}</td><td class="cdesc">${cc.desc||''}</td><td>${cc.status||'Working'}</td><td class="cnw">${cc.created||''}</td><td class="cnw">${cc.owner||'Chris McCarthy'}</td></tr>`).join('')}
+      </tbody></table></div>
       <p class="amuted">${cl.note}</p>
     </div>`).join('')}
     <div class="akey" id="keyActions">
