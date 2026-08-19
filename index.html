@@ -1904,7 +1904,7 @@ function buildSteps(){
       talk:"One click accepts the call — and the rep drops straight into the Voice workspace with the full 360 and the Agentforce summary already in place.",
       dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
 
-    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:"#idCard", title:"Act 2 · The rep picks up with full context",
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1,tallConvo:1}, box:"#idCard", title:"Act 2 · The rep picks up with full context",
       talk:`The screen pivots to the live Voice Call. The rep has ${cust}'s full 360 and the call is connected — no re-explaining. The Service Assistant is standing by on the right.`,
       dothis:"Click the ▮▮ Pause control to begin (or press ▶ Play).", advanceOn:"#phonePause" },
     { view:"voice", set:{phoneLive:1,tallConvo:1}, turns:1, target:"#convo", title:"Live transcript — greeting with context", autoplay:true, dur:1600,
