@@ -329,6 +329,8 @@ a{color:var(--brand);text-decoration:none}
 .pc.end{background:var(--pink);color:#fff;border-color:var(--pink);flex:1.5}
 
 .convo{max-height:330px;overflow:auto;padding:12px 14px}
+/* once the live call is under way the transcript expands to fill the workspace, reaching down to the Cases card */
+.convo.tall{min-height:560px;max-height:calc(100vh - 240px)}
 .convo .lead{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:10px}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--good);animation:blink 1s infinite}
 .rb{margin-bottom:11px;display:flex;flex-direction:column}
@@ -1854,10 +1856,10 @@ function buildSteps(){
       talk:"One click accepts the call — and the rep drops straight into the Voice workspace with the full 360 and the Agentforce summary already in place.",
       dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
 
-    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:["#idCard","#phoneCard"], target:"#phonePause", noPulse:true, title:"Act 2 · The rep picks up with full context",
+    { view:"voice", set:{gh:1,subhead:1,tabVoice:1,phoneLive:1}, box:"#idCard", title:"Act 2 · The rep picks up with full context",
       talk:`The screen pivots to the live Voice Call. The rep has ${cust}'s full 360 and the call is connected — no re-explaining. The Service Assistant is standing by on the right.`,
       dothis:"Click the ▮▮ Pause control to begin (or press ▶ Play).", advanceOn:"#phonePause" },
-    { view:"voice", set:{phoneLive:1}, turns:1, target:"#convo", title:"Live transcript — greeting with context", autoplay:true, dur:1600,
+    { view:"voice", set:{phoneLive:1,tallConvo:1}, turns:1, target:"#convo", title:"Live transcript — greeting with context", autoplay:true, dur:1600,
       talk:`The rep opens by telling ${cust} they've already been briefed and nothing needs repeating — the biggest ‘aha’ of the Agentforce hand-off.` },
     { view:"voice", set:{phoneLive:1}, turns:2, target:"#convo", title:"The Service Assistant reads the case", autoplay:true, dur:1900,
       talk:`As ${cust} describes the issue, the Service Assistant reads the case in the background — no canned reply to paste, it's preparing a grounded plan of record.` },
@@ -2300,7 +2302,7 @@ function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
           </div>
           <div id="serviceP">
             <div class="convo" id="convo">
-              <div class="lead"><span class="convo-ic"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#149b93"/><path d="M8 9.5h12a1.6 1.6 0 0 1 1.6 1.6v4.2a1.6 1.6 0 0 1-1.6 1.6h-6.6L9 20.6v-3.7H8a1.6 1.6 0 0 1-1.6-1.6v-4.2A1.6 1.6 0 0 1 8 9.5z" fill="#fff"/></svg></span> Conversation <span class="live-dot" id="liveDot"></span><span id="convoTag" style="font-size:11px;color:var(--muted);font-weight:500">live transcript</span></div>
+              <div class="lead"><span class="convo-ic"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#149b93"/><path d="M8 9.5h12a1.6 1.6 0 0 1 1.6 1.6v4.2a1.6 1.6 0 0 1-1.6 1.6h-6.6L9 20.6v-3.7H8a1.6 1.6 0 0 1-1.6-1.6v-4.2A1.6 1.6 0 0 1 8 9.5z" fill="#fff"/></svg></span> Conversation <span id="convoTag" style="font-size:11px;color:var(--muted);font-weight:500">live transcript</span></div>
               <div class="catchup vcatch" id="voiceCatchup"><div class="cu-main">
                 <div class="cu-head"><span class="cu-title">Conversation Catch-Up</span><span class="cu-dismiss" id="voiceCatchupDismiss" onclick="event.stopPropagation();document.getElementById('voiceCatchup').style.display='none'">Dismiss</span></div>
                 <p class="cu-p">${V.voice.catchupText.summary}</p>
@@ -2361,7 +2363,7 @@ function updateVoice(st,f){
   if(w){ const shown=+w.dataset.shown||0;
     if(st.turns>shown){ for(let i=shown;i<st.turns;i++)w.insertAdjacentHTML('beforeend',repBubble(V.repConvo.turns[i])); w.dataset.shown=st.turns; const c=$('#convo');if(c)c.scrollTop=c.scrollHeight; }
     else if(st.turns<shown){ w.innerHTML=''; for(let i=0;i<st.turns;i++)w.insertAdjacentHTML('beforeend',repBubble(V.repConvo.turns[i])); w.dataset.shown=st.turns; } }
-  const live=$('#liveDot');if(live)live.style.display=f.callEnded?'none':'inline-block';
+  const cv=$('#convo');if(cv)cv.classList.toggle('tall',!!f.tallConvo);
   const ct=$('#convoTag');if(ct)ct.textContent=f.callEnded?'ended':'live';
   $('#rightRail').innerHTML=f.wrapPanel?renderWrapRail(f):renderSra(f);
 }
