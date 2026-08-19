@@ -53,6 +53,9 @@ a{color:var(--brand);text-decoration:none}
 .gh .ask{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:12px;height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .gh .icons{justify-self:end;display:flex;align-items:center;gap:14px;color:#54698a;font-size:15px}
 .gh .icons .gi{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;line-height:1}
+.gh .icons .gi svg{width:19px;height:19px;display:block}
+.gh .icons .star svg{width:14px;height:14px}
+.gh .bell svg{width:19px;height:19px;display:block;vertical-align:middle}
 .gh .icons .star{border:1px solid var(--line-2);border-radius:5px;padding:2px 5px;gap:2px;color:#54698a}
 .gh .icons .star i{font-size:8px;font-style:normal;color:var(--faint)}
 .gh .icons .plus{width:21px;height:21px;border-radius:50%;background:#0176d3;color:#fff;font-size:13px;font-weight:700}
@@ -103,9 +106,14 @@ a{color:var(--brand);text-decoration:none}
 @keyframes railpulse{0%{box-shadow:0 0 0 0 rgba(234,0,30,.55)}70%{box-shadow:0 0 0 6px rgba(234,0,30,0)}100%{box-shadow:0 0 0 0 rgba(234,0,30,0)}}
 /* Omni-Channel Inbox panel (opens from the rail) */
 .omniinbox{position:fixed;left:54px;top:50px;bottom:118px;width:340px;max-width:72vw;background:#fff;border-right:1px solid var(--line-2);box-shadow:8px 0 22px rgba(16,32,50,.09);z-index:38;display:flex;flex-direction:column;overflow:hidden}
-.oi-head{display:flex;align-items:center;gap:10px;padding:13px 16px;font-weight:800;font-size:17px;color:#04315f}
-.oi-head .oi-ic{width:34px;height:34px;border-radius:50%;background:#0b7fd4;color:#fff;display:grid;place-items:center;font-size:15px;font-weight:800}
-.oi-head .oi-tools{margin-left:auto;color:var(--good);font-size:14px;letter-spacing:7px}
+.oi-head{display:flex;align-items:center;gap:11px;padding:13px 16px;font-weight:800;font-size:17px;color:#04315f}
+.oi-head .oi-ic{width:34px;height:34px;border-radius:50%;background:#0b7fd4;color:#fff;display:grid;place-items:center;flex:none}
+.oi-head .oi-ic svg{width:18px;height:18px;display:block}
+.oi-head .oi-head-t{flex:1}
+.oi-head .oi-tools{margin-left:auto;display:flex;align-items:center;gap:14px}
+.oi-head .oi-tools svg{width:20px;height:20px;display:block;cursor:pointer}
+.oi-caret{color:var(--brand);font-size:9px}
+.oi-search .oi-mag{width:15px;height:15px;color:#7084a8;flex:none}
 .oi-status{position:relative;margin:2px 12px 0;border:1px solid var(--line);border-radius:8px;padding:12px 13px;display:flex;align-items:center;gap:8px}
 .oi-status-lbl{font-weight:700;font-size:14px;flex:1;color:var(--ink)}
 .oi-status-btn{border:1px solid var(--line-2);border-radius:16px;padding:5px 11px;background:#fff;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);cursor:pointer}
@@ -117,8 +125,8 @@ a{color:var(--brand);text-decoration:none}
 .ch-dot.good{background:#2e844a}.ch-dot.busy{background:#fe9339}.ch-dot.off{background:#fff;border:1.5px solid var(--line-2)}
 .oi-tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);padding:12px 16px 0;margin-top:12px}
 .oi-tabs span{padding-bottom:9px;font-size:13.5px;color:var(--ink-2);border-bottom:2px solid transparent}
-.oi-tabs span.active{color:var(--good);border-bottom-color:var(--good);font-weight:700}
-.oi-search{margin:12px;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--faint);font-size:13px}
+.oi-tabs span.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:700}
+.oi-search{margin:12px;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--faint);font-size:13px;display:flex;align-items:center;gap:8px}
 .oi-items-head{display:flex;justify-content:space-between;padding:0 16px 8px;font-size:12px;color:var(--muted)}
 .oi-items-head span:last-child{color:var(--good);font-weight:600}
 .oi-item{padding:12px 16px;border-top:1px solid var(--line)}
@@ -413,20 +421,21 @@ a{color:var(--brand);text-decoration:none}
    ============================================================ */
 .sra{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-1);overflow:hidden}
 .sra .h{padding:12px 14px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
-.sra-hero{margin:12px 14px 0;border-radius:12px;background:linear-gradient(120deg,#c9d4ff,#e3d3ff 55%,#cdeeff);padding:16px 14px;position:relative;overflow:hidden;min-height:96px}
+.sra-hero{margin:12px 14px 0;border-radius:12px;background:#EEF1F5;padding:16px 14px;position:relative;overflow:hidden}
 .sra-hero .astro{position:absolute;right:6px;top:6px;width:70px;height:70px;filter:drop-shadow(0 4px 7px rgba(0,0,0,.18));animation:float 4s ease-in-out infinite}
 .sra-hero .astro svg{width:100%;height:100%;display:block}
 @keyframes float{50%{transform:translateY(-7px)}}
 .sra-hero .spark{position:absolute;color:#fff;opacity:.8}
-.sra-hero p{margin:0;font-size:12px;color:#37275f;max-width:74%}
-.sra-hero b{color:#241247}
+.sra-hero p{margin:0;font-size:12px;color:var(--ink-2);max-width:none}
+.sra-hero b{color:var(--ink)}
+.grem{filter:grayscale(1);opacity:.85}
 .reveal{padding:12px 14px;border-top:1px solid var(--line);animation:pop .35s ease both}
 /* Service Assistant: fixed-height panel, internal scroll so the page stays put */
 .sra.assist{display:flex;flex-direction:column;max-height:calc(100vh - 210px)}
 .sra.assist>.h{flex:none}
 .sra-scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding-bottom:12px;min-width:0}
 .sra-scroll .reveal,.sra-scroll .planwrap{min-width:0;overflow-wrap:anywhere}
-.planwrap{border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin:12px 14px 0}
+.planwrap{border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin:12px 14px 0;background:#EEF1F5}
 .planwrap .pt{font-weight:800;font-size:15px;margin:5px 0 6px}
 .planwrap .body{font-size:12.5px;color:var(--ink-2);margin:0 0 8px;line-height:1.45}
 .planwrap .body.dim{color:var(--muted)}
@@ -577,6 +586,9 @@ a{color:var(--brand);text-decoration:none}
 .gbtn.play{width:auto;padding:0 18px;gap:8px;display:flex;align-items:center;background:var(--brand);color:#fff;border-color:var(--brand);font-weight:800;font-size:14px}
 .gbtn:disabled{opacity:.4;cursor:not-allowed}
 .gcount{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;margin-left:4px}
+.gcol{font-size:15px;line-height:1}
+.guidebar.collapsed{min-height:0;padding:8px 18px;justify-content:flex-end}
+.guidebar.collapsed .gtxt,.guidebar.collapsed #ttToggle,.guidebar.collapsed #auToggle{display:none}
 .toggle{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-2);white-space:nowrap;cursor:pointer}
 .sw{width:38px;height:22px;border-radius:12px;background:var(--line-2);position:relative;transition:.2s}
 .sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
@@ -740,8 +752,8 @@ a{color:var(--brand);text-decoration:none}
       <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
       <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div></div>
     <div class="ghmid"><div class="search">🔍 Search…</div><div class="ask" id="askBtn">✦ Ask</div></div>
-    <div class="icons"><span class="gi">🤖</span><span class="gi star">★<i>▾</i></span><span class="gi plus">＋</span><span class="gi">☁</span><span class="gi">?</span><span class="gi">🚀</span><span class="gi">⚙</span>
-      <span class="bellwrap"><span class="bell" id="bell">🔔<span class="dot" id="bellDot">0</span></span>
+    <div class="icons"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#5f6b7a" stroke-width="1.7"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 5.6V8"/><circle cx="12" cy="4.4" r="1" fill="#5f6b7a"/><circle cx="9.6" cy="13" r="1" fill="#5f6b7a" stroke="none"/><circle cx="14.4" cy="13" r="1" fill="#5f6b7a" stroke="none"/></svg></span><span class="gi star"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 3.6l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.3l5.4-.8z"/></svg><i>▾</i></span><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#5f6b7a" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="6" x2="12" y2="18"/><line x1="6" y1="12" x2="18" y2="12"/></svg></span><span class="gi"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M17.4 18.5H6.7a3.8 3.8 0 01-.5-7.57A5.3 5.3 0 0116.8 10a3.75 3.75 0 01.6 8.5z"/></svg></span><span class="gi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#5f6b7a" stroke-width="1.8"/><text x="12" y="16.5" text-anchor="middle" font-size="13" font-weight="700" fill="#5f6b7a">?</text></svg></span><span class="gi"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M15.5 3c-3 .3-5.6 2-7.2 4.6L6 8l-2.3.6a1 1 0 00-.5 1.6l1.8 1.9c-.1.6-.1 1.2 0 1.8l-.9 2.3 2.3-.9c.6.1 1.2.1 1.8 0l1.9 1.8a1 1 0 001.6-.5L12 14l.4-2.3C15 10 16.7 7.4 17 4.4A1.2 1.2 0 0015.5 3zm-2 5.5a1.4 1.4 0 111.9-1.9 1.4 1.4 0 01-1.9 1.9z"/></svg></span><span class="gi"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 00.12-.64l-1.76-3.05a.5.5 0 00-.6-.22l-2.19.88a6.9 6.9 0 00-1.62-.94l-.33-2.33A.5.5 0 0014.05 3h-4.1a.5.5 0 00-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 00-.6.22L2.62 9.43a.5.5 0 00.12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 00-.12.64l1.76 3.05a.5.5 0 00.6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 00.5.42h4.1a.5.5 0 00.5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 00.6-.22l1.76-3.05a.5.5 0 00-.12-.64l-1.86-1.45z"/></svg></span>
+      <span class="bellwrap"><span class="bell" id="bell"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 3a1.3 1.3 0 011.3 1.3v.6a5 5 0 013.7 4.8V13l1.4 2.4a1 1 0 01-.85 1.5H6.45a1 1 0 01-.85-1.5L7 13V9.7a5 5 0 013.7-4.8v-.6A1.3 1.3 0 0112 3zm-1.8 15.2a1.9 1.9 0 003.6 0z"/></svg><span class="dot" id="bellDot">0</span></span>
         <div class="bellpanel" id="bellPanel" hidden></div></span>
       <span class="avatar">CM</span></div>
   </div>
@@ -774,7 +786,8 @@ a{color:var(--brand);text-decoration:none}
     <div class="dothis" id="gDo" hidden></div>
   </div>
   <label class="toggle on" id="ttToggle"><span>Talk track</span><span class="sw"></span></label>
-  <label class="toggle" id="auToggle" title="Speak the call transcript aloud" hidden><span>🔊 Voice</span><span class="sw"></span></label>
+  <label class="toggle" id="auToggle" title="Speak the call transcript aloud" hidden><span>Voice</span><span class="sw"></span></label>
+  <button class="gbtn gcol" id="btnCollapse" title="Hide guide">▾</button>
   <div class="gctrls">
     <button class="gbtn" id="btnRestart" title="Restart">↺</button>
     <button class="gbtn" id="btnBack" title="Back">‹</button>
@@ -1826,10 +1839,7 @@ function buildSteps(){
     { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1}, target:"#omniLauncher", title:"The transfer lands in Omni-Channel",
       talk:"The transferred call drops into the rep's Omni-Channel inbox. Work paused by its status — like the Application review that's waiting on the customer — steps aside, freeing the rep up to take this live call.",
       dothis:"Open the Omni-Channel sidebar.", advanceOn:"#omniLauncher" },
-    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1,channelOpen:1}, target:"#omniStatusBtn", title:"One presence, every channel",
-      talk:"Cases, chat, messaging, phone — every channel routes to the rep through Omni-Channel, balanced by skill, priority, and capacity so the right work reaches the right person.",
-      dothis:"Review the channel presence menu.", advanceOn:"#omniStatusBtn" },
-    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1,channelOpen:0}, target:"#omniAccept", title:"Accept the transferred call",
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1}, target:"#omniAccept", title:"Accept the transferred call",
       talk:"One click accepts the call — and the rep drops straight into the Voice workspace with the full 360 and the Agentforce summary already in place.",
       dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
 
@@ -1965,16 +1975,18 @@ function applySpotlight(step){
 function go(i){cancelAudio();idx=Math.max(0,Math.min(STEPS.length-1,i));render();}
 function next(){ if(idx<STEPS.length-1)go(idx+1); else stop(); }
 function back(){pause();go(idx-1);}
+const PLAY_DWELL=10000;   // continuous auto-advance: 10s per slide (or until spoken audio finishes)
 function play(){ if(idx>=STEPS.length-1)return; playing=true; $('#btnPlay').innerHTML='❚❚ Pause'; tick(); }
-function tick(){ clearTimeout(timer); const cur=STEPS[idx];
-  const advance=()=>{ if(idx>=STEPS.length-1){stop();return;}
-    go(idx+1); const ns=STEPS[idx]; if(ns.stopHere||!ns.autoplay){stop();return;} tick(); };
-  // With audio on the spoken turn sets the pace, so speech and steps can't drift
-  // apart. Muted, or on a step that reveals no new turns, the fixed dur applies.
-  if(AUDIO.on && audioWait){ const w=audioWait, token=AUDIO.token;
-    w.then(()=>{ if(!playing || token!==AUDIO.token) return; timer=setTimeout(advance, 400); });
+function tick(){ clearTimeout(timer);
+  // Runs continuously once started — advance every slide until the user pauses or we reach the end.
+  const advance=()=>{ if(!playing) return; if(idx>=STEPS.length-1){stop();return;} go(idx+1); if(playing) tick(); };
+  // With Voice audio on, wait for the longer of the spoken turn and the 10s dwell so speech is never cut.
+  if(AUDIO.on && audioWait){ const w=audioWait, token=AUDIO.token; let aDone=false, tDone=false;
+    const maybe=()=>{ if(aDone && tDone && playing) advance(); };
+    w.then(()=>{ if(token!==AUDIO.token || !playing) return; aDone=true; maybe(); });
+    timer=setTimeout(()=>{ tDone=true; maybe(); }, PLAY_DWELL);
     return; }
-  timer=setTimeout(advance, cur.dur||1500); }
+  timer=setTimeout(advance, PLAY_DWELL); }
 function pause(){playing=false;clearTimeout(timer);cancelAudio();$('#btnPlay').innerHTML='▶ Play';}
 function stop(){pause();}
 function togglePlay(){playing?pause():play();}
@@ -2183,16 +2195,16 @@ function viewMonitor(){ const m=V.monitor;
       <div class="mnorec" id="mNoRec" hidden>No records to display.</div>
     </div>
     <div class="omniinbox" id="omniInbox" hidden>
-      <div class="oi-head"><span class="oi-ic">➜</span> Inbox <span class="oi-tools">⚙ ▣</span></div>
+      <div class="oi-head"><span class="oi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11"/><path d="M11 6l6 6-6 6"/></svg></span><span class="oi-head-t">Inbox</span><span class="oi-tools"><svg viewBox="0 0 24 24" fill="#0176d3"><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 00.12-.64l-1.76-3.05a.5.5 0 00-.6-.22l-2.19.88a6.9 6.9 0 00-1.62-.94l-.33-2.33A.5.5 0 0014.05 3h-4.1a.5.5 0 00-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 00-.6.22L2.62 9.43a.5.5 0 00.12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 00-.12.64l1.76 3.05a.5.5 0 00.6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 00.5.42h4.1a.5.5 0 00.5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 00.6-.22l1.76-3.05a.5.5 0 00-.12-.64l-1.86-1.45z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#0176d3" stroke-width="2"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><line x1="9.5" y1="4.5" x2="9.5" y2="19.5"/></svg></span></div>
       <div class="oi-status"><span class="oi-status-lbl">Phone - Available</span>
-        <button class="oi-status-btn" id="omniStatusBtn"><span class="oi-dot"></span> ▾</button>
+        <button class="oi-status-btn" id="omniStatusBtn"><span class="oi-dot"></span> <span class="oi-caret">▾</span></button>
         <div class="channeldd" id="channelDropdown" hidden>
           ${[['All - Available','good'],['Cases - Available','good'],['Chat - Available','good'],['Messaging - Available','good'],['Phone - Available','good'],['Busy','busy'],['Busy - Break','busy'],['Busy - Lunch','busy'],['Busy - Training','busy'],['Offline','off']].map((c,i)=>`<div class="ch-item ${i===0?'sel':''}"><span class="ch-dot ${c[1]}"></span> ${c[0]}</div>`).join('')}
         </div>
       </div>
       <div class="oi-tabs"><span class="active">Inbox (1)</span><span>Phone</span></div>
-      <div class="oi-search">🔍 Search inbox…</div>
-      <div class="oi-items-head"><span>2/2 items</span><span>Default Order</span></div>
+      <div class="oi-search"><svg class="oi-mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><span>Search inbox…</span></div>
+      <div class="oi-items-head"><span>1/1 items</span><span>Default Order</span></div>
       <div class="oi-item active">
         <div class="oi-item-top"><b>${V.record.voiceTitle}</b><button class="oi-accept" id="omniAccept" title="Accept">✓</button></div>
         <div class="oi-item-sub">${m.caller} | Inbound | ${m.callStarted} | ${m.phone}</div>
@@ -2205,8 +2217,8 @@ function viewMonitor(){ const m=V.monitor;
       </div>
     </div>
     <div class="dock" id="dockPanel" hidden>
-      <div class="dh"><span class="dh-ic">🗣</span><span class="t">${V.record.voiceTitle}</span><span class="dh-ctrls">—  ⤢  ✕</span></div>
-      <div class="dacts"><button class="dact primary" id="transferBtn">👤 Transfer to Rep</button><button class="dact">🚩 Lower</button></div>
+      <div class="dh"><span class="t">${V.record.voiceTitle}</span><span class="dh-ctrls">—  ⤢  ✕</span></div>
+      <div class="dacts"><button class="dact primary" id="transferBtn"><span class="grem">👤</span> Transfer to Rep</button><button class="dact"><span class="grem">🚩</span> Lower</button></div>
       <div class="dbody">
         <div class="catchup" id="catchupCard"><div class="cu-bot">🤖</div><div class="cu-main">
           <div class="cu-head"><span class="cu-title">Conversation Catch-Up</span><span class="cu-dismiss" id="catchupDismiss">Dismiss</span></div>
@@ -2234,7 +2246,6 @@ function bubble(b){ if(b.who==="sys")return `<div class="b sys">${b.t}</div>`;
 /* VOICE */
 function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
   return `<div class="voicetop">
-      <div class="vt-ic">📞</div>
       <div class="vt-t">${r.voiceTitle}<small>Voice Call · ${m.voiceCallId}</small></div>
       <div class="vt-meta">
         <div><div class="k">Contact</div><div class="v">${p.name}</div></div>
@@ -2256,25 +2267,25 @@ function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
           <div class="csat"><div class="lbl"><span>CSAT History</span><span class="lgd"><span><i style="background:#0176d3"></i>Engage</span><span><i style="background:#57b97e"></i>Sat</span></span></div>${csatSvg()}</div>
         </div>
         <div class="card phone" id="phoneCard">
-          <div class="ch">📞 Phone <span style="margin-left:auto;font-size:11px;color:var(--muted)">● Recording</span></div>
+          <div class="ch">Phone <span style="margin-left:auto;font-size:11px;color:var(--muted)">● Recording</span></div>
           <div class="cb">
             <div class="status"><span class="pill live" id="phonePill">● Connected</span><span class="timer" id="phoneTimer"><span class="rd"></span>00:00</span></div>
             <div class="num">${m.phone}<small>Inbound</small></div>
             <div class="ctrls"><button class="pc">⚑</button><button class="pc" id="phonePause">❚❚</button><button class="pc">🎙</button><button class="pc end" id="endCall">End Call</button></div>
           </div>
         </div>
-        <div class="scard wcard"><div class="sc-h">📁 Cases for Parent Contact (3+)</div>
+        <div class="scard wcard"><div class="sc-h">Cases for Parent Contact (3+)</div>
           ${r.cases.map(c=>`<div class="caseitem"><a href="#" onclick="return false">${c.id}</a> — ${c.subj}<div class="meta">Opened ${c.when} · ${c.status}</div></div>`).join('')}</div>
-        <div class="scard wcard"><div class="sc-h">🧾 Entitlements for Parent Contact (1)</div>
+        <div class="scard wcard"><div class="sc-h">Entitlements for Parent Contact (1)</div>
           <div class="caseitem"><a href="#" onclick="return false">${r.entitlement.name}</a><div class="meta">Account ${r.entitlement.acct} · Start ${r.entitlement.start}</div></div></div>
       </div>
 
       <div class="col">
         <div class="card" style="padding:0">
           <div class="wtabs">
-            <span class="wtab active" id="wtabService" data-tab="service">💬 Conversation Transcript</span>
-            <span class="wtab" id="wtabCoaching" data-tab="coaching">🎯 Coaching</span>
-            <span class="wtab" data-tab="details">📄 Details</span><span class="wtab" data-tab="financials">💰 Financials</span><span class="wtab" data-tab="related">🍩 Related</span>
+            <span class="wtab active" id="wtabService" data-tab="service">Conversation Transcript</span>
+            <span class="wtab" id="wtabCoaching" data-tab="coaching">Coaching</span>
+            <span class="wtab" data-tab="details">Details</span><span class="wtab" data-tab="financials">Financials</span><span class="wtab" data-tab="related">Related</span>
           </div>
           <div id="serviceP">
             <div class="convo" id="convo">
@@ -2351,15 +2362,14 @@ function sraAstro(){ return `<svg viewBox="0 0 100 104" xmlns="http://www.w3.org
   <circle cx="45" cy="82" r="2.6" fill="#0176d3"/><circle cx="55" cy="82" r="2.6" fill="#e0517a"/><rect x="42" y="88" width="16" height="3" rx="1.5" fill="#cdd4de"/>
 </svg>`; }
 function renderSra(f){ const s=V.sra;
-  let h=`<div class="sra assist"><div class="h">🤖 Service Assistant <span style="font-weight:500;color:var(--muted);font-size:11px">ⓘ</span></div><div class="sra-scroll" id="sraScroll">`;
-  h+=`<div class="sra-hero"><span class="astro">${sraAstro()}</span><p><b>Hi! I'm your Service Assistant</b> — an intelligent record companion built on Agentforce. I work alongside you, surface information, and run actions — everything I research is saved to the record.</p></div>`;
+  let h=`<div class="sra assist"><div class="h">Service Assistant</div><div class="sra-scroll" id="sraScroll">`;
+  h+=`<div class="sra-hero"><p><b>Hi! I'm your Service Assistant</b> — an intelligent record companion built on Agentforce. I work alongside you, surface information, and run actions — everything I research is saved to the record.</p></div>`;
   // collapsed "Service Plan Available" card with Draft Plan (before it is drafted)
   if(f.sraPlanCard && !f.sraChecklist){
     h+=`<div class="reveal" id="sraPlanCard"><div class="planwrap">
-      <div class="lbl"><span class="ic">📖</span> Service Plan</div>
+      <div class="lbl">Service Plan</div>
       <p class="body"><b>Service Plan Available: ${s.planTitle}.</b> ${s.planSummary} We recommend:</p>
       <ul class="rec">${s.planBullets.map(b=>`<li>${b}</li>`).join('')}</ul>
-      <div class="thumbs"><span>👍</span><span>👎</span></div>
       <button class="act run" id="draftPlanSra">✦ Draft Plan</button>
     </div></div>`;
   }
@@ -2370,21 +2380,20 @@ function renderSra(f){ const s=V.sra;
       return `<div class="it ${checked?'done':''}"><span class="ck">✓</span><span class="txt">${it.text}${it.src?` <span class="src"${fourth?' id="src4"':''}>[${it.src}]</span>`:''}</span>${it.action?`<button class="ib" data-act="${it.action}">${it.action}</button>`:''}</div>`;
     }).join('')}</div>`).join('');
     h+=`<div class="reveal plan" id="sraChecklist"><div class="planwrap">
-      <div class="lbl"><span class="ic">📖</span> Service Plan</div>
+      <div class="lbl">Service Plan</div>
       <div class="pt">${s.planTitle}</div>
       <p class="body dim">${s.planSummary}</p>
-      <div class="thumbs"><span>👍</span><span>👎</span></div>
       ${groups}</div></div>`;
   }
   // knowledge article pops when the [1] citation is clicked — boxed like the plan above so it fits the panel width
   if(f.sraKnowledge){ const k=s.knowledge;
     h+=`<div class="reveal kb" id="sraKnowledge"><div class="planwrap">
-      <div class="lbl k"><span class="ic">📚</span> Knowledge</div>
+      <div class="lbl k">Knowledge</div>
       <div class="kb-title"><a href="#" onclick="return false">${k.title}</a> <span class="rel">${k.rel}</span></div>
       <ol>${k.steps.map(x=>`<li>${x}</li>`).join('')}</ol>
       <div class="kb-btns"><button class="kbbtn">Edit as Draft</button><button class="kbbtn" id="sendArticle">Send Article</button></div>
     </div></div>`; }
-  if(f.sraEmail){ const e=s.email; h+=`<div class="reveal" id="emailCard"><div class="lbl"><span class="ic">✉</span> Agentforce Email Draft</div>
+  if(f.sraEmail){ const e=s.email; h+=`<div class="reveal" id="emailCard"><div class="lbl">Agentforce Email Draft</div>
     <div class="email ${f.emailSent?'sent':''}" id="emailBox"><div class="es">${e.subject}</div><div class="eb">${e.body}</div>
       <div class="ea"><button class="ins">Insert into Email</button><button class="send" id="emailSend">Send</button></div>
       <div class="sent-tag">✓ Email sent to ${V.monitor.caller.split(' ')[0]}</div></div></div>`; }
@@ -2468,7 +2477,7 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
       <!-- CENTER: C360 tabs + AI Summary + Previous + Similar -->
       <div class="col">
         <div class="card" style="padding:0">
-          <div class="wtabs"><span class="wtab active">🌐 C360</span><span class="wtab">📄 Details</span><span class="wtab">📣 Feed</span><span class="wtab">🍩 Related</span><span class="wtab">🐝 Swarm</span></div>
+          <div class="wtabs"><span class="wtab active">C360</span><span class="wtab">Details</span><span class="wtab">Feed</span><span class="wtab">Related</span><span class="wtab">Swarm</span></div>
           <div class="aisum" style="border:0;margin:0">
             <span class="pill-ai">✦ AI Summary</span>
             <div style="font-size:11.5px;color:var(--muted);margin-top:4px">This tool uses generative AI. Review responses to ensure they're accurate, valid, and harmless before you use them.</div>
@@ -2501,7 +2510,7 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
         </div>
         <div class="serviceplan" id="servicePlanCard">
           <div class="assist-tabs"><span class="active">✦ AI Assistant</span><span>🔎 Classification</span><span>◎ Next Best Action</span></div>
-          <div class="sh">🤖 Service Assistant · Service Plan</div>
+          <div class="sh">Service Assistant · Service Plan</div>
           <div class="intro">${c.planIntro}</div>
           <button class="draftplan" id="draftPlanBtn">✦ Draft Plan</button>
           <div class="casePlanBody" id="casePlanBody" hidden></div>
@@ -2787,8 +2796,8 @@ function dashHBar(rows,max,ticks,labelW){
 }
 function viewHome(){
   const aiRows=[
-    ['00005401','[SAMPLE] Can I take BART to dreamfest?','bsom'],
-    ['00005396','[SAMPLE] Are service animals allowed?','nadp'],
+    ['00005401','Unable to reset online banking password','bsom'],
+    ['00005396','Request a replacement debit card','nadp'],
     ['00005364','System Outages and Holdings Report Performance','TechCo Dealership'],
     ['00005363','System Outages and Holdings Report','TechCo Dealership'],
     ['00005309','URGENT: Payment Gateway API Outage Preventing Money Movement','TechCo Dealership'],
@@ -2826,14 +2835,14 @@ function viewHome(){
       </div>
     </div>
     <div class="hd-side">
-      <div class="scard2"><div class="s2h">📊 My Status <span class="s2ic">▾ ⤢</span></div>
+      <div class="scard2"><div class="s2h">My Status <span class="s2ic">▾ ⤢</span></div>
         <div class="mystatus"><div class="ms-av">CM<span class="ms-off"></span></div>
           <div class="ms-mid"><div class="ms-lab">Offline</div><div class="ms-sub">since Aug 11 10:50 AM</div></div>
           <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">open items</div></div>
           <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">% capacity</div></div></div>
       </div>
       <div class="scard2"><div class="s2h">All Open Cases <a class="s2more">More</a></div>
-        <div class="aoc-sub"><span class="aoc-ic">🗂️</span><div><div class="aoc-t">All Open Cases</div><div class="aoc-m">6+ items · sorted by Case Number<br>Filtered by Closed, Date/Time Opened</div></div><span class="aoc-chev">›</span></div>
+        <div class="aoc-sub"><div><div class="aoc-t">All Open Cases</div><div class="aoc-m">6+ items · sorted by Case Number<br>Filtered by Closed, Date/Time Opened</div></div><span class="aoc-chev">›</span></div>
         <div class="aoc-list">${openCases.map(c=>`<div class="aoc-row">
           <div class="aoc-num">${c.num}</div>
           <div class="aoc-kv"><span>Contact Name:</span><span>${c.contact}</span></div>
@@ -2844,11 +2853,11 @@ function viewHome(){
           <div class="aoc-kv"><span>Case Origin:</span><span>${c.origin}</span></div>
         </div>`).join('')}</div>
       </div>
-      <div class="scard2"><div class="s2h">🗂️ AI Cases Pending Review <span class="s2badge">20</span></div>
+      <div class="scard2"><div class="s2h">AI Cases Pending Review <span class="s2badge">20</span></div>
         <div class="aitbl"><div class="aithr"><span>Case</span><span>Subject</span><span>Account</span></div>
           ${aiRows.map(r=>`<div class="aitr"><span class="aic">${r[0]}</span><span class="ais">${r[1]}</span><span class="aia">${r[2]}</span></div>`).join('')}</div>
       </div>
-      <div class="scard2"><div class="s2h">🏷️ Case Tag Trends <span class="s2ic">▾</span></div>
+      <div class="scard2"><div class="s2h">Case Tag Trends <span class="s2ic">▾</span></div>
         <div class="ctt"><div class="ctt-scope"><label>Time scope</label><div class="dh-sel">Last 2 months ▾</div></div>
           <div class="ctt-kpis"><div class="ctt-k"><div class="ctt-n">1</div><div class="ctt-l">Cases Tagged</div></div><div class="ctt-k"><div class="ctt-n">20</div><div class="ctt-l">Unique Tags</div></div></div>
           <div class="ctt-top"><div class="ctt-th">Top 5 trending tags</div>${tags.map((t,i)=>`<div class="ctt-row"><span>${i+1}&nbsp;&nbsp;${t[0]}</span><span>${t[1]}</span></div>`).join('')}</div></div>
@@ -2865,7 +2874,7 @@ function viewAsk(){
       <div class="ag-sub">Ask a question. See the big picture.</div>
       <div class="askbox">Try "What do I need to know about ${cw().account} before tomorrow's meeting?"<span class="ab-send">➤</span></div>
       <div class="askpills">
-        <div class="pillwrap"><div class="askpill" id="pillFind">Find 🔍 ⌄</div><div class="askdd" id="ddFind" hidden>${ddItems(FIND_OPTS)}</div></div>
+        <div class="pillwrap"><div class="askpill" id="pillFind">Find ⌄</div><div class="askdd" id="ddFind" hidden>${ddItems(FIND_OPTS)}</div></div>
         <div class="pillwrap"><div class="askpill" id="pillCatch">Catch Up ⇄ ⌄</div><div class="askdd" id="ddCatch" hidden>${ddItems(CATCH_OPTS)}</div></div>
         <div class="pillwrap"><div class="askpill" id="pillPlan">Plan ☰ ⌄</div><div class="askdd" id="ddPlan" hidden>${ddItems(PLAN_OPTS,true)}</div></div>
       </div>
@@ -2906,20 +2915,20 @@ function renderWorkPlan(c){
     <p>Let me pull together everything relevant for your day — tasks, events, and open cases, all at once.</p>
     <p>Here's your work plan for today, <b>${cwToday()}</b>!</p>
     <div class="arule"></div>
-    <p>📅 <b>Calendar</b> — ${c.calendar}</p>
+    <p><b>1. Calendar</b> — ${c.calendar}</p>
     <div class="arule"></div>
-    <p>✅ <b>Tasks (1 open)</b> — ${c.taskNote}</p>
-    <div class="acase"><div class="ci">📋</div><div><div class="cnum">${c.task.title}</div><div class="cmeta">${c.task.meta}</div></div></div>
+    <p><b>2. Tasks (1 open)</b> — ${c.taskNote}</p>
+    <div class="acase"><div><div class="cnum">${c.task.title}</div><div class="cmeta">${c.task.meta}</div></div></div>
     <div class="arule"></div>
-    <p>📁 <b>Open Cases (${c.caseCount} shown)</b> — here's the breakdown by priority:</p>
-    <p>🔴 <b>High Priority (${c.highCount} cases)</b> — tackle these first:</p>
+    <p><b>3. Open Cases (${c.caseCount} shown)</b> — here's the breakdown by priority:</p>
+    <p><b>4. High Priority (${c.highCount} cases)</b> — tackle these first:</p>
     <table class="ctable"><thead><tr><th>Case</th><th>Subject</th><th>Status</th></tr></thead><tbody>
       ${c.high.map(r=>`<tr><td class="cnl">${r.num}</td><td>${r.subj}</td><td>${r.status}</td></tr>`).join('')}
     </tbody></table>
     ${c.highMore?`<p class="amuted">…and ${c.highMore} more high-priority cases.</p>`:''}
-    <p>🟡 <b>Low Priority (${c.lowCount} cases)</b> — ${c.lowNote}</p>
+    <p><b>5. Low Priority (${c.lowCount} cases)</b> — ${c.lowNote}</p>
     <div class="arule"></div>
-    <p>💡 <b>Suggested Focus Order:</b></p>
+    <p><b>6. Suggested Focus Order:</b></p>
     <p><b>New high-priority cases</b> — ${c.focusNew}</p>
     <p id="inprogLine"><b>In-progress cases</b> — check for updates on your Working cases</p>
     <p><b>${c.customer} account</b> — ${c.focusAccount}</p>
@@ -2929,15 +2938,17 @@ function renderWorkPlan(c){
 function renderInprog(c){
   return `<div class="aresp">
     <p>${c.inprogIntro}</p>
-    ${c.clusters.map(cl=>`<div class="acluster">
-      <div class="cl-h">${cl.badge} ${cl.title}</div>
+    ${c.clusters.map((cl,ci)=>`<div class="acluster">
+      <div class="cl-h">${ci+1}. ${cl.title}</div>
       <p>${cl.body}</p>
-      ${cl.cases.map(cc=>`<div class="acase"><div class="ci">📁</div><div><div class="cnum">${cc.num}</div><div class="cmeta">${cc.meta}</div></div></div>`).join('')}
+      <table class="ctable"><thead><tr><th>Case</th><th>Subject</th><th>Status</th></tr></thead><tbody>
+        ${cl.cases.map(cc=>`<tr><td class="cnl">${cc.num}</td><td>${cc.meta}</td><td>Working</td></tr>`).join('')}
+      </tbody></table>
       <p class="amuted">${cl.note}</p>
     </div>`).join('')}
     <div class="akey" id="keyActions">
-      <div class="ak-h">💡 Key Actions</div>
-      ${c.keyActions.map(k=>`<div class="ak-row"><div class="ak-i">${k.title}</div><p>${k.body}</p>${k.case?`<div class="acase"><div class="ci">📁</div><div><div class="cnum">${k.case.num}</div><div class="cmeta">${k.case.meta}</div></div></div>`:''}</div>`).join('')}
+      <div class="ak-h">Key Actions</div>
+      ${c.keyActions.map(k=>`<div class="ak-row"><div class="ak-i">${k.title}</div><p>${k.body}</p>${k.case?`<div class="acase"><div><div class="cnum">${k.case.num}</div><div class="cmeta">${k.case.meta}</div></div></div>`:''}</div>`).join('')}
       <p class="amt">Want me to draft a summary email or call script for ${c.customer} to address all their open issues at once?</p>
     </div>
   </div>`;
@@ -2990,6 +3001,7 @@ function boot(){
   $('#btnBack').onclick=back;
   $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);_lastTrackedStep=-1;_fired={};render();};
   $('#ttToggle').onclick=()=>{talkTrack=!talkTrack;$('#ttToggle').classList.toggle('on',talkTrack);$('#guidebar').classList.toggle('talk-off',!talkTrack);};
+  $('#btnCollapse').onclick=()=>{const c=$('#guidebar').classList.toggle('collapsed');$('#btnCollapse').textContent=c?'▴':'▾';$('#btnCollapse').title=c?'Show guide':'Hide guide';};
   // Voice toggle. Hidden entirely where synthesis is unavailable, so the control
   // never promises something the browser can't deliver. The click itself is the
   // user gesture that satisfies autoplay policy.
