@@ -250,7 +250,7 @@ a{color:var(--brand);text-decoration:none}
 /* Service Reps — Agent Summary table */
 .asum{padding:0;margin-top:2px}
 .asum-h{display:flex;align-items:center;gap:11px;padding:14px 16px 10px;font-weight:800;font-size:18px;color:#0c1622}
-.asum-ic{width:30px;height:30px;border-radius:7px;background:#1b96ff;display:grid;place-items:center;flex:none}
+.asum-ic{width:30px;height:30px;border-radius:7px;background:#0176D3;display:grid;place-items:center;flex:none}
 .asum-ic svg{width:19px;height:19px;display:block}
 .asum-sub{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 16px;border-bottom:1px solid var(--line)}
 .asum-tabs{display:flex;gap:26px}
@@ -2066,18 +2066,33 @@ function applySpotlight(step){
 function go(i){cancelAudio();idx=Math.max(0,Math.min(STEPS.length-1,i));render();}
 function next(){ if(idx<STEPS.length-1)go(idx+1); else stop(); }
 function back(){pause();go(idx-1);}
-const PLAY_DWELL=10000;   // continuous auto-advance: 10s per slide (or until spoken audio finishes)
+const PLAY_DWELL=10000;   // continuous auto-advance: default 10s per slide (or until spoken audio finishes)
+// During the live call (voice slides, before the call ends) pace each slide like a real
+// conversation: dwell scales with the length of the turn(s) just revealed, so short replies
+// go by quickly and longer ones linger — a human back-and-forth rhythm rather than a flat 10s.
+function stepDwell(){
+  const step=STEPS[idx], st=foldState(idx), f=st.flags;
+  if(step.view==="voice" && !f.callEnded && typeof st.turns==="number" && st.turns>0){
+    const prev = idx>0 ? foldState(idx-1).turns : 0;
+    let words=0;
+    for(let i=prev;i<st.turns;i++){ const t=V.repConvo.turns[i]; if(t&&t.t) words+=String(t.t).split(/\s+/).filter(Boolean).length; }
+    if(words>0) return Math.min(8000, Math.max(2400, 1000 + words*260));  // ~speaking time for the new turn(s)
+    return 3400;   // an in-call action step (open a source, send an article) — brisk, human pace
+  }
+  return PLAY_DWELL;
+}
 function play(){ if(idx>=STEPS.length-1)return; playing=true; $('#btnPlay').innerHTML='❚❚ Pause'; tick(); }
 function tick(){ clearTimeout(timer);
+  const dwell=stepDwell();
   // Runs continuously once started — advance every slide until the user pauses or we reach the end.
   const advance=()=>{ if(!playing) return; if(idx>=STEPS.length-1){stop();return;} go(idx+1); if(playing) tick(); };
-  // With Voice audio on, wait for the longer of the spoken turn and the 10s dwell so speech is never cut.
+  // With Voice audio on, wait for the longer of the spoken turn and the dwell so speech is never cut.
   if(AUDIO.on && audioWait){ const w=audioWait, token=AUDIO.token; let aDone=false, tDone=false;
     const maybe=()=>{ if(aDone && tDone && playing) advance(); };
     w.then(()=>{ if(token!==AUDIO.token || !playing) return; aDone=true; maybe(); });
-    timer=setTimeout(()=>{ tDone=true; maybe(); }, PLAY_DWELL);
+    timer=setTimeout(()=>{ tDone=true; maybe(); }, dwell);
     return; }
-  timer=setTimeout(advance, PLAY_DWELL); }
+  timer=setTimeout(advance, dwell); }
 function pause(){playing=false;clearTimeout(timer);cancelAudio();$('#btnPlay').innerHTML='▶ Play';}
 function stop(){pause();}
 function togglePlay(){playing?pause():play();}
