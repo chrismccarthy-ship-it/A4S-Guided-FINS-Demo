@@ -569,6 +569,9 @@ a{color:var(--brand);text-decoration:none}
 @keyframes ring{0%,100%{box-shadow:0 0 0 3px var(--guide),0 0 0 7px var(--guide-soft)}50%{box-shadow:0 0 0 3px var(--guide),0 0 0 11px rgba(var(--guide-rgb),.05)}}
 .guided::after{content:"";position:absolute;top:-9px;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--guide);box-shadow:0 0 0 4px rgba(var(--guide-rgb),.28);animation:pulse 1.4s ease-out infinite;z-index:6}
 .guided.no-pulse::after{display:none}
+/* Dock action buttons sit flush to the panel edges inside .dock{overflow:hidden};
+   use an inset ring so the highlight hugs the button and never clips or overlaps its neighbor. */
+.dacts .dact.guided{box-shadow:inset 0 0 0 2.5px var(--guide) !important;border-radius:8px;animation:none}
 .afvhist{margin-bottom:12px}
 .convo .vcatch{margin-bottom:12px}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(var(--guide-rgb),.5)}70%{box-shadow:0 0 0 12px rgba(var(--guide-rgb),0)}100%{box-shadow:0 0 0 0 rgba(var(--guide-rgb),0)}}
@@ -1844,13 +1847,10 @@ function buildSteps(){
     { view:"monitor", set:{gh:1,subhead:1,dock:1}, box:"#catchupCard", target:"#catchupDismiss", title:"Conversation Catch-Up — the rep is briefed before the hand-off",
       talk:`Agentforce Voice authenticated ${cust} over SMS and captured their intent and sentiment. The Conversation Catch-Up sums it up for the supervisor, who can Dismiss it once read — the specialist never starts from scratch.`,
       dothis:"Click ‘Dismiss’ on the Conversation Catch-Up.", advanceOn:"#catchupDismiss" },
-    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1}, target:"#transferBtn", title:"Warm-transfer to a live rep",
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1}, target:"#transferBtn", noPulse:true, title:"Warm-transfer to a live rep",
       talk:"Nothing is lost in the hand-off. The specialist inherits the summary, transcript, verified identity, and the case Agentforce Voice already created.",
       dothis:"Click ‘Transfer to Rep’.", advanceOn:"#transferBtn" },
-    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1}, target:"#omniLauncher", title:"The transfer lands in Omni-Channel",
-      talk:"The transferred call drops into the rep's Omni-Channel inbox. Work paused by its status — like the Application review that's waiting on the customer — steps aside, freeing the rep up to take this live call.",
-      dothis:"Open the Omni-Channel sidebar.", advanceOn:"#omniLauncher" },
-    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1}, target:"#omniAccept", title:"Accept the transferred call",
+    { view:"monitor", set:{gh:1,subhead:1,dock:1,catchDismissed:1,omniOpen:1}, target:"#omniAccept", title:"The transfer lands in Omni-Channel — accept the call",
       talk:"One click accepts the call — and the rep drops straight into the Voice workspace with the full 360 and the Agentforce summary already in place.",
       dothis:"Click ✓ to accept the call.", advanceOn:"#omniAccept" },
 
