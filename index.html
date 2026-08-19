@@ -332,7 +332,7 @@ a{color:var(--brand);text-decoration:none}
 .idcard .who .loc{color:#e9ddff;font-size:12px;margin-top:2px}
 .tags{display:flex;gap:6px;margin-top:6px}
 .tag{background:rgba(255,255,255,.24);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:3px 7px;border-radius:5px}
-.health{position:absolute;top:12px;right:12px;background:#fff;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--good);display:flex;align-items:center;gap:5px}
+.health{position:absolute;bottom:14px;right:14px;background:#fff;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--good);display:flex;align-items:center;gap:5px}
 .idcard .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
 .kvi .k{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .kvi .v{font-size:12.5px;font-weight:600;color:var(--ink);margin-top:2px}
@@ -3251,8 +3251,22 @@ function boot(){
   $('#btnBack').onclick=back;
   $('#btnRestart').onclick=()=>{pause();const st=$('#stage');st.dataset.view='';st.innerHTML='';idx=0;timerSec=0;stopTimer();notifications=[];toggleBellPanel(false);_lastTrackedStep=-1;_fired={};render();};
   $('#ttToggle').onclick=()=>{talkTrack=!talkTrack;$('#ttToggle').classList.toggle('on',talkTrack);$('#guidebar').classList.toggle('talk-off',!talkTrack);};
-  $('#btnCollapse').onclick=()=>{const c=$('#guidebar').classList.toggle('collapsed');$('#btnCollapse').textContent=c?'▴':'▾';$('#btnCollapse').title=c?'Show guide':'Hide guide';};
+  const setGuideCollapsed=(c)=>{const gb=$('#guidebar'); if(!gb)return; gb.classList.toggle('collapsed',c); const b=$('#btnCollapse'); if(b){b.textContent=c?'▴':'▾';b.title=c?'Show guide':'Hide guide';}};
+  $('#btnCollapse').onclick=()=>setGuideCollapsed(!$('#guidebar').classList.contains('collapsed'));
   document.querySelectorAll('#navtabs .nt[data-mt]').forEach(t=>t.onclick=()=>showMonitorTab(t.dataset.mt));
+  // Keyboard controls: → next · ← back · ↑ expand footer · ↓ collapse footer · Space play/pause.
+  document.addEventListener('keydown',(e)=>{
+    const t=e.target, tag=t&&t.tagName;
+    if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(t&&t.isContentEditable)) return; // don't hijack typing
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    switch(e.key){
+      case 'ArrowRight': e.preventDefault(); next(); break;
+      case 'ArrowLeft':  e.preventDefault(); back(); break;
+      case 'ArrowUp':    e.preventDefault(); setGuideCollapsed(false); break;
+      case 'ArrowDown':  e.preventDefault(); setGuideCollapsed(true); break;
+      case ' ': case 'Spacebar': e.preventDefault(); togglePlay(); break;
+    }
+  });
   // Voice toggle. Hidden entirely where synthesis is unavailable, so the control
   // never promises something the browser can't deliver. The click itself is the
   // user gesture that satisfies autoplay policy.
