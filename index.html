@@ -621,6 +621,9 @@ a{color:var(--brand);text-decoration:none}
    use an inset ring so the highlight hugs the button and never clips or overlaps its neighbor. */
 .dacts .dact.guided{box-shadow:inset 0 0 0 2.5px var(--guide) !important;border-radius:8px;animation:none}
 .afvhist{margin-bottom:12px}
+.joined{text-align:center;margin:16px 0 4px}
+.joined .jn-t{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.joined .jn-ts{font-size:10px;color:var(--faint);margin-top:4px}
 .convo .vcatch{margin-bottom:12px}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(var(--guide-rgb),.5)}70%{box-shadow:0 0 0 12px rgba(var(--guide-rgb),0)}100%{box-shadow:0 0 0 0 rgba(var(--guide-rgb),0)}}
 /* When a full-bleed .reveal row is guided, ring the inner .planwrap card so the glow
@@ -2358,7 +2361,7 @@ function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
                 <div class="cu-issue-h">Issue</div>
                 <p class="cu-p">${V.voice.catchupText.issue}</p>
               </div></div>
-              <div class="bubbles afvhist">${V.voice.transcript.map(b=>bubble(b)).join('')}</div>
+              <div class="bubbles afvhist">${V.voice.transcript.map(b=>b.who==="sys"?joinNotice():bubble(b)).join('')}</div>
               <div class="rbwrap" id="repBubbles"></div>
             </div>
           </div>
@@ -2418,6 +2421,8 @@ function updateVoice(st,f){
 }
 function repBubble(t){ const rep=t.who==="rep",who=rep?V.repConvo.speakers.rep:V.repConvo.speakers.customer;
   return `<div class="rb ${rep?'rep':'cust'} appear"><div class="bub">${t.t}</div><div class="ts">${who} · 8/5/2026, 1:2${Math.floor(Math.random()*9)} PM</div></div>`; }
+function joinNotice(){ const rep=V.repConvo.speakers.rep, first=rep.split(' ')[0];
+  return `<div class="joined"><div class="jn-t">${first} joined the conversation</div><div class="jn-ts">${rep} · 8/5/2026, 1:26 PM</div></div>`; }
 
 function sraAstro(){ return `<svg viewBox="0 0 100 104" xmlns="http://www.w3.org/2000/svg">
   <line x1="50" y1="13" x2="50" y2="6" stroke="#9aa5b1" stroke-width="2"/><circle cx="50" cy="5" r="3" fill="#e0517a"/>
