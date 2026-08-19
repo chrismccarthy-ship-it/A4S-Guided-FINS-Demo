@@ -536,7 +536,8 @@ a{color:var(--brand);text-decoration:none}
 .closed .closed-banner{display:flex}
 /* case header + 3-col + right-rail cards (no action-launcher panel; Milestones top, Classification under) */
 .casehdr{display:flex;align-items:center;gap:14px;padding:8px 2px 14px}
-.casehdr .ch-ic{width:32px;height:32px;border-radius:8px;background:#fde7ef;color:#c8106b;display:grid;place-items:center;font-size:15px;flex:none}
+.casehdr .ch-ic{width:32px;height:32px;border-radius:8px;background:#cb0f6b;display:grid;place-items:center;flex:none}
+.casehdr .ch-ic svg{width:19px;height:19px;display:block}
 .casehdr .ch-eyebrow{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .casehdr .ch-title{font-weight:800;font-size:19px;color:#0c1622}
 .casehdr .ch-meta{display:flex;gap:24px;margin-left:16px;flex-wrap:wrap}
@@ -550,6 +551,50 @@ a{color:var(--brand);text-decoration:none}
 .histitem:last-child{border-bottom:0}
 .histitem .hic{width:26px;height:26px;border-radius:6px;background:var(--info-bg);color:var(--brand);display:grid;place-items:center;font-size:12px;flex:none}
 .histitem .hw{margin-left:auto;color:var(--muted);font-size:11px;white-space:nowrap}
+/* Activity | Timeline | Chatter component (replaces History) */
+.actv{padding:0}
+.actv-tabs{display:flex;gap:20px;border-bottom:1px solid var(--line);padding:10px 14px 0}
+.actv-tabs span{padding:7px 2px;font-size:13px;font-weight:600;color:var(--ink-2);border-bottom:2px solid transparent;cursor:pointer}
+.actv-tabs span.active{color:#2876D3;border-bottom-color:#2876D3;font-weight:700}
+.actv-inner{padding:12px 14px}
+.actv-composer{border:1px solid var(--line-2);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.actv-ctabs{display:flex;gap:18px;border-bottom:1px solid var(--line);padding:8px 12px 0}
+.actv-ctabs span{padding:6px 2px;font-size:12.5px;font-weight:600;color:var(--ink-2);border-bottom:2px solid transparent;cursor:pointer}
+.actv-ctabs span.active{color:#2876D3;border-bottom-color:#2876D3;font-weight:700}
+.actv-crow{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.actv-cinput{flex:1;border:1px solid var(--line-2);border-radius:20px;padding:9px 14px;font-size:12.5px;color:var(--muted)}
+.actv-add{background:#2876D3;color:#fff;border:0;border-radius:20px;padding:9px 22px;font-size:13px;font-weight:700;cursor:pointer;flex:none}
+.actv-filters{display:flex;align-items:flex-start;gap:8px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.actv-filters span{flex:1}
+.actv-gear{flex:none;border:0;background:none;padding:0;cursor:pointer}
+.actv-gear svg{width:26px;height:26px;display:block}
+.actv-links{text-align:right;font-size:12px;color:var(--muted);margin:9px 0}
+.actv-links span{color:#2876D3;font-weight:600;cursor:pointer}
+.actv-sec{background:var(--panel);border-radius:6px;padding:9px 12px;font-size:12.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:9px;margin:6px 0}
+.actv-caret{color:var(--ink-2);font-size:12px}
+.actv-tasks{padding:2px 0}
+.actv-task{display:flex;align-items:flex-start;gap:9px;padding:11px 2px}
+.at-caret{color:var(--muted);font-size:14px;padding-top:3px;flex:none}
+.at-rail{position:relative;flex:none;width:26px;display:flex;justify-content:center}
+.actv-task .at-rail::before{content:"";position:absolute;top:14px;bottom:-22px;left:50%;transform:translateX(-50%);width:2px;background:#2e844a;z-index:0}
+.actv-task.last .at-rail::before{bottom:-8px}
+.at-ic{position:relative;z-index:1;width:26px;height:26px;border-radius:50%;background:#2e844a;display:grid;place-items:center}
+.at-ic svg{width:15px;height:15px;display:block}
+.at-check{margin-top:5px;flex:none;accent-color:#2876D3}
+.at-main{flex:1;min-width:0}
+.at-top{display:flex;align-items:center;gap:8px}
+.at-title{color:#2876D3;font-weight:700;font-size:13px;text-decoration:none;flex:1}
+.at-date{color:#b6115a;font-weight:700;font-size:12.5px;white-space:nowrap}
+.at-dd{flex:none}
+.at-dd svg{width:20px;height:20px;display:block}
+.at-sub{font-size:12px;color:var(--ink-2);margin-top:3px}
+.at-sub a{color:#2876D3;text-decoration:none}
+.actv-more{text-align:center;margin:8px 0}
+.actv-more button{border:1px solid var(--line-2);background:#fff;border-radius:20px;padding:6px 18px;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.actv-note{display:flex;align-items:center;gap:9px;background:var(--panel);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--ink-2);margin:8px 0}
+.actv-i{width:16px;height:16px;border-radius:50%;background:#8a94a6;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800;font-style:italic;flex:none}
+.actv-showall-wrap{text-align:center;margin-top:6px}
+.actv-showall{background:#2876D3;color:#fff;border:0;border-radius:20px;padding:9px 24px;font-size:13px;font-weight:700;cursor:pointer}
 .classcard{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;box-shadow:var(--shadow-1)}
 .classcard .cl-h{font-weight:800;font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .getrec2{width:100%;height:44px;border:1px solid var(--line-2);border-radius:24px;background:#fff;color:#2e7d5b;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:2px}
@@ -2469,10 +2514,46 @@ function renderCoaching(){ const cs=V.callSummary;
 }
 
 /* CASE */
+const ACTV_TASK_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7h8M10 12h8M10 17h8"/><path d="M4.5 6.6l1 1 1.5-1.7"/><path d="M4.5 11.6l1 1 1.5-1.7"/><path d="M4.5 16.6l1 1 1.5-1.7"/></svg>`;
+const ACTV_DD_SVG=`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#2876D3" stroke-width="1.5"/><path d="M8.5 10.5l3.5 3.5 3.5-3.5" stroke="#2876D3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ACTV_GEAR_SVG=`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2876D3"/><path fill="#fff" d="M12 9.2a2.8 2.8 0 100 5.6 2.8 2.8 0 000-5.6zm0 1.8a1 1 0 110 2 1 1 0 010-2z"/><path fill="#fff" d="M18.2 12.6c.03-.2.05-.4.05-.6s-.02-.4-.05-.6l1.15-.9-1-1.73-1.36.55c-.3-.24-.64-.44-1-.58l-.2-1.44h-2l-.2 1.44c-.36.14-.7.34-1 .58l-1.36-.55-1 1.73 1.15.9c-.03.2-.05.4-.05.6s.02.4.05.6l-1.15.9 1 1.73 1.36-.55c.3.24.64.44 1 .58l.2 1.44h2l.2-1.44c.36-.14.7-.34 1-.58l1.36.55 1-1.73-1.15-.9z"/></svg>`;
+function renderActivity(c,p){
+  const acct=(c.attrs.find(a=>/account|household|client|company/i.test(a.k))||{}).v || p.name;
+  const tasks=[
+    {title:"Prepare for client meeting", about:acct, date:"Aug 22"},
+    {title:"Follow up on open case items", about:acct, date:"Aug 14"}
+  ];
+  return `<div class="card actv">
+    <div class="actv-tabs"><span class="active">Activity</span><span>Timeline</span><span>Chatter</span></div>
+    <div class="actv-inner">
+      <div class="actv-composer">
+        <div class="actv-ctabs"><span class="active">Log a Call</span><span>Email</span><span>New Task</span></div>
+        <div class="actv-crow"><div class="actv-cinput">Recap your call...</div><button class="actv-add">Add</button></div>
+      </div>
+      <div class="actv-filters"><span>Filters: Within 2 months · All activities · Logged calls, Email, Events, List email, Tasks, SMS, and Web</span><button class="actv-gear" title="Filter settings">${ACTV_GEAR_SVG}</button></div>
+      <div class="actv-links"><span>Refresh</span> • <span>Expand All</span> • <span>View All</span></div>
+      <div class="actv-sec"><span class="actv-caret">⌄</span> Upcoming &amp; Overdue</div>
+      <div class="actv-tasks">
+        ${tasks.map((t,i)=>`<div class="actv-task${i===tasks.length-1?' last':''}">
+          <span class="at-caret">›</span>
+          <span class="at-rail"><span class="at-ic">${ACTV_TASK_SVG}</span></span>
+          <input type="checkbox" class="at-check" aria-label="Complete task">
+          <div class="at-main">
+            <div class="at-top"><a href="#" onclick="return false" class="at-title">${t.title}</a><span class="at-date">${t.date}</span><span class="at-dd">${ACTV_DD_SVG}</span></div>
+            <div class="at-sub">You have an upcoming task about <a href="#" onclick="return false">${t.about}</a></div>
+          </div>
+        </div>`).join('')}
+      </div>
+      <div class="actv-more"><button>View More</button></div>
+      <div class="actv-note"><span class="actv-i">i</span> To change what's shown, try changing your filters.</div>
+      <div class="actv-showall-wrap"><button class="actv-showall">Show All Activities</button></div>
+    </div>
+  </div>`;
+}
 function viewCase(){ const c=V.caseData,p=V.record.person;
   return `<div class="casewrap">
     <div class="casehdr">
-      <div class="ch-ic">📁</div>
+      <div class="ch-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/></svg></div>
       <div><div class="ch-eyebrow">Case</div><div class="ch-title">${c.subject}</div></div>
       <div class="ch-meta">
         <div><div class="k">Case Number</div><div class="v">${c.number}</div></div>
@@ -2489,14 +2570,13 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
       <div class="col">
         <div class="idcard">
           <div class="top"><div class="ava">${p.initials}</div>
-            <div class="who"><h2>${p.name}</h2><div class="loc">📍 ${p.loc}</div>
+            <div class="who"><h2>${p.name}</h2><div class="loc">${p.loc}</div>
               <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
             <div class="health">● Health ${p.health}</div></div>
           <div class="grid">${c.attrs.map(a=>`<div class="kvi"><div class="k">${a.k}</div><div class="v">${a.v}</div></div>`).join('')}</div>
           <div class="csat"><div class="lbl"><span>CSAT Trend</span><span class="lgd"><span><i style="background:#0176d3"></i>Engage</span><span><i style="background:#57b97e"></i>CSAT</span></span></div>${csatSvg()}</div>
         </div>
-        <div class="card"><div class="ch">🕘 History <span style="margin-left:auto;font-size:11px;color:var(--muted)">Timeline · Today</span></div>
-          <div class="cb" style="padding:4px 14px 10px">${c.history.map(h=>`<div class="histitem"><span class="hic">${h.ic}</span><span>${h.t}</span><span class="hw">${h.w}</span></div>`).join('')}</div></div>
+        ${renderActivity(c,p)}
       </div>
 
       <!-- CENTER: C360 tabs + AI Summary + Previous + Similar -->
@@ -2511,15 +2591,15 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
             <div id="caseSummaryOut" hidden></div>
           </div>
         </div>
-        <div class="card" style="margin-top:14px"><div class="ch">📁 Previous Cases (3+)</div>
+        <div class="card" style="margin-top:14px"><div class="ch">Previous Cases (3+)</div>
           ${c.previous.map(x=>`<div class="caseitem"><a href="#" onclick="return false">${x.id}</a> — ${x.subj}<div class="meta">Opened ${x.when} · Medium</div></div>`).join('')}</div>
-        <div class="card" style="margin-top:14px"><div class="ch">🔎 Similar Cases & Articles</div>
+        <div class="card" style="margin-top:14px"><div class="ch">Similar Cases & Articles</div>
           <div class="cb">${c.similar.map(s=>`<div class="caseitem" style="border:0"><a href="#" onclick="return false">${s.id}</a> <span class="chip" style="background:#eef0fb;color:#4a4fb0">${s.match} match</span> <span class="chip" style="background:var(--warn-bg);color:var(--warn)">${s.status}</span><div class="meta">${s.subj} · Priority ${s.pri}</div></div>`).join('')}</div></div>
       </div>
 
       <!-- RIGHT: Milestones (top) → Classification → Service Assistant (no action-launcher panel) -->
       <div class="col">
-        <div class="milestone done"><div class="mt">⏱ Milestones</div><div class="sla">✓ You completed all the milestones.</div></div>
+        <div class="milestone done"><div class="mt">Milestones</div><div class="sla">✓ You completed all the milestones.</div></div>
         <div class="classcard" id="einsteinClass"><div class="cl-h">✦ Einstein Classification</div>
           <button class="getrec2" id="caseGetRec">✦ Get Einstein Recommendations</button>
           <div class="clfields">
@@ -2534,7 +2614,7 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
           <button class="draftkb" id="draftKbBtn">Draft Knowledge Article</button>
         </div>
         <div class="serviceplan" id="servicePlanCard">
-          <div class="assist-tabs"><span class="active">✦ AI Assistant</span><span>🔎 Classification</span><span>◎ Next Best Action</span></div>
+          <div class="assist-tabs"><span class="active">✦ AI Assistant</span><span>Classification</span><span>Next Best Action</span></div>
           <div class="sh">Service Assistant · Service Plan</div>
           <div class="intro">${c.planIntro}</div>
           <button class="draftplan" id="draftPlanBtn">✦ Draft Plan</button>
