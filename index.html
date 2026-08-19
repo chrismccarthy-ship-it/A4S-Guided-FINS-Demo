@@ -329,8 +329,9 @@ a{color:var(--brand);text-decoration:none}
 .pc.end{background:var(--pink);color:#fff;border-color:var(--pink);flex:1.5}
 
 .convo{max-height:330px;overflow:auto;padding:12px 14px}
-/* once the live call is under way the transcript expands to fill the workspace, reaching down to the Cases card */
-.convo.tall{min-height:560px;max-height:calc(100vh - 240px)}
+/* once the live call is under way the transcript holds a fixed height (reaching down to the Cases card)
+   so it never grows or shifts as turns are added — new turns scroll inside it */
+.convo.tall{height:calc(100vh - 240px);max-height:none;min-height:0}
 .convo .lead{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:10px}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--good);animation:blink 1s infinite}
 .rb{margin-bottom:11px;display:flex;flex-direction:column}
