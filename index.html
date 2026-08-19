@@ -331,8 +331,10 @@ a{color:var(--brand);text-decoration:none}
 .rb{margin-bottom:11px;display:flex;flex-direction:column}
 .rb .bub{max-width:85%;padding:9px 12px;border-radius:12px;font-size:12.5px;line-height:1.4}
 .rb.rep{align-items:flex-end}.rb.cust{align-items:flex-start}
-.rb.rep .bub{background:#e7ebf1;color:var(--ink)}
-.rb.cust .bub{background:#f4f6f9;color:var(--ink);border:1px solid var(--line)}
+.rb.rep .bub{background:#63676e;color:#fff}
+.rb.cust .bub{background:#e9ecf0;color:var(--ink);border:1px solid var(--line-2)}
+.convo .lead .convo-ic{display:inline-flex;flex:none}
+.convo .lead .convo-ic svg{width:22px;height:22px;display:block}
 .rb .ts{font-size:10px;color:var(--faint);margin-top:4px}
 .rb.appear{animation:pop .3s ease both}
 
@@ -2289,7 +2291,7 @@ function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
           </div>
           <div id="serviceP">
             <div class="convo" id="convo">
-              <div class="lead">💬 Conversation <span class="live-dot" id="liveDot"></span><span id="convoTag" style="font-size:11px;color:var(--muted);font-weight:500">live transcript</span></div>
+              <div class="lead"><span class="convo-ic"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#149b93"/><path d="M8 9.5h12a1.6 1.6 0 0 1 1.6 1.6v4.2a1.6 1.6 0 0 1-1.6 1.6h-6.6L9 20.6v-3.7H8a1.6 1.6 0 0 1-1.6-1.6v-4.2A1.6 1.6 0 0 1 8 9.5z" fill="#fff"/></svg></span> Conversation <span class="live-dot" id="liveDot"></span><span id="convoTag" style="font-size:11px;color:var(--muted);font-weight:500">live transcript</span></div>
               <div class="rbwrap" id="repBubbles"></div>
             </div>
           </div>
