@@ -244,7 +244,32 @@ a{color:var(--brand);text-decoration:none}
 .actbanner{background:var(--info-bg);border:1px solid #cfe6fb;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--ink-2);margin:10px 0 16px}
 .actbanner b{color:var(--ink)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
-.tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;min-height:76px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px;min-height:76px}
+/* Omni-Channel Wallboard */
+.wboard{padding:2px 2px 10px}
+.wb-top{display:flex;align-items:center;gap:11px;padding:6px 4px 16px;font-size:18px;font-weight:800;color:#0c1622}
+.wb-top-ic{width:26px;height:26px;border-radius:6px;background:#1b96ff;display:grid;place-items:center;flex:none}
+.wb-top-ic svg{width:16px;height:16px;display:block}
+.wb-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,0.78fr);gap:16px;align-items:start}
+.wbcard{background:#f4f5f8;border:1px solid var(--line);border-radius:16px;padding:14px}
+.wb-h{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px}
+.wb-ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none}
+.wb-ic svg{width:17px;height:17px;display:block}
+.wb-ht{flex:1;min-width:0}
+.wb-title{font-size:15px;font-weight:800;color:#0c1622;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.wb-badge{font-size:10px;font-weight:700;color:var(--ink-2);background:#fff;border:1px solid var(--line-2);border-radius:5px;padding:2px 7px}
+.wb-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+.wb-menu{color:#1b96ff;font-size:11px;flex:none;white-space:nowrap}
+.wb-chartbox{background:#fff;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:center;min-height:130px;overflow-x:auto}
+.wb-stat{background:#fff;border-radius:11px;padding:14px 16px}
+.wb-stat + .wb-stat{margin-top:14px}
+.wb-sl{font-size:12px;color:var(--ink-2);margin-bottom:7px}
+.wb-sv{font-size:24px;font-weight:800;color:#0c1622;font-variant-numeric:tabular-nums}
+.wb-perf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wb-perf .wb-stat{margin:0}
+.dlegend .lgh:empty{display:none}
+@media(max-width:1100px){.wb-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.wb-grid{grid-template-columns:1fr}}
 .tile.sel{border-color:var(--brand);position:relative;overflow:hidden}
 .tile.sel::before{content:"";position:absolute;top:0;right:0;border-width:0 26px 26px 0;border-style:solid;border-color:transparent var(--brand) transparent transparent}
 .tile.sel::after{content:"✓";position:absolute;top:1px;right:3px;color:#fff;font-weight:800;font-size:11px;z-index:1}
@@ -901,7 +926,7 @@ a{color:var(--brand);text-decoration:none}
     </div>
     <div class="workarea">
       <div class="navtabs" id="navtabs" hidden>
-        <div class="nt active" data-mt="wallboard">*Wallboard</div><div class="nt" data-mt="servicereps">*Service Reps</div><div class="nt">*AI Agents</div>
+        <div class="nt" data-mt="wallboard">Wallboard</div><div class="nt" data-mt="servicereps">Service Reps</div><div class="nt active" data-mt="aiagents">AI Agents</div>
         <div class="nt">Queues Backlog</div><div class="nt">In-Progress Work</div>
         <div class="nt">More ▾</div>
       </div>
@@ -2354,13 +2379,57 @@ function renderServiceReps(){
   </div>`;
 }
 function showMonitorTab(mt){
-  const wp=$('#wallboardPanel'), sp=$('#serviceRepsPanel'); if(!wp||!sp)return;
-  wp.hidden=(mt!=='wallboard'); sp.hidden=(mt!=='servicereps');
+  const panels={wallboard:'#wallboardPanel',servicereps:'#serviceRepsPanel',aiagents:'#aiAgentsPanel'};
+  Object.entries(panels).forEach(([k,sel])=>{const el=$(sel); if(el)el.hidden=(k!==mt);});
   document.querySelectorAll('#navtabs .nt[data-mt]').forEach(t=>t.classList.toggle('active', t.dataset.mt===mt));
+}
+/* Omni-Channel Wallboard (the Wallboard tab) */
+const WB_CHART=`<svg viewBox="0 0 24 24" fill="#fff"><rect x="4" y="12" width="3.4" height="7" rx="1"/><rect x="10.3" y="7" width="3.4" height="12" rx="1"/><rect x="16.6" y="10" width="3.4" height="9" rx="1"/></svg>`;
+const WB_CLIP=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5h6v2.6H9z"/><path d="M8.5 11h7M8.5 15h5"/></svg>`;
+const WB_AGENTS=`<svg viewBox="0 0 24 24" fill="#fff"><circle cx="8.5" cy="9" r="2.6"/><circle cx="16" cy="10" r="2.1"/><path d="M3.5 18.6c0-2.7 2.3-4.6 5-4.6s5 1.9 5 4.6v.4h-10z"/><path d="M14.6 19v-.4c0-1.6-.6-3-1.7-4 .4-.1.8-.15 1.3-.15 2.2 0 4 1.5 4 3.95V19z"/></svg>`;
+const WB_CLOCK=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4.5l3 1.8"/></svg>`;
+const WB_PERSON=`<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="8.5" r="3.4"/><path d="M5 19.6c0-3.6 3.1-6 7-6s7 2.4 7 6v.4H5z"/></svg>`;
+const WB_FLAG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 5h11l-2 3.6L17 12H6"/></svg>`;
+const WB_ARROWS=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a8 8 0 0113.4-3.4L20 8M20 4v4h-4"/><path d="M20 15a8 8 0 01-13.4 3.4L4 16M4 20v-4h4"/></svg>`;
+const WB_NODES=`<svg viewBox="0 0 24 24" fill="#fff"><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="17" r="2.2"/><path stroke="#fff" stroke-width="1.6" d="M7.6 8.7l3 6.6M16.4 8.7l-3 6.6M8 7h8"/></svg>`;
+function wbStat(label,val){ return `<div class="wb-stat"><div class="wb-sl">${label}</div><div class="wb-sv">${val}</div></div>`; }
+function dashVBar(rows,max,ticks){
+  const W=300,H=186,padL=30,padB=30,padT=8,plotW=W-padL,plotH=H-padB-padT,gap=plotW/rows.length,bw=gap*0.5;
+  const grid=ticks.map(t=>{const y=padT+plotH-(t/max)*plotH;return `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W}" y2="${y.toFixed(1)}" stroke="#eef1f5"/><text x="${padL-5}" y="${(y+3).toFixed(1)}" font-size="8.5" fill="#98a3b1" text-anchor="end">${t}</text>`;}).join('');
+  const bars=rows.map((r,i)=>{const x=padL+gap*i+(gap-bw)/2,bh=(r.v/max)*plotH,y=padT+plotH-bh;return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="#1b96ff"/><text x="${(x+bw/2).toFixed(1)}" y="${(padT+plotH+13).toFixed(1)}" font-size="8" fill="#3e4b5b" text-anchor="middle">${r.l}</text>`;}).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%">${grid}${bars}</svg>`;
+}
+function wbCard(icColor,icSvg,title,badge,body){
+  return `<div class="wbcard">
+    <div class="wb-h"><span class="wb-ic" style="background:${icColor}">${icSvg}</span>
+      <div class="wb-ht"><div class="wb-title">${title} <span class="wb-badge">${badge}</span></div><div class="wb-sub">No filter applied</div></div>
+      <span class="wb-menu">◔ ▾</span></div>
+    <div class="wb-body">${body}</div>
+  </div>`;
+}
+function renderWallboard(){
+  const blue='#1b96ff', TICKS100=[0,10,20,30,40,50,60,70,80,90,100];
+  const box=inner=>`<div class="wb-chartbox">${inner}</div>`;
+  const presence=[['All - Available',5],['Cases - Available',97],['Messaging - Available',35],['Voice - Available',95],['Busy',13],['Busy - Break',42],['Busy - Lunch',2]].map(r=>({l:r[0],v:r[1],c:blue}));
+  const workstatus=[['Assigned',76],['Opened',93],['Closed',2],['Declined',91],['Push Timeout',73],['Canceled',46],['Unavailable',84]].map(r=>({l:r[0],v:r[1],c:blue}));
+  return `<div class="wboard">
+    <div class="wb-top"><span class="wb-top-ic">${WB_CHART}</span><span class="wb-top-t">Omni-Channel Wallboard</span></div>
+    <div class="wb-grid">
+      ${wbCard('#e0517a',WB_CLIP,'Work Item Status','Current', box(dashDonutG([{l:'17% Assigned',v:17,c:blue},{l:'50% In Progress',v:50,c:'#9050e9'},{l:'33% Waiting',v:33,c:'#17b3a3'}],100,'','')))}
+      ${wbCard('#17a2b8',WB_AGENTS,'Agent Capacity Status','Current', box(dashVBar([{l:'Available',v:37},{l:'Idle',v:40},{l:'Busy',v:68},{l:'At Capacity',v:13},{l:'Offline',v:24}],70,[0,10,20,30,40,50,60,70])))}
+      ${wbCard('#f5842a',WB_CLOCK,'Wait Time','Current', `${wbStat('Average Wait Time','2 h 5 m 15 s')}${wbStat('Longest Wait Time','2 d 1 h 59 m 20 s')}`)}
+      ${wbCard('#2ec4b6',WB_CLIP,'Agent Capacity','Current', box(dashDonutG([{l:'26% Used Capacity',v:26,c:blue},{l:'74% Available Capacity',v:74,c:'#9050e9'}],100,'','')))}
+      ${wbCard('#17a2b8',WB_PERSON,'Agent Presence Statuses','Current', box(dashHBar(presence,100,TICKS100,116)))}
+      ${wbCard('#1b96ff',WB_FLAG,'Raised Flags','Current', wbStat('Raised Flags','5'))}
+      ${wbCard('#f5842a',WB_ARROWS,'Agent Work Status','Last Hour', box(dashHBar(workstatus,100,TICKS100,86)))}
+      ${wbCard('#1b96ff',WB_NODES,'Work Performance','Last Hour', `<div class="wb-perf">${wbStat('Average Work Handle Time','17 m')}${wbStat('Average Speed to Answer','4 m')}${wbStat('Average Active Work Time','10 m')}${wbStat('After Conversation Time','5 m')}</div>`)}
+    </div>
+  </div>`;
 }
 function viewMonitor(){ const m=V.monitor;
   return `<div class="pad">
-    <div id="wallboardPanel">
+    <div id="wallboardPanel" hidden>${renderWallboard()}</div>
+    <div id="aiAgentsPanel">
     <div class="panel-title"><span class="bot">${MONITOR_BOT_SVG}</span> Agentforce</div>
     <div class="tiles">
       <div class="tile sel"><div class="n">1</div><div class="l">All Agentforce Agents</div></div>
@@ -2415,8 +2484,9 @@ function viewMonitor(){ const m=V.monitor;
   </div>`;
 }
 function updateMonitor(f){ const dock=$('#dockPanel'); if(dock)dock.hidden=!f.dock;
-  // keep the nav-tab active state in sync with which panel is showing (fresh render defaults to Wallboard)
-  const sp=$('#serviceRepsPanel'); if(sp){ const mt=sp.hidden?'wallboard':'servicereps'; document.querySelectorAll('#navtabs .nt[data-mt]').forEach(t=>t.classList.toggle('active', t.dataset.mt===mt)); }
+  // keep the nav-tab active state in sync with which panel is showing (fresh render defaults to AI Agents)
+  const _vis=[['wallboard','#wallboardPanel'],['servicereps','#serviceRepsPanel'],['aiagents','#aiAgentsPanel']].find(([k,sel])=>{const el=$(sel);return el&&!el.hidden;});
+  if(_vis){ document.querySelectorAll('#navtabs .nt[data-mt]').forEach(t=>t.classList.toggle('active', t.dataset.mt===_vis[0])); }
   const cu=$('#catchupCard'); if(cu)cu.style.display=f.catchDismissed?'none':'';
   const oi=$('#omniInbox'); if(oi)oi.hidden=!f.omniOpen;
   const cdd=$('#channelDropdown'); if(cdd)cdd.hidden=!f.channelOpen;
