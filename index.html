@@ -57,6 +57,7 @@ a{color:var(--brand);text-decoration:none}
 .gh .ghmid{justify-self:center;position:relative;display:flex;align-items:center}
 .gh .cloud{display:flex;align-items:center;flex:none}
 .gh .search{flex:0 0 auto;width:clamp(260px,44vw,560px);height:34px;border:1px solid var(--line-2);border-radius:8px;background:#fff;display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--faint);font-size:13px}
+.gh .search .search-mag{width:15px;height:15px;flex:none}
 .gh .ask{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:12px;height:30px;border:1px solid var(--line-2);color:var(--brand);background:#fff;border-radius:16px;padding:0 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .gh .icons{justify-self:end;display:flex;align-items:center;gap:14px;color:#54698a;font-size:15px}
 .gh .icons .gi{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;line-height:1}
@@ -802,7 +803,7 @@ a{color:var(--brand);text-decoration:none}
 .homedash{display:flex;gap:16px;padding:14px 16px 40px;align-items:flex-start}
 .hd-main{flex:1;min-width:0}
 .hd-side{width:352px;flex:none;display:flex;flex-direction:column;gap:14px}
-.dashhead{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow-1)}
+.dashhead{background:#F3F3F3;border:1px solid var(--line);border-radius:10px;padding:14px 18px}
 .dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .dh-eyebrow{font-size:11px;color:var(--muted);font-weight:700}
 .dh-title{font-size:22px;font-weight:800;color:var(--ink);margin:2px 0 0}
@@ -821,7 +822,7 @@ a{color:var(--brand);text-decoration:none}
 .dc-body{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 0;min-height:150px}
 .dc-foot{display:flex;justify-content:space-between;gap:8px;font-size:9.5px;color:var(--muted);margin-top:6px}
 .dc-foot a{color:var(--brand);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.donutwrap{display:flex;align-items:center;gap:12px}
+.donutwrap{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
 .dlegend{font-size:11px;color:var(--ink-2)}
 .dlegend .lgh{color:var(--muted);font-size:10px;margin-bottom:4px}
 .dlegend .lg{display:flex;align-items:center;gap:6px;margin:3px 0}
@@ -929,9 +930,8 @@ a{color:var(--brand);text-decoration:none}
       <div class="tab folder" id="tabCase" hidden>00005518 <span class="chev">⌄</span> <span class="close">✕</span></div>
       <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
       <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div></div>
-    <div class="ghmid"><div class="search">🔍 Search…</div><div class="ask" id="askBtn">✦ Ask</div></div>
-    <div class="icons"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#5f6b7a" stroke-width="1.7"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 5.6V8"/><circle cx="12" cy="4.4" r="1" fill="#5f6b7a"/><circle cx="9.6" cy="13" r="1" fill="#5f6b7a" stroke="none"/><circle cx="14.4" cy="13" r="1" fill="#5f6b7a" stroke="none"/></svg></span><span class="gi star"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 3.6l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.3l5.4-.8z"/></svg><i>▾</i></span><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#5f6b7a" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="6" x2="12" y2="18"/><line x1="6" y1="12" x2="18" y2="12"/></svg></span><span class="gi"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M17.4 18.5H6.7a3.8 3.8 0 01-.5-7.57A5.3 5.3 0 0116.8 10a3.75 3.75 0 01.6 8.5z"/></svg></span><span class="gi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#5f6b7a" stroke-width="1.8"/><text x="12" y="16.5" text-anchor="middle" font-size="13" font-weight="700" fill="#5f6b7a">?</text></svg></span><span class="gi"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M15.5 3c-3 .3-5.6 2-7.2 4.6L6 8l-2.3.6a1 1 0 00-.5 1.6l1.8 1.9c-.1.6-.1 1.2 0 1.8l-.9 2.3 2.3-.9c.6.1 1.2.1 1.8 0l1.9 1.8a1 1 0 001.6-.5L12 14l.4-2.3C15 10 16.7 7.4 17 4.4A1.2 1.2 0 0015.5 3zm-2 5.5a1.4 1.4 0 111.9-1.9 1.4 1.4 0 01-1.9 1.9z"/></svg></span><span class="gi"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 00.12-.64l-1.76-3.05a.5.5 0 00-.6-.22l-2.19.88a6.9 6.9 0 00-1.62-.94l-.33-2.33A.5.5 0 0014.05 3h-4.1a.5.5 0 00-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 00-.6.22L2.62 9.43a.5.5 0 00.12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 00-.12.64l1.76 3.05a.5.5 0 00.6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 00.5.42h4.1a.5.5 0 00.5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 00.6-.22l1.76-3.05a.5.5 0 00-.12-.64l-1.86-1.45z"/></svg></span>
-      <span class="bellwrap"><span class="bell" id="bell"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 3a1.3 1.3 0 011.3 1.3v.6a5 5 0 013.7 4.8V13l1.4 2.4a1 1 0 01-.85 1.5H6.45a1 1 0 01-.85-1.5L7 13V9.7a5 5 0 013.7-4.8v-.6A1.3 1.3 0 0112 3zm-1.8 15.2a1.9 1.9 0 003.6 0z"/></svg><span class="dot" id="bellDot">0</span></span>
+    <div class="ghmid"><div class="search"><svg class="search-mag" viewBox="0 0 24 24" fill="none" stroke="#9aa5b1" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg> Search…</div><div class="ask" id="askBtn">✦ Ask</div></div>
+    <div class="icons"><span class="gi star"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 3.6l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.3l5.4-.8z"/></svg><i>▾</i></span><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#5f6b7a" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="6" x2="12" y2="18"/><line x1="6" y1="12" x2="18" y2="12"/></svg></span><span class="gi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#5f6b7a" stroke-width="1.8"/><text x="12" y="16.5" text-anchor="middle" font-size="13" font-weight="700" fill="#5f6b7a">?</text></svg></span>      <span class="bellwrap"><span class="bell" id="bell"><svg viewBox="0 0 24 24" fill="#5f6b7a"><path d="M12 3a1.3 1.3 0 011.3 1.3v.6a5 5 0 013.7 4.8V13l1.4 2.4a1 1 0 01-.85 1.5H6.45a1 1 0 01-.85-1.5L7 13V9.7a5 5 0 013.7-4.8v-.6A1.3 1.3 0 0112 3zm-1.8 15.2a1.9 1.9 0 003.6 0z"/></svg><span class="dot" id="bellDot">0</span></span>
         <div class="bellpanel" id="bellPanel" hidden></div></span>
       <span class="avatar">CM</span></div>
   </div>
@@ -3269,13 +3269,13 @@ function viewHome(){
     {num:'00001074',contact:'Sophia Patel',subj:'Dispute a recent debit charge',status:'New',pri:'Medium',origin:'Phone'}];
   return `<div class="homedash">
     <div class="hd-main">
+      ${afBanner()}
       <div class="dashhead">
         <div class="dh-top"><div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
           <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe ▾</button></div></div>
         <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Automated Process</div>
         <div class="dh-date"><label>Date</label><div class="dh-sel">All ▾</div></div>
       </div>
-      ${afBanner()}
       <div class="dscore">
         ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
         ${dcard('Agent Sentiment Rating', gaugeSVG(0.86,'4.3',{ticks:[0,1,2,3,4,5]}), 'View Report (Agent Sentiment)')}
@@ -3287,7 +3287,7 @@ function viewHome(){
         ${dcard('Escalation Rate', gaugeSVG(0.013,'0.2%',{zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']],ticks:[0,3,6,9,12,15]}), 'View Report (Escalation Rate)')}
       </div>
       <div class="dgrid">
-        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',168), 'View Report (Cases by Reason)')}
+        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',200), 'View Report (Cases by Reason)')}
         ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
         ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
       </div>
