@@ -104,7 +104,7 @@ a{color:var(--brand);text-decoration:none}
 .omnirail .oicell:last-child{border-bottom:0}
 .omnirail .oi{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-size:17px;color:#54698a}
 .omnirail .oi svg{width:23px;height:23px;display:block}
-.omnirail .oi.omni{width:38px;height:38px;background:#0b7fd4;color:#fff;border-radius:50%;font-size:16px;font-weight:800}
+.omnirail .oi.omni{width:38px;height:38px;background:#0389BB;color:#fff;border-radius:50%;font-size:16px;font-weight:800}
 .omnirail .oi.omni svg{width:22px;height:22px}
 .omnirail .oi.cases{width:40px;height:40px;background:#03234D;border-radius:11px}
 .omnirail .oi.cases svg{width:22px;height:22px}
@@ -803,10 +803,10 @@ a{color:var(--brand);text-decoration:none}
 .homedash{display:flex;gap:16px;padding:14px 16px 40px;align-items:flex-start}
 .hd-main{flex:1;min-width:0}
 .hd-side{width:352px;flex:none;display:flex;flex-direction:column;gap:14px}
-.dashpanel{background:#fff;border:1px solid var(--line-2);border-radius:14px;box-shadow:0 2px 8px rgba(16,32,50,.08),0 1px 3px rgba(16,32,50,.06);overflow:hidden;margin-top:18px}
-.dashbody{padding:16px 20px}
+.dashpanel{background:#fff;border:1px solid var(--line-2);border-radius:14px;box-shadow:0 2px 8px rgba(16,32,50,.08),0 1px 3px rgba(16,32,50,.06);padding:14px;margin-top:14px}
+.dashbody{margin-top:14px}
 .dashbody>:first-child{margin-top:0}
-.dashhead{background:#F3F3F3;padding:16px 20px;border-bottom:1px solid var(--line)}
+.dashhead{background:#F3F3F3;border:1px solid var(--line);border-radius:8px;padding:16px 20px}
 .dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .dh-eyebrow{font-size:11px;color:var(--muted);font-weight:700}
 .dh-title{font-size:25px;font-weight:800;color:var(--ink);margin:2px 0 0}
@@ -878,7 +878,7 @@ a{color:var(--brand);text-decoration:none}
 .aoc-kv a{color:var(--brand);cursor:pointer}
 .dscore{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
 /* Agentforce autonomous-resolution banner */
-.afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;margin-top:14px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
+.afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
 .afb-ic{width:40px;height:40px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 2px 6px rgba(123,31,162,.28)}
 .afb-ic img{width:100%;height:100%;object-fit:cover;display:block}
 .afb-main{flex:1;min-width:0}
@@ -891,7 +891,7 @@ a{color:var(--brand);text-decoration:none}
 .afb-n.good{color:#1a7f5a}.afb-n.bad{color:#c23934}
 .afb-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:5px}
 .scoretile{text-align:center}
-.scoretile .scoren{font-size:42px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.scoretile .scoren{font-size:56px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
 .scoretile .scoresub{font-size:11px;color:var(--muted);margin-top:9px}
 /* Timeline (Timeline | Activity) side card */
 .tlcard{overflow:visible}
@@ -3191,7 +3191,7 @@ function gaugeSVG(frac,display,opts){ opts=opts||{};
   const ticks=tickVals.map((t,i)=>{const f=i/n,x=cx+(r+13)*Math.cos(Math.PI*(1-f)),y=cy-(r+13)*Math.sin(Math.PI*(1-f))+3;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="9" fill="#98a3b1" text-anchor="middle">${t}</text>`;}).join('');
   return `<svg viewBox="0 0 220 148" width="100%" style="max-height:150px">${zones.map(z=>seg(z[0],z[1],z[2])).join('')}${ticks}<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0c1622" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="#0c1622"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="23" font-weight="800" fill="${color}">${display}</text></svg>`;
 }
-function scoreTile(num,sub,color){ return `<div class="scoretile"><div class="scoren" style="color:${color||'#1a7f5a'}">${num}</div><div class="scoresub">${sub}</div></div>`; }
+function scoreTile(num,sub,color){ return `<div class="scoretile"><div class="scoren" style="color:${color||'#1a7f5a'}">${num}</div>${sub?`<div class="scoresub">${sub}</div>`:''}</div>`; }
 function dashDonutG(segs,total,center,legendTitle,w){
   const cx=90,cy=90,r=60,sw=27,C=2*Math.PI*r; let acc=0;
   const arcs=segs.map(s=>{const frac=s.v/total,dash=`${(frac*C).toFixed(1)} ${C.toFixed(1)}`,off=(-acc*C).toFixed(1);acc+=frac;return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-dasharray="${dash}" stroke-dashoffset="${off}" transform="rotate(-90 ${cx} ${cy})"/>`;}).join('');
@@ -3284,10 +3284,10 @@ function viewHome(){
       </div>
       <div class="dashbody">
       <div class="dscore">
-        ${dcard('My Cases', scoreTile(d.openCases,'open + working'), 'View Report (My Cases)')}
+        ${dcard('My Cases', scoreTile(d.openCases,''), 'View Report (My Cases)')}
         ${dcard('My Cases by Priority', dashHBar([{l:'High',v:7,c:'#1b96ff'},{l:'Low',v:2,c:'#1b96ff'},{l:'Medium',v:25,c:'#1b96ff'}],25,[0,5,10,15,20,25],56), 'View Report (My Case Priorities)')}
         ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
-        ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,'last 90 days'), 'View Report (Average Handle Time)')}
+        ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,''), 'View Report (Average Handle Time)')}
       </div>
       <div class="dgrid">
         ${dcard('My SLA Compliance', gaugeSVG(0.98,'98%',{}), 'View Report (My SLA Compliance)')}
