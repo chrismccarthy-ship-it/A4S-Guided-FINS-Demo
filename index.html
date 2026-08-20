@@ -803,7 +803,10 @@ a{color:var(--brand);text-decoration:none}
 .homedash{display:flex;gap:16px;padding:14px 16px 40px;align-items:flex-start}
 .hd-main{flex:1;min-width:0}
 .hd-side{width:352px;flex:none;display:flex;flex-direction:column;gap:14px}
-.dashhead{background:#F3F3F3;border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+.dashpanel{background:#fff;border:1px solid var(--line-2);border-radius:14px;box-shadow:0 2px 8px rgba(16,32,50,.08),0 1px 3px rgba(16,32,50,.06);overflow:hidden;margin-top:18px}
+.dashbody{padding:16px 20px}
+.dashbody>:first-child{margin-top:0}
+.dashhead{background:#F3F3F3;padding:16px 20px;border-bottom:1px solid var(--line)}
 .dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .dh-eyebrow{font-size:11px;color:var(--muted);font-weight:700}
 .dh-title{font-size:22px;font-weight:800;color:var(--ink);margin:2px 0 0}
@@ -3270,12 +3273,14 @@ function viewHome(){
   return `<div class="homedash">
     <div class="hd-main">
       ${afBanner()}
+      <div class="dashpanel">
       <div class="dashhead">
         <div class="dh-top"><div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
           <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe ▾</button></div></div>
-        <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Automated Process</div>
+        <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Service Agent</div>
         <div class="dh-date"><label>Date</label><div class="dh-sel">All ▾</div></div>
       </div>
+      <div class="dashbody">
       <div class="dscore">
         ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
         ${dcard('Agent Sentiment Rating', gaugeSVG(0.86,'4.3',{ticks:[0,1,2,3,4,5]}), 'View Report (Agent Sentiment)')}
@@ -3290,6 +3295,8 @@ function viewHome(){
         ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',200), 'View Report (Cases by Reason)')}
         ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
         ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
+      </div>
+      </div>
       </div>
     </div>
     <div class="hd-side">
