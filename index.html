@@ -835,7 +835,43 @@ a{color:var(--brand);text-decoration:none}
 .aoc-kv span:first-child{color:var(--muted)}
 .aoc-kv span:last-child{color:var(--ink-2)}
 .aoc-kv a{color:var(--brand);cursor:pointer}
-@media(max-width:1120px){.homedash{flex-direction:column}.hd-side{width:100%}.dgrid{grid-template-columns:repeat(2,1fr)}}
+.dscore{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:14px}
+.scoretile{text-align:center}
+.scoretile .scoren{font-size:42px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.scoretile .scoresub{font-size:11px;color:var(--muted);margin-top:9px}
+/* Timeline (Timeline | Activity) side card */
+.tlcard{overflow:visible}
+.tl-tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);padding:10px 16px 0}
+.tl-tabs span{padding:7px 2px 9px;font-size:13px;font-weight:600;color:var(--ink-2);border-bottom:2px solid transparent;cursor:pointer}
+.tl-tabs span.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:700}
+.tl-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 16px 4px}
+.tl-title{font-size:15px;font-weight:800;color:var(--ink)}
+.tl-caret{color:var(--brand);font-size:12px}
+.tl-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.tl-new{border:1px solid var(--line-2);background:#fff;color:var(--brand);border-radius:16px;padding:5px 15px;font-size:12.5px;font-weight:600;cursor:pointer;flex:none}
+.tl-tools{display:flex;justify-content:flex-end;padding:2px 16px 10px;border-bottom:1px solid var(--line)}
+.tl-tb{width:34px;height:30px;display:grid;place-items:center;border:1px solid var(--line-2);border-right:0;cursor:pointer}
+.tl-tb:first-child{border-radius:6px 0 0 6px}
+.tl-tb:last-child{border-right:1px solid var(--line-2);border-radius:0 6px 6px 0}
+.tl-tb svg{width:16px;height:16px;display:block}
+.tl-past{padding:12px 16px 2px;display:flex;align-items:center;gap:10px}
+.tl-past span{font-size:12px;color:var(--muted)}
+.tl-past::after{content:"";flex:1;height:1px;background:var(--line)}
+.tl-items{padding:2px 14px 12px}
+.tl-item{display:flex;align-items:flex-start;gap:8px;padding:10px 2px}
+.tl-exp{color:var(--brand);font-size:14px;padding-top:6px;flex:none}
+.tl-rail{position:relative;flex:none;width:30px;display:flex;justify-content:center}
+.tl-item:not(:last-child) .tl-rail::before{content:"";position:absolute;top:17px;bottom:-20px;left:50%;transform:translateX(-50%);width:2px;background:repeating-linear-gradient(#e8845a 0 4px,transparent 4px 8px)}
+.tl-ic{position:relative;z-index:1;width:30px;height:30px;border-radius:7px;display:grid;place-items:center;flex:none}
+.tl-ic.event{background:#e0517a}.tl-ic.task{background:#3ba755}
+.tl-ic svg{width:18px;height:18px;display:block}
+.tl-main{flex:1;min-width:0;padding-top:4px}
+.tl-t{color:var(--brand);font-weight:600;font-size:13px;text-decoration:none;line-height:1.3;display:block}
+.tl-date{font-size:12px;color:var(--ink-2);white-space:nowrap;padding-top:5px;flex:none}
+.tl-dd{flex:none;padding-top:3px}
+.tl-dd svg{width:19px;height:19px;display:block}
+@media(max-width:1120px){.homedash{flex-direction:column}.hd-side{width:100%}.dgrid{grid-template-columns:repeat(2,1fr)}.dscore{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.dscore{grid-template-columns:repeat(2,1fr)}.dgrid{grid-template-columns:1fr}}
 </style>
 
 <div class="app" id="app">
@@ -3044,18 +3080,83 @@ function dashHBar(rows,max,ticks,labelW){
   const bars=rows.map(r=>{const bw=r.v/max*w;const b=`<rect x="${x0}" y="${y}" width="${bw.toFixed(1)}" height="${H}" fill="${r.c||'#1b96ff'}"/>${r.v?`<text x="${(x0+bw-5).toFixed(1)}" y="${y+H/2+4}" font-size="11" fill="#fff" text-anchor="end" font-weight="700">${r.v}</text>`:''}${r.l?`<text x="${x0-6}" y="${y+H/2+4}" font-size="9.5" fill="#3e4b5b" text-anchor="end">${r.l}</text>`:''}`;y+=H+10;return b;}).join('');
   return `<svg viewBox="0 0 300 ${top+rows.length*(H+10)+6}" width="100%">${grid}${bars}</svg>`;
 }
+/* ---- dashboard: flexible gauge / scorecard / donut / per-vertical KPI data / timeline ---- */
+const REASON_COLORS=['#1b96ff','#7cc0f4','#9050e9','#57b39b','#f5a623'];
+function gaugeSVG(frac,display,opts){ opts=opts||{};
+  const zones=opts.zones||[[0,0.34,'#c23934'],[0.34,0.67,'#f5a623'],[0.67,1,'#1a7f5a']];
+  const tickVals=opts.ticks||[0,20,40,60,80,100]; const color=opts.color||'#1a7f5a';
+  const cx=110,cy=112,r=80,sw=17;
+  const pt=f=>[cx+r*Math.cos(Math.PI*(1-f)),cy-r*Math.sin(Math.PI*(1-f))];
+  const seg=(a,b,col)=>{const p0=pt(a),p1=pt(b);const lg=(b-a)>0.5?1:0;return `<path d="M${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A ${r} ${r} 0 ${lg} 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw}"/>`;};
+  const vf=Math.max(0,Math.min(1,frac)); const na=Math.PI*(1-vf),nx=cx+(r-14)*Math.cos(na),ny=cy-(r-14)*Math.sin(na);
+  const n=tickVals.length-1;
+  const ticks=tickVals.map((t,i)=>{const f=i/n,x=cx+(r+13)*Math.cos(Math.PI*(1-f)),y=cy-(r+13)*Math.sin(Math.PI*(1-f))+3;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="9" fill="#98a3b1" text-anchor="middle">${t}</text>`;}).join('');
+  return `<svg viewBox="0 0 220 148" width="100%" style="max-height:150px">${zones.map(z=>seg(z[0],z[1],z[2])).join('')}${ticks}<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0c1622" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="#0c1622"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="23" font-weight="800" fill="${color}">${display}</text></svg>`;
+}
+function scoreTile(num,sub,color){ return `<div class="scoretile"><div class="scoren" style="color:${color||'#1a7f5a'}">${num}</div><div class="scoresub">${sub}</div></div>`; }
+function dashDonutG(segs,total,center,legendTitle){
+  const cx=90,cy=90,r=60,sw=27,C=2*Math.PI*r; let acc=0;
+  const arcs=segs.map(s=>{const frac=s.v/total,dash=`${(frac*C).toFixed(1)} ${C.toFixed(1)}`,off=(-acc*C).toFixed(1);acc+=frac;return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-dasharray="${dash}" stroke-dashoffset="${off}" transform="rotate(-90 ${cx} ${cy})"/>`;}).join('');
+  const legend=segs.map(s=>`<div class="lg"><span class="lgsw" style="background:${s.c}"></span>${s.l}</div>`).join('');
+  return `<div class="donutwrap"><svg viewBox="0 0 180 180" width="138">${arcs}<text x="90" y="99" text-anchor="middle" font-size="26" font-weight="800" fill="#0c1622">${center}</text></svg><div class="dlegend"><div class="lgh">${legendTitle}</div>${legend}</div></div>`;
+}
+const TL_EV_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17"/><path d="M8 3.5v3M16 3.5v3"/></svg>`;
+const TL_TASK_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7h8M10 12h8M10 17h8"/><path d="M4.4 6.6l1 1 1.6-1.8M4.4 11.6l1 1 1.6-1.8M4.4 16.6l1 1 1.6-1.8"/></svg>`;
+const TL_DD_SVG=`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#1b96ff" stroke-width="1.4"/><path d="M8.5 10.5l3.5 3.5 3.5-3.5" stroke="#1b96ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const TL_TOOLS=`<span class="tl-tb"><svg viewBox="0 0 24 24" fill="none" stroke="#1b96ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 10-2.4 5.8M20 5v6h-6"/></svg></span><span class="tl-tb"><svg viewBox="0 0 24 24" fill="none" stroke="#1b96ff" stroke-width="1.7"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg></span><span class="tl-tb"><svg viewBox="0 0 24 24" fill="#1b96ff"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></span><span class="tl-tb"><svg viewBox="0 0 24 24" fill="none" stroke="#1b96ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L5 4 2 7M5 4v16M16 17l3 3 3-3M19 20V4"/></svg></span>`;
+function renderTimeline(items){
+  return `<div class="tl">
+    <div class="tl-tabs"><span class="active">Timeline</span><span>Activity</span></div>
+    <div class="tl-head"><div><div class="tl-title">Timeline <span class="tl-caret">▾</span></div><div class="tl-sub">All Events • Most Recent Event</div></div><button class="tl-new">New</button></div>
+    <div class="tl-tools">${TL_TOOLS}</div>
+    <div class="tl-past"><span>Past</span></div>
+    <div class="tl-items">
+      ${items.map(it=>`<div class="tl-item">
+        <span class="tl-exp">›</span>
+        <span class="tl-rail"><span class="tl-ic ${it.t}">${it.t==='event'?TL_EV_SVG:TL_TASK_SVG}</span></span>
+        <div class="tl-main"><a class="tl-t" href="#" onclick="return false">${it.title}</a></div>
+        <div class="tl-date">${it.date}</div>
+        <span class="tl-dd">${TL_DD_SVG}</span>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+const DASHV={
+  "retail-fraud":{ openCases:43,
+    reasons:[{l:'Fraud Alerts',v:30},{l:'Card Disputes',v:22},{l:'Password Resets',v:16},{l:'Overdraft & Fees',v:12},{l:'Replacement Cards',v:10}],
+    aht:"4m 12s", ahtBench:"vs 4–6 min industry avg",
+    timeline:[{t:'event',title:'Fraud & Disputes Team Standup',date:'September 10, 2026'},{t:'event',title:'Retail Banking Ops Review',date:'August 26, 2026'},{t:'task',title:'Email: Your card ending 7201 is locked (Lauren Bailey)',date:'August 5, 2026'},{t:'event',title:'Branch Manager Sync',date:'July 24, 2026'},{t:'task',title:'Follow up on overdraft fee reversal',date:'July 12, 2026'}] },
+  "wealth":{ openCases:16,
+    reasons:[{l:'ACATS Transfers',v:34},{l:'Wire / ACH',v:22},{l:'RMD Distributions',v:14},{l:'Beneficiary Changes',v:12},{l:'Fraud Alerts',v:8}],
+    aht:"4m 28s", ahtBench:"vs 4–6 min industry avg",
+    timeline:[{t:'event',title:'Portfolio Construction Session — Ashford',date:'September 12, 2026'},{t:'event',title:'Private Wealth Advisor Review',date:'August 27, 2026'},{t:'task',title:'Email: Premier Portfolio welcome & timeline (Jonathan Ashford III)',date:'August 4, 2026'},{t:'event',title:'ACATS Milestone Check-In',date:'July 25, 2026'},{t:'task',title:'Confirm beneficiary registrations — Ashford Family Office',date:'July 13, 2026'}] },
+  "commercial":{ openCases:18,
+    reasons:[{l:'ACH / Wire Origination',v:28},{l:'sFTP Setup',v:20},{l:'Lockbox',v:16},{l:'Exposure Limits',v:14},{l:'File Mapping',v:12}],
+    aht:"4m 50s", ahtBench:"vs 4–6 min industry avg",
+    timeline:[{t:'event',title:'Treasury Onboarding Kickoff — PayFlow',date:'September 8, 2026'},{t:'event',title:'Commercial Banking Ops Review',date:'August 25, 2026'},{t:'task',title:'Email: Your sFTP channel is provisioned (Marcus Bell)',date:'August 6, 2026'},{t:'event',title:'ACH Go-Live Readiness Sync',date:'July 28, 2026'},{t:'task',title:'Validate test payment file — PayFlow Logistics',date:'July 15, 2026'}] },
+  "insurance":{ openCases:15,
+    reasons:[{l:'New-Business Quotes',v:30},{l:'Endorsements',v:20},{l:'Certificates',v:16},{l:'Policy Bundling',v:14},{l:'Renewals',v:10}],
+    aht:"5m 20s", ahtBench:"vs 6–8 min industry avg",
+    timeline:[{t:'event',title:'Carrier Quote Review — Marchetti',date:'September 9, 2026'},{t:'event',title:'Brokerage Book Review',date:'August 26, 2026'},{t:'task',title:'Email: Your HO-3 certificate for closing (Elena Marchetti)',date:'August 5, 2026'},{t:'event',title:'Bind Deadline — Marchetti Closing',date:'July 27, 2026'},{t:'task',title:'Confirm replacement-cost valuation',date:'July 14, 2026'}] },
+  "insurance-claim":{ openCases:15,
+    reasons:[{l:'FNOL / Collision',v:32},{l:'Adjuster Assignment',v:20},{l:'Rental Setup',v:16},{l:'Repair Estimates',v:12},{l:'Injury Claims',v:10}],
+    aht:"5m 35s", ahtBench:"vs 6–8 min industry avg",
+    timeline:[{t:'event',title:'Claims Team Standup',date:'September 6, 2026'},{t:'event',title:'Auto Claims Review',date:'August 24, 2026'},{t:'task',title:'Email: Your claim & rental are set up (Ray Delgado)',date:'August 6, 2026'},{t:'event',title:'Adjuster Inspection — Delgado',date:'July 26, 2026'},{t:'task',title:'Review body-shop repair estimate',date:'July 13, 2026'}] },
+  "insurance-life":{ openCases:13,
+    reasons:[{l:'Beneficiary Changes',v:28},{l:'Premium & Billing',v:20},{l:'Policy Loans',v:16},{l:'Lapse Notices',v:14},{l:'Ownership Changes',v:12}],
+    aht:"5m 10s", ahtBench:"vs 6–8 min industry avg",
+    timeline:[{t:'event',title:'Policy Services Review — Lee',date:'September 5, 2026'},{t:'event',title:'Life Book Review',date:'August 23, 2026'},{t:'task',title:'Email: Your beneficiary change is confirmed (Patricia Lee)',date:'August 4, 2026'},{t:'event',title:'Contingent Beneficiary Follow-Up',date:'July 25, 2026'},{t:'task',title:'Resolve lapse-risk notice — premium overdue',date:'July 11, 2026'}] },
+  "fintech":{ openCases:20,
+    reasons:[{l:'API Incidents',v:30},{l:'SLA Credits',v:20},{l:'Webhook Issues',v:16},{l:'Sandbox & Keys',v:14},{l:'Latency',v:10}],
+    aht:"7m 45s", ahtBench:"vs 8–10 min industry avg",
+    timeline:[{t:'event',title:'Incident Bridge — PayCadence',date:'September 4, 2026'},{t:'event',title:'Enterprise Support Review',date:'August 22, 2026'},{t:'task',title:'Email: INC-4821 root-cause analysis (Derek Vaughn)',date:'August 5, 2026'},{t:'event',title:'Reliability QBR Prep',date:'July 24, 2026'},{t:'task',title:'Apply SLA credit — June downtime',date:'July 10, 2026'}] }
+};
+function dv(){ return DASHV[activeVertical]||DASHV["retail-fraud"]; }
 function viewHome(){
-  const aiRows=[
-    ['00005401','Unable to reset online banking password','bsom'],
-    ['00005396','Request a replacement debit card','nadp'],
-    ['00005364','System Outages and Holdings Report Performance','TechCo Dealership'],
-    ['00005363','System Outages and Holdings Report','TechCo Dealership'],
-    ['00005309','URGENT: Payment Gateway API Outage Preventing Money Movement','TechCo Dealership'],
-    ['00005257','Urgent Transition Analysis for $50M Multi-Asset Portfolio','TechCo Asset Mgmt'],
-    ['00005255','Transition Analysis Request — High Net Worth Migration','TechCo — Transition'],
-    ['00005253','Urgent: Transition Analysis Extraction Error — Thompson','TechCo — Transition'],
-    ['00005251','Urgent: Transition Analysis Request — Miller Family Trust','TechCo Dealership'] ];
-  const tags=[['500 Errors',1],['503 Errors',1],['API Outage',1],['Account Support',1],['Agent Impact',1]];
+  const d=dv();
+  const reasons=d.reasons.map((r,i)=>({l:r.l,v:r.v,c:REASON_COLORS[i]}));
+  const rtot=reasons.reduce((a,b)=>a+b.v,0);
+  const channels=[{l:'Phone',v:42},{l:'Chat',v:22},{l:'SMS',v:15},{l:'Email',v:8},{l:'Web',v:3}].map(c=>({l:c.l,v:c.v,c:'#1b96ff'}));
   const openCases=[
     {num:'00001067',contact:'Sophia Patel',subj:'Reorder checks',status:'New',pri:'Low',origin:'Website'},
     {num:'00001068',contact:'Daniel Wu',subj:'ACH payment returned',status:'Working',pri:'High',origin:'Chat'},
@@ -3065,23 +3166,27 @@ function viewHome(){
   return `<div class="homedash">
     <div class="hd-main">
       <div class="dashhead">
-        <div class="dh-top"><div><div class="dh-eyebrow">◎ Dashboard</div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
+        <div class="dh-top"><div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
           <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe ▾</button></div></div>
-        <p class="dh-desc">This dashboard provides key insights into rep performance, including average handle time, speed to answer, and active time, as well as case metrics such as the number of open, escalated, and closed cases, case origin, and case reason.</p>
         <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Automated Process</div>
         <div class="dh-date"><label>Date</label><div class="dh-sel">All ▾</div></div>
       </div>
-      <div class="dgrid">
-        ${dcard('Total Cases by Priority', dashHBar([{l:'Medium',v:90,c:'#1b96ff'}],100,[0,20,40,60,80,100],60), 'View Report (Rep Work by Case Priority a…)')}
-        ${dcard('Total Cases by Origin', dashDonut(), 'View Report (Rep Work by Case Priority a…)')}
-        ${dcard('Total Cases by Case Type', dashHBar([{l:'',v:4,c:'#1b96ff'},{l:'Account Support',v:80,c:'#1b96ff'}],100,[0,20,40,60,80,100],86), 'View Report (Rep Work by Case Type)')}
-        ${dcard('Total Open Cases', dashGauge(42,100), 'View Report (Open Cases by Rep and Status)')}
-        ${dcard('Total Closed Cases', dashGauge(48,100), 'View Report (Closed Cases by Rep)')}
-        ${dcard('Total Escalated Cases', dashGauge(0,100), 'View Report (Rep Work by Case Priority a…)')}
+      <div class="dscore">
+        ${dcard('My Open Cases', scoreTile(d.openCases,'open + working'), 'View Report (My Cases)')}
+        ${dcard('Average CSAT Score', scoreTile('86.3','Last 90 days'), 'View Report (Average CSAT)')}
+        ${dcard('Average NPS Score', scoreTile('82','Last 90 days'), 'View Report (Average NPS)')}
+        ${dcard('Agent Sentiment Rating', scoreTile('4.3','out of 5 · last 90 days'), 'View Report (Agent Sentiment)')}
+        ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,d.ahtBench), 'View Report (Average Handle Time)')}
       </div>
-      <div class="dgrid2">
-        ${dcard('Total Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:30,c:'#1b96ff'},{l:'Working',v:3,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:1,c:'#57b39b'}],30,[0,6,12,18,24,30],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
-        ${dcard('Total Closed Cases by Rep', `<div class="repchart">${dashHBar([{l:'Chris McCarthy',v:48,c:'#1b96ff'}],48,[0,8,16,24,32,40,48],96)}</div>`, 'View Report (Closed Cases by Rep)')}
+      <div class="dgrid">
+        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason'), 'View Report (Cases by Reason)')}
+        ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
+        ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
+      </div>
+      <div class="dgrid">
+        ${dcard('My SLA Compliance', gaugeSVG(0.98,'98%',{}), 'View Report (My SLA Compliance)')}
+        ${dcard('First-Contact Resolution', gaugeSVG(0.989,'98.9%',{}), 'View Report (First Contact Resolution)')}
+        ${dcard('Escalation Rate', gaugeSVG(0.013,'0.2%',{zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']],ticks:[0,3,6,9,12,15]}), 'View Report (Escalation Rate)')}
       </div>
     </div>
     <div class="hd-side">
@@ -3103,15 +3208,7 @@ function viewHome(){
           <div class="aoc-kv"><span>Case Origin:</span><span>${c.origin}</span></div>
         </div>`).join('')}</div>
       </div>
-      <div class="scard2"><div class="s2h">AI Cases Pending Review <span class="s2badge">20</span></div>
-        <div class="aitbl"><div class="aithr"><span>Case</span><span>Subject</span><span>Account</span></div>
-          ${aiRows.map(r=>`<div class="aitr"><span class="aic">${r[0]}</span><span class="ais">${r[1]}</span><span class="aia">${r[2]}</span></div>`).join('')}</div>
-      </div>
-      <div class="scard2"><div class="s2h">Case Tag Trends <span class="s2ic">▾</span></div>
-        <div class="ctt"><div class="ctt-scope"><label>Time scope</label><div class="dh-sel">Last 2 months ▾</div></div>
-          <div class="ctt-kpis"><div class="ctt-k"><div class="ctt-n">1</div><div class="ctt-l">Cases Tagged</div></div><div class="ctt-k"><div class="ctt-n">20</div><div class="ctt-l">Unique Tags</div></div></div>
-          <div class="ctt-top"><div class="ctt-th">Top 5 trending tags</div>${tags.map((t,i)=>`<div class="ctt-row"><span>${i+1}&nbsp;&nbsp;${t[0]}</span><span>${t[1]}</span></div>`).join('')}</div></div>
-      </div>
+      <div class="scard2 tlcard">${renderTimeline(d.timeline)}</div>
     </div>
   </div>`;
 }
