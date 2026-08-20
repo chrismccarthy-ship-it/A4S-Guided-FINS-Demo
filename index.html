@@ -878,6 +878,7 @@ a{color:var(--brand);text-decoration:none}
 .aoc-kv span:last-child{color:var(--ink-2)}
 .aoc-kv a{color:var(--brand);cursor:pointer}
 .dscore{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.dscore4{grid-template-columns:repeat(4,1fr)}
 /* Agentforce autonomous-resolution banner */
 .afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;margin-top:14px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
 .afb-ic{width:40px;height:40px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 2px 6px rgba(123,31,162,.28)}
@@ -3279,20 +3280,20 @@ function viewHome(){
       </div>
       ${afBanner()}
       <div class="dashbody">
-      <div class="dscore">
-        ${dcard('My Cases by Priority', dashHBar([{l:'High',v:7,c:'#1b96ff'},{l:'Low',v:2,c:'#1b96ff'},{l:'Medium',v:25,c:'#1b96ff'}],25,[0,5,10,15,20,25],56), 'View Report (My Case Priorities)')}
+      <div class="dscore dscore4">
         ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
-        ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,''), 'View Report (Average Handle Time)')}
-      </div>
-      <div class="dgrid">
         ${dcard('My SLA Compliance', gaugeSVG(0.98,'98%',{}), 'View Report (My SLA Compliance)')}
         ${dcard('First-Contact Resolution', gaugeSVG(0.989,'98.9%',{}), 'View Report (First Contact Resolution)')}
         ${dcard('Escalation Rate', gaugeSVG(0.013,'0.2%',{zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']],ticks:[0,3,6,9,12,15]}), 'View Report (Escalation Rate)')}
       </div>
       <div class="dgrid">
-        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',200), 'View Report (Cases by Reason)')}
+        ${dcard('My Cases by Priority', dashHBar([{l:'Medium',v:25,c:'#1b96ff'},{l:'High',v:7,c:'#1b96ff'},{l:'Low',v:2,c:'#1b96ff'}],25,[0,5,10,15,20,25],56), 'View Report (My Case Priorities)')}
         ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
         ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
+      </div>
+      <div class="dgrid2">
+        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',200), 'View Report (Cases by Reason)')}
+        ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,''), 'View Report (Average Handle Time)')}
       </div>
       </div>
       </div>
