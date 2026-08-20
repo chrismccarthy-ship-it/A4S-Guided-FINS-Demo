@@ -809,9 +809,11 @@ a{color:var(--brand);text-decoration:none}
 .dashhead{background:#F3F3F3;padding:16px 20px;border-bottom:1px solid var(--line)}
 .dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .dh-eyebrow{font-size:11px;color:var(--muted);font-weight:700}
-.dh-title{font-size:22px;font-weight:800;color:var(--ink);margin:2px 0 0}
-.dh-btns{display:flex;gap:8px;flex:none}
-.dh-b{border:1px solid var(--line-2);background:#fff;color:var(--brand);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700}
+.dh-title{font-size:25px;font-weight:800;color:var(--ink);margin:2px 0 0}
+.dh-btns{display:inline-flex;flex:none;border:1px solid var(--line-2);border-radius:20px;overflow:hidden;background:#fff}
+.dh-b{border:0;border-right:1px solid var(--line-2);background:#fff;color:var(--brand);padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer}
+.dh-b:last-child{border-right:0}
+.dh-b.dh-caret{padding:7px 11px}
 .dh-desc{font-size:12px;color:var(--ink-2);margin:8px 0 4px;max-width:900px;line-height:1.5}
 .dh-stamp{font-size:11px;color:var(--muted)}
 .dh-date{margin-top:10px}
@@ -3276,7 +3278,7 @@ function viewHome(){
       <div class="dashpanel">
       <div class="dashhead">
         <div class="dh-top"><div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
-          <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe ▾</button></div></div>
+          <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe</button><button class="dh-b dh-caret">▾</button></div></div>
         <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Service Agent</div>
         <div class="dh-date"><label>Date</label><div class="dh-sel">All ▾</div></div>
       </div>
