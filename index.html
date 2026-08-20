@@ -3174,7 +3174,7 @@ function dashHBar(rows,max,ticks,labelW){
   const x0=labelW, w=300-x0, H=28, top=22; let y=top;
   const grid=ticks.map(t=>`<line x1="${(x0+t/max*w).toFixed(1)}" y1="16" x2="${(x0+t/max*w).toFixed(1)}" y2="${top+rows.length*(H+10)}" stroke="#eef1f5"/><text x="${(x0+t/max*w).toFixed(1)}" y="12" font-size="8.5" fill="#98a3b1" text-anchor="middle">${t}</text>`).join('');
   const bars=rows.map(r=>{const bw=r.v/max*w;const b=`<rect x="${x0}" y="${y}" width="${bw.toFixed(1)}" height="${H}" fill="${r.c||'#1b96ff'}"/>${r.v?`<text x="${(x0+bw-5).toFixed(1)}" y="${y+H/2+4}" font-size="11" fill="#fff" text-anchor="end" font-weight="700">${r.v}</text>`:''}${r.l?`<text x="${x0-6}" y="${y+H/2+4}" font-size="9.5" fill="#3e4b5b" text-anchor="end">${r.l}</text>`:''}`;y+=H+10;return b;}).join('');
-  return `<svg viewBox="0 0 300 ${top+rows.length*(H+10)+6}" width="100%">${grid}${bars}</svg>`;
+  return `<svg viewBox="0 0 316 ${top+rows.length*(H+10)+6}" width="100%">${grid}${bars}</svg>`;
 }
 /* ---- dashboard: flexible gauge / scorecard / donut / per-vertical KPI data / timeline ---- */
 const REASON_COLORS=['#1b96ff','#7cc0f4','#9050e9','#57b39b','#f5a623'];
