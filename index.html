@@ -877,9 +877,9 @@ a{color:var(--brand);text-decoration:none}
 .aoc-kv span:first-child{color:var(--muted)}
 .aoc-kv span:last-child{color:var(--ink-2)}
 .aoc-kv a{color:var(--brand);cursor:pointer}
-.dscore{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+.dscore{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
 /* Agentforce autonomous-resolution banner */
-.afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
+.afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;margin-top:14px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
 .afb-ic{width:40px;height:40px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 2px 6px rgba(123,31,162,.28)}
 .afb-ic img{width:100%;height:100%;object-fit:cover;display:block}
 .afb-main{flex:1;min-width:0}
@@ -3271,16 +3271,15 @@ function viewHome(){
     {num:'00001074',contact:'Sophia Patel',subj:'Dispute a recent debit charge',status:'New',pri:'Medium',origin:'Phone'}];
   return `<div class="homedash">
     <div class="hd-main">
-      ${afBanner()}
       <div class="dashpanel">
       <div class="dashhead">
-        <div class="dh-top"><div><h1 class="dh-title">Case Management and Rep Metrics</h1></div>
+        <div class="dh-top"><div><h1 class="dh-title">${VMETA()[activeVertical].segment} Command Center</h1></div>
           <div class="dh-btns"><button class="dh-b">Open</button><button class="dh-b">Refresh</button><button class="dh-b">Subscribe</button><button class="dh-b dh-caret">▾</button></div></div>
         <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Service Agent</div>
       </div>
+      ${afBanner()}
       <div class="dashbody">
       <div class="dscore">
-        ${dcard('My Cases', scoreTile(d.openCases,''), 'View Report (My Cases)')}
         ${dcard('My Cases by Priority', dashHBar([{l:'High',v:7,c:'#1b96ff'},{l:'Low',v:2,c:'#1b96ff'},{l:'Medium',v:25,c:'#1b96ff'}],25,[0,5,10,15,20,25],56), 'View Report (My Case Priorities)')}
         ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
         ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,''), 'View Report (Average Handle Time)')}
