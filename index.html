@@ -250,8 +250,9 @@ a{color:var(--brand);text-decoration:none}
 .wb-top{display:flex;align-items:center;gap:11px;padding:6px 4px 16px;font-size:18px;font-weight:800;color:#0c1622}
 .wb-top-ic{width:26px;height:26px;border-radius:6px;background:#1b96ff;display:grid;place-items:center;flex:none}
 .wb-top-ic svg{width:16px;height:16px;display:block}
-.wb-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,0.78fr);gap:16px;align-items:start}
-.wbcard{background:#f4f5f8;border:1px solid var(--line);border-radius:16px;padding:14px}
+.wb-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,0.78fr);gap:16px;align-items:stretch}
+.wbcard{background:#f4f5f8;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column}
+.wb-body{flex:1;display:flex;flex-direction:column}
 .wb-h{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px}
 .wb-ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none}
 .wb-ic svg{width:17px;height:17px;display:block}
@@ -260,18 +261,20 @@ a{color:var(--brand);text-decoration:none}
 .wb-badge{font-size:10px;font-weight:700;color:var(--ink-2);background:#fff;border:1px solid var(--line-2);border-radius:5px;padding:2px 7px}
 .wb-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
 .wb-menu{color:#1b96ff;font-size:11px;flex:none;white-space:nowrap}
-.wb-chartbox{background:#fff;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:center;min-height:130px;overflow-x:auto}
+.wb-chartbox{background:#fff;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:center;flex:1;min-height:150px;overflow-x:auto}
 .wb-stat{background:#fff;border-radius:11px;padding:14px 16px}
 .wb-stat + .wb-stat{margin-top:14px}
+.wb-stats-fill{flex:1;display:flex;flex-direction:column;gap:14px}
+.wb-stats-fill .wb-stat{flex:1;margin:0;display:flex;flex-direction:column;justify-content:center}
 .wb-sl{font-size:12px;color:var(--ink-2);margin-bottom:7px}
 .wb-sv{font-size:24px;font-weight:800;color:#0c1622;font-variant-numeric:tabular-nums}
-.wb-perf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wb-perf{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .wb-perf .wb-stat{margin:0}
 .dlegend .lgh:empty{display:none}
 @media(max-width:1100px){.wb-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:720px){.wb-grid{grid-template-columns:1fr}}
-.tile.sel{border-color:var(--brand);position:relative;overflow:hidden}
-.tile.sel::before{content:"";position:absolute;top:0;right:0;border-width:0 26px 26px 0;border-style:solid;border-color:transparent var(--brand) transparent transparent}
+.tile.sel{border-color:var(--guide);position:relative;overflow:hidden}
+.tile.sel::before{content:"";position:absolute;top:0;right:0;border-width:0 26px 26px 0;border-style:solid;border-color:transparent var(--guide) transparent transparent}
 .tile.sel::after{content:"✓";position:absolute;top:1px;right:3px;color:#fff;font-weight:800;font-size:11px;z-index:1}
 .tile .n{font-size:25px;font-weight:800;color:#0c1622}
 .tile .l{font-size:11.5px;color:var(--muted);margin-top:2px}
@@ -309,7 +312,11 @@ a{color:var(--brand);text-decoration:none}
 .dock .dh{padding:11px 14px;display:flex;align-items:center;gap:9px;border-bottom:2px solid var(--brand-1)}
 .dock .dh .dh-ic{color:var(--brand);font-size:15px}
 .dock .dh .t{font-weight:700;font-size:14px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#2b3a4a}
-.dock .dh .dh-ctrls{color:var(--faint);font-size:13px;letter-spacing:3px}
+.dock .dh .dh-ctrls{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:13px}
+.dock .dh .dh-btn{cursor:pointer;line-height:1;user-select:none;padding:0 1px}
+.dock .dh .dh-btn:hover{color:var(--ink-2)}
+.dock.minimized{max-height:none}
+.dock.minimized .dacts,.dock.minimized .dbody{display:none}
 .dacts{display:flex;border-bottom:1px solid var(--line)}
 .dact{flex:1;height:42px;border:none;background:#fff;font-size:13px;font-weight:600;color:var(--ink-2);display:flex;align-items:center;justify-content:center;gap:7px;border-bottom:2px solid transparent}
 .dact.primary{color:var(--brand);border-bottom-color:var(--brand)}
@@ -808,7 +815,7 @@ a{color:var(--brand);text-decoration:none}
 .dh-sel{display:inline-flex;justify-content:space-between;align-items:center;min-width:180px;border:1px solid var(--line-2);border-radius:6px;padding:6px 12px;font-size:12.5px;color:var(--ink-2);background:#fff}
 .dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
 .dgrid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.dcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;box-shadow:var(--shadow-1);min-width:0;display:flex;flex-direction:column}
+.dcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 13px;box-shadow:0 2px 5px rgba(16,32,50,.08),0 1px 2px rgba(16,32,50,.07);min-width:0;display:flex;flex-direction:column}
 .dcard .dc-h{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:var(--ink)}
 .dcard .dc-ic{color:var(--faint);font-size:11px;letter-spacing:2px}
 .dc-body{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 0;min-height:150px}
@@ -821,7 +828,7 @@ a{color:var(--brand);text-decoration:none}
 .dlegend .lgsw{width:9px;height:9px;border-radius:2px;flex:none}
 .repchart{width:100%;position:relative}
 .repchart .chris{position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--ink-2)}
-.scard2{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-1);overflow:hidden}
+.scard2{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 5px rgba(16,32,50,.08),0 1px 2px rgba(16,32,50,.07);overflow:hidden}
 .s2h{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;font-size:13px;font-weight:800;color:var(--ink);border-bottom:1px solid var(--line)}
 .s2ic{color:var(--faint);font-size:11px;font-weight:400}
 .s2badge{background:var(--panel);border:1px solid var(--line-2);color:var(--muted);border-radius:10px;padding:1px 8px;font-size:11px}
@@ -863,7 +870,20 @@ a{color:var(--brand);text-decoration:none}
 .aoc-kv span:first-child{color:var(--muted)}
 .aoc-kv span:last-child{color:var(--ink-2)}
 .aoc-kv a{color:var(--brand);cursor:pointer}
-.dscore{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:14px}
+.dscore{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+/* Agentforce autonomous-resolution banner */
+.afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;margin-top:14px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
+.afb-ic{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#a24ccf,#7b1fa2);display:grid;place-items:center;flex:none;box-shadow:0 2px 6px rgba(123,31,162,.35)}
+.afb-ic svg{width:22px;height:22px;display:block}
+.afb-main{flex:1;min-width:0}
+.afb-t{font-size:14px;font-weight:700;color:var(--ink)}
+.afb-t b{color:#7b1fa2}
+.afb-sub{font-size:12px;color:var(--ink-2);margin-top:3px}
+.afb-stats{display:flex;gap:26px;flex:none;padding-left:8px}
+.afb-stat{text-align:center}
+.afb-n{font-size:26px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.afb-n.good{color:#1a7f5a}.afb-n.bad{color:#c23934}
+.afb-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:5px}
 .scoretile{text-align:center}
 .scoretile .scoren{font-size:42px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
 .scoretile .scoresub{font-size:11px;color:var(--muted);margin-top:9px}
@@ -2410,19 +2430,19 @@ function wbCard(icColor,icSvg,title,badge,body){
 function renderWallboard(){
   const blue='#1b96ff', TICKS100=[0,10,20,30,40,50,60,70,80,90,100];
   const box=inner=>`<div class="wb-chartbox">${inner}</div>`;
-  const presence=[['All - Available',5],['Cases - Available',97],['Messaging - Available',35],['Voice - Available',95],['Busy',13],['Busy - Break',42],['Busy - Lunch',2]].map(r=>({l:r[0],v:r[1],c:blue}));
-  const workstatus=[['Assigned',76],['Opened',93],['Closed',2],['Declined',91],['Push Timeout',73],['Canceled',46],['Unavailable',84]].map(r=>({l:r[0],v:r[1],c:blue}));
+  const presence=[['All - Available',84],['Cases - Available',37],['Messaging - Available',89],['Voice - Available',45],['Busy',20],['Busy - Break',43],['Busy - Lunch',47]].map(r=>({l:r[0],v:r[1],c:blue}));
+  const workstatus=[['Assigned',40],['Opened',87],['Closed',42],['Declined',80],['Push Timeout',72],['Canceled',95],['Unavailable',14]].map(r=>({l:r[0],v:r[1],c:blue}));
   return `<div class="wboard">
     <div class="wb-top"><span class="wb-top-ic">${WB_CHART}</span><span class="wb-top-t">Omni-Channel Wallboard</span></div>
     <div class="wb-grid">
-      ${wbCard('#e0517a',WB_CLIP,'Work Item Status','Current', box(dashDonutG([{l:'17% Assigned',v:17,c:blue},{l:'50% In Progress',v:50,c:'#9050e9'},{l:'33% Waiting',v:33,c:'#17b3a3'}],100,'','')))}
-      ${wbCard('#17a2b8',WB_AGENTS,'Agent Capacity Status','Current', box(dashVBar([{l:'Available',v:37},{l:'Idle',v:40},{l:'Busy',v:68},{l:'At Capacity',v:13},{l:'Offline',v:24}],70,[0,10,20,30,40,50,60,70])))}
-      ${wbCard('#f5842a',WB_CLOCK,'Wait Time','Current', `${wbStat('Average Wait Time','2 h 5 m 15 s')}${wbStat('Longest Wait Time','2 d 1 h 59 m 20 s')}`)}
-      ${wbCard('#2ec4b6',WB_CLIP,'Agent Capacity','Current', box(dashDonutG([{l:'26% Used Capacity',v:26,c:blue},{l:'74% Available Capacity',v:74,c:'#9050e9'}],100,'','')))}
-      ${wbCard('#17a2b8',WB_PERSON,'Agent Presence Statuses','Current', box(dashHBar(presence,100,TICKS100,116)))}
-      ${wbCard('#1b96ff',WB_FLAG,'Raised Flags','Current', wbStat('Raised Flags','5'))}
+      ${wbCard('#e0517a',WB_CLIP,'Work Item Status','Current', box(dashDonutG([{l:'55% Assigned',v:55,c:blue},{l:'9% In Progress',v:9,c:'#9050e9'},{l:'36% Waiting',v:36,c:'#17b3a3'}],100,'','')))}
+      ${wbCard('#17a2b8',WB_AGENTS,'Agent Capacity Status','Current', box(dashVBar([{l:'Available',v:67},{l:'Idle',v:46},{l:'Busy',v:46},{l:'At Capacity',v:91},{l:'Offline',v:86}],100,[0,20,40,60,80,100])))}
+      ${wbCard('#f5842a',WB_CLOCK,'Wait Time','Current', `<div class="wb-stats-fill">${wbStat('Average Wait Time','2 h 1 m 36 s')}${wbStat('Longest Wait Time','2 d 1 h 55 m 41 s')}</div>`)}
+      ${wbCard('#2ec4b6',WB_CLIP,'Agent Capacity','Current', box(dashDonutG([{l:'61% Used Capacity',v:61,c:blue},{l:'39% Available Capacity',v:39,c:'#9050e9'}],100,'','')))}
+      ${wbCard('#17a2b8',WB_PERSON,'Agent Presence Statuses','Current', box(dashHBar(presence,90,[0,10,20,30,40,50,60,70,80,90],116)))}
+      ${wbCard('#1b96ff',WB_FLAG,'Raised Flags','Current', wbStat('Raised Flags','9'))}
       ${wbCard('#f5842a',WB_ARROWS,'Agent Work Status','Last Hour', box(dashHBar(workstatus,100,TICKS100,86)))}
-      ${wbCard('#1b96ff',WB_NODES,'Work Performance','Last Hour', `<div class="wb-perf">${wbStat('Average Work Handle Time','17 m')}${wbStat('Average Speed to Answer','4 m')}${wbStat('Average Active Work Time','10 m')}${wbStat('After Conversation Time','5 m')}</div>`)}
+      ${wbCard('#1b96ff',WB_NODES,'Work Performance','Last Hour', `<div class="wb-perf">${wbStat('Average Work Handle Time','16 m 57 s')}${wbStat('Average Speed to Answer','4 m 1 s')}${wbStat('Average Active Work Time','10 m 24 s')}${wbStat('After Conversation Time','5 m 20 s')}</div>`)}
     </div>
   </div>`;
 }
@@ -2468,7 +2488,7 @@ function viewMonitor(){ const m=V.monitor;
       </div>
     </div>
     <div class="dock" id="dockPanel" hidden>
-      <div class="dh"><span class="t">${V.record.voiceTitle}</span><span class="dh-ctrls">—  ⤢  ✕</span></div>
+      <div class="dh"><span class="t">${V.record.voiceTitle}</span><span class="dh-ctrls"><span class="dh-btn" title="Minimize" onclick="document.getElementById('dockPanel').classList.toggle('minimized')">—</span><span class="dh-btn" title="Expand" onclick="document.getElementById('dockPanel').classList.remove('minimized')">⤢</span><span class="dh-btn" title="Close">✕</span></span></div>
       <div class="dacts"><button class="dact primary" id="transferBtn"><span class="grem">👤</span> Transfer to Rep</button><button class="dact"><span class="grem">🚩</span> Lower</button></div>
       <div class="dbody">
         <div class="catchup" id="catchupCard"><div class="cu-main">
@@ -3167,11 +3187,11 @@ function gaugeSVG(frac,display,opts){ opts=opts||{};
   return `<svg viewBox="0 0 220 148" width="100%" style="max-height:150px">${zones.map(z=>seg(z[0],z[1],z[2])).join('')}${ticks}<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0c1622" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="#0c1622"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="23" font-weight="800" fill="${color}">${display}</text></svg>`;
 }
 function scoreTile(num,sub,color){ return `<div class="scoretile"><div class="scoren" style="color:${color||'#1a7f5a'}">${num}</div><div class="scoresub">${sub}</div></div>`; }
-function dashDonutG(segs,total,center,legendTitle){
+function dashDonutG(segs,total,center,legendTitle,w){
   const cx=90,cy=90,r=60,sw=27,C=2*Math.PI*r; let acc=0;
   const arcs=segs.map(s=>{const frac=s.v/total,dash=`${(frac*C).toFixed(1)} ${C.toFixed(1)}`,off=(-acc*C).toFixed(1);acc+=frac;return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-dasharray="${dash}" stroke-dashoffset="${off}" transform="rotate(-90 ${cx} ${cy})"/>`;}).join('');
   const legend=segs.map(s=>`<div class="lg"><span class="lgsw" style="background:${s.c}"></span>${s.l}</div>`).join('');
-  return `<div class="donutwrap"><svg viewBox="0 0 180 180" width="138">${arcs}<text x="90" y="99" text-anchor="middle" font-size="26" font-weight="800" fill="#0c1622">${center}</text></svg><div class="dlegend"><div class="lgh">${legendTitle}</div>${legend}</div></div>`;
+  return `<div class="donutwrap"><svg viewBox="0 0 180 180" width="${w||138}" style="flex:none">${arcs}<text x="90" y="99" text-anchor="middle" font-size="26" font-weight="800" fill="#0c1622">${center}</text></svg><div class="dlegend"><div class="lgh">${legendTitle}</div>${legend}</div></div>`;
 }
 const TL_EV_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17"/><path d="M8 3.5v3M16 3.5v3"/></svg>`;
 const TL_TASK_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7h8M10 12h8M10 17h8"/><path d="M4.4 6.6l1 1 1.6-1.8M4.4 11.6l1 1 1.6-1.8M4.4 16.6l1 1 1.6-1.8"/></svg>`;
@@ -3225,14 +3245,25 @@ const DASHV={
     timeline:[{t:'event',title:'Incident Bridge — PayCadence',date:'September 4, 2026'},{t:'event',title:'Enterprise Support Review',date:'August 22, 2026'},{t:'task',title:'Email: INC-4821 root-cause analysis (Derek Vaughn)',date:'August 5, 2026'},{t:'event',title:'Reliability QBR Prep',date:'July 24, 2026'},{t:'task',title:'Apply SLA credit — June downtime',date:'July 10, 2026'}] }
 };
 function dv(){ return DASHV[activeVertical]||DASHV["retail-fraud"]; }
+const BANNER_WORK={"retail-fraud":"fraud & dispute","wealth":"wealth onboarding","commercial":"treasury onboarding","insurance":"quoting","insurance-claim":"auto-claim","insurance-life":"policy-service","fintech":"API support"};
+const AF_BOT_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.4" r="1.1" fill="#fff" stroke="none"/><line x1="12" y1="4.5" x2="12" y2="6"/><rect x="4.5" y="6" width="15" height="11.5" rx="3.2"/><rect x="1.8" y="9.6" width="2" height="4.8" rx="1" fill="#fff" stroke="none"/><rect x="20.2" y="9.6" width="2" height="4.8" rx="1" fill="#fff" stroke="none"/><circle cx="9" cy="11.6" r="1.3" fill="#fff" stroke="none"/><circle cx="15" cy="11.6" r="1.3" fill="#fff" stroke="none"/><line x1="9.6" y1="14.8" x2="14.4" y2="14.8"/></svg>`;
+function afBanner(){ const work=BANNER_WORK[activeVertical]||"service";
+  return `<div class="afbanner">
+    <div class="afb-ic">${AF_BOT_SVG}</div>
+    <div class="afb-main"><div class="afb-t">Agentforce resolved <b>39</b> ${work} calls autonomously today · <b>3</b> escalated to you.</div>
+      <div class="afb-sub">79% of interactions handled autonomously this shift — you focus on the calls that need a human.</div></div>
+    <div class="afb-stats"><div class="afb-stat"><div class="afb-n good">39</div><div class="afb-l">auto-resolved</div></div><div class="afb-stat"><div class="afb-n bad">3</div><div class="afb-l">escalated to you</div></div></div>
+  </div>`;
+}
 function viewHome(){
   const d=dv();
   const reasons=d.reasons.map((r,i)=>({l:r.l,v:r.v,c:REASON_COLORS[i]}));
   const rtot=reasons.reduce((a,b)=>a+b.v,0);
-  const channels=[{l:'Phone',v:42},{l:'Chat',v:22},{l:'SMS',v:15},{l:'Email',v:8},{l:'Web',v:3}].map(c=>({l:c.l,v:c.v,c:'#1b96ff'}));
+  const chColors=['#1b96ff','#9050e9','#17b3a3','#f5a623','#7cc0f4'];
+  const channels=[{l:'Phone',v:42},{l:'Chat',v:22},{l:'SMS',v:15},{l:'Email',v:8},{l:'Web',v:3}].map((c,i)=>({l:c.l,v:c.v,c:chColors[i]}));
   const openCases=[
     {num:'00001067',contact:'Sophia Patel',subj:'Reorder checks',status:'New',pri:'Low',origin:'Website'},
-    {num:'00001068',contact:'Daniel Wu',subj:'ACH payment returned',status:'Working',pri:'High',origin:'Chat'},
+    {num:'00001068',contact:'Daniel Wu',subj:'ACH payment returned',status:'Waiting on Customer',pri:'High',origin:'Chat'},
     {num:'00001069',contact:'Sophia Patel',subj:'Unable to access online banking portal',status:'Waiting on Customer',pri:'High',origin:'Chat'},
     {num:'00001070',contact:'Daniel Wu',subj:'Request to increase Line of Credit limit',status:'Escalated',pri:'Medium',origin:'Website'},
     {num:'00001074',contact:'Sophia Patel',subj:'Dispute a recent debit charge',status:'New',pri:'Medium',origin:'Phone'}];
@@ -3244,22 +3275,21 @@ function viewHome(){
         <div class="dh-stamp">${DASH_STAMP} · ⟳ Viewing as Automated Process</div>
         <div class="dh-date"><label>Date</label><div class="dh-sel">All ▾</div></div>
       </div>
+      ${afBanner()}
       <div class="dscore">
-        ${dcard('My Open Cases', scoreTile(d.openCases,'open + working'), 'View Report (My Cases)')}
-        ${dcard('Average CSAT Score', scoreTile('86.3','Last 90 days'), 'View Report (Average CSAT)')}
-        ${dcard('Average NPS Score', scoreTile('82','Last 90 days'), 'View Report (Average NPS)')}
-        ${dcard('Agent Sentiment Rating', scoreTile('4.3','out of 5 · last 90 days'), 'View Report (Agent Sentiment)')}
+        ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
+        ${dcard('Agent Sentiment Rating', gaugeSVG(0.86,'4.3',{ticks:[0,1,2,3,4,5]}), 'View Report (Agent Sentiment)')}
         ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,d.ahtBench), 'View Report (Average Handle Time)')}
-      </div>
-      <div class="dgrid">
-        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason'), 'View Report (Cases by Reason)')}
-        ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
-        ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
       </div>
       <div class="dgrid">
         ${dcard('My SLA Compliance', gaugeSVG(0.98,'98%',{}), 'View Report (My SLA Compliance)')}
         ${dcard('First-Contact Resolution', gaugeSVG(0.989,'98.9%',{}), 'View Report (First Contact Resolution)')}
         ${dcard('Escalation Rate', gaugeSVG(0.013,'0.2%',{zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']],ticks:[0,3,6,9,12,15]}), 'View Report (Escalation Rate)')}
+      </div>
+      <div class="dgrid">
+        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',168), 'View Report (Cases by Reason)')}
+        ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
+        ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
       </div>
     </div>
     <div class="hd-side">
@@ -3270,7 +3300,7 @@ function viewHome(){
           <div class="ms-kpi"><div class="ms-n">0</div><div class="ms-l">% capacity</div></div></div>
       </div>
       <div class="scard2"><div class="s2h">All Open Cases <a class="s2more">More</a></div>
-        <div class="aoc-sub"><div><div class="aoc-t">All Open Cases</div><div class="aoc-m">6+ items · sorted by Case Number<br>Filtered by Closed, Date/Time Opened</div></div><span class="aoc-chev">›</span></div>
+        <div class="aoc-sub"><div><div class="aoc-m">6+ items · sorted by Case Number<br>Filtered by Closed, Date/Time Opened</div></div><span class="aoc-chev">›</span></div>
         <div class="aoc-list">${openCases.map(c=>`<div class="aoc-row">
           <div class="aoc-num">${c.num}</div>
           <div class="aoc-kv"><span>Contact Name:</span><span>${c.contact}</span></div>
