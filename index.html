@@ -2853,7 +2853,7 @@ function viewCase(){ const c=V.caseData,p=V.record.person;
       </div>
       <div class="ch-btns"><button>+ Follow</button><button>Edit</button><button>Change Record Type</button></div>
     </div>
-    <div class="pathbar"><div class="pstep done">New</div><div class="pstep done">Reply Received</div><div class="pstep done" id="pWorking">Working</div><div class="pstep">Waiting on Customer</div><div class="pstep">Escalated</div><div class="pstep" id="pClosed">Closed</div></div>
+    <div class="pathbar"><div class="pstep done">New</div><div class="pstep done">Reply Received</div><div class="pstep done" id="pWorking">Working</div><div class="pstep" id="pWaiting">Waiting on Customer</div><div class="pstep" id="pEscalated">Escalated</div><div class="pstep" id="pClosed">Closed</div></div>
     <div class="casecols3">
       <!-- LEFT: identity + CSAT + History -->
       <div class="col">
@@ -2927,10 +2927,10 @@ function updateCase(f){
   if(f.casePlan){ if(body){body.hidden=false;body.innerHTML=renderCasePlan(f.caseClosed);} if(close)close.hidden=false; if(draft)draft.textContent="✦ Redraft Plan"; }
   else{ if(body)body.hidden=true; if(close)close.hidden=true; }
   const spc=$('#servicePlanCard');if(spc)spc.classList.toggle('closed',!!f.caseClosed);
-  const pw=$('#pWorking'),pc=$('#pClosed');
+  const pw=$('#pWorking'),pc=$('#pClosed'),pwc=$('#pWaiting'),pes=$('#pEscalated');
   const sv=$('#caseStatusVal');
-  if(f.caseClosed){ if(pw){pw.className='pstep done';} if(pc){pc.className='pstep closed-hl';} if(close){close.textContent='✓ Case Closed';close.disabled=true;} if(sv)sv.textContent='Closed'; }
-  else{ if(pw)pw.className='pstep done'; if(pc)pc.className='pstep'; if(sv)sv.textContent='Working'; }
+  if(f.caseClosed){ if(pw)pw.className='pstep done'; if(pwc)pwc.className='pstep done'; if(pes)pes.className='pstep done'; if(pc)pc.className='pstep closed-hl'; if(close){close.textContent='✓ Case Closed';close.disabled=true;} if(sv)sv.textContent='Closed'; }
+  else{ if(pw)pw.className='pstep done'; if(pwc)pwc.className='pstep'; if(pes)pes.className='pstep'; if(pc)pc.className='pstep'; if(sv)sv.textContent='Working'; }
   const slot=$('#outcomeSlot');if(slot)slot.innerHTML=f.outcomes?renderOutcome():'';
 }
 function renderCasePlan(closed){ const groups={}; V.caseData.planItems.forEach(it=>{(groups[it.g]=groups[it.g]||[]).push(it);});
