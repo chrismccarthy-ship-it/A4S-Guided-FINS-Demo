@@ -879,6 +879,12 @@ a{color:var(--brand);text-decoration:none}
 .aoc-kv a{color:var(--brand);cursor:pointer}
 .dscore{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
 .dscore4{grid-template-columns:repeat(4,1fr)}
+.dgrid-tc{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-top:14px}
+.tcwrap{width:100%}
+.tc-legend{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:11px;color:var(--ink-2);margin-top:4px;padding-left:34px}
+.tc-lh{font-weight:700;color:var(--ink)}
+.tcl{display:flex;align-items:center;gap:5px}
+.tcl i{width:12px;height:12px;border-radius:2px;display:inline-block;flex:none}
 /* Agentforce autonomous-resolution banner */
 .afbanner{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#f4edfb,#eef2fd);border:1px solid #e4dcf3;border-radius:12px;padding:13px 18px;margin-top:14px;box-shadow:0 2px 5px rgba(16,32,50,.07),0 1px 2px rgba(16,32,50,.06)}
 .afb-ic{width:40px;height:40px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 2px 6px rgba(123,31,162,.28)}
@@ -3250,6 +3256,20 @@ const DASHV={
 function dv(){ return DASHV[activeVertical]||DASHV["retail-fraud"]; }
 const BANNER_WORK={"retail-fraud":"fraud & dispute","wealth":"wealth onboarding","commercial":"treasury onboarding","insurance":"quoting","insurance-claim":"auto-claim","insurance-life":"policy-service","fintech":"API support"};
 const AF_BOT_SVG=`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.4" r="1.1" fill="#fff" stroke="none"/><line x1="12" y1="4.5" x2="12" y2="6"/><rect x="4.5" y="6" width="15" height="11.5" rx="3.2"/><rect x="1.8" y="9.6" width="2" height="4.8" rx="1" fill="#fff" stroke="none"/><rect x="20.2" y="9.6" width="2" height="4.8" rx="1" fill="#fff" stroke="none"/><circle cx="9" cy="11.6" r="1.3" fill="#fff" stroke="none"/><circle cx="15" cy="11.6" r="1.3" fill="#fff" stroke="none"/><line x1="9.6" y1="14.8" x2="14.4" y2="14.8"/></svg>`;
+const DASH_COLORS=['#1b96ff','#032d60','#7cd1c0','#0f9b8e','#c9b060'];
+function dashStackBar(owners,statuses,max,ticks){
+  const W=780,H=214,padL=32,padB=74,padT=8,plotW=W-padL,plotH=H-padB-padT;
+  const n=owners.length,gap=plotW/n,bw=Math.min(gap*0.66,15);
+  const grid=ticks.map(t=>{const y=padT+plotH-(t/max)*plotH;return `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W}" y2="${y.toFixed(1)}" stroke="#eef1f5"/><text x="${padL-5}" y="${(y+3).toFixed(1)}" font-size="8.5" fill="#98a3b1" text-anchor="end">${t}</text>`;}).join('');
+  const bars=owners.map((o,i)=>{const x=padL+gap*i+(gap-bw)/2;let acc=padT+plotH,r="";o.vals.forEach((v,si)=>{const bh=(v/max)*plotH;acc-=bh;r+=`<rect x="${x.toFixed(1)}" y="${acc.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="${statuses[si].c}"/>`;});const cx=x+bw/2;r+=`<text x="${cx.toFixed(1)}" y="${(padT+plotH+9).toFixed(1)}" font-size="7.5" fill="#3e4b5b" text-anchor="end" transform="rotate(-90 ${cx.toFixed(1)} ${(padT+plotH+9).toFixed(1)})">${o.name}</text>`;return r;}).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%"><text x="7" y="${(padT+plotH/2).toFixed(1)}" font-size="8.5" fill="#98a3b1" text-anchor="middle" transform="rotate(-90 7 ${(padT+plotH/2).toFixed(1)})">Record Count</text>${grid}${bars}<text x="${(padL+plotW/2).toFixed(1)}" y="${H-3}" font-size="9" fill="#3e4b5b" text-anchor="middle">Case Owner</text></svg>`;
+}
+function dashTeamCases(){
+  const names=['Abigail H.','Alexander','Amelia H.','Ava Garcia','Avery Sc.','Benjamin','Charlotte','Daniel L.','Elizabeth','Emily King','Evelyn C.','Grace Gr.','Harper R.','Isabella','Jackson','James T.','Lucas Mi.','Mia Davis','Michael','Oliver M.','Sofia Hill','William'];
+  const statuses=[{l:'New',c:'#1b96ff'},{l:'Waiting on Customer',c:'#032d60'},{l:'Working',c:'#7cd1c0'},{l:'Resolved',c:'#0f9b8e'}];
+  const owners=names.map((n,i)=>({name:n,vals:[10+((i*7)%14),50+((i*11)%24),3+((i*5)%8),5+((i*13)%16)]}));
+  return `<div class="tcwrap">${dashStackBar(owners,statuses,160,[0,80,160])}<div class="tc-legend"><span class="tc-lh">Status</span>${statuses.map(s=>`<span class="tcl"><i style="background:${s.c}"></i>${s.l}</span>`).join('')}</div></div>`;
+}
 function afBanner(){ const work=BANNER_WORK[activeVertical]||"service";
   return `<div class="afbanner">
     <div class="afb-ic"><img src="agentforce-icon.png" alt="Agentforce"></div>
@@ -3260,10 +3280,9 @@ function afBanner(){ const work=BANNER_WORK[activeVertical]||"service";
 }
 function viewHome(){
   const d=dv();
-  const reasons=d.reasons.map((r,i)=>({l:r.l,v:r.v,c:REASON_COLORS[i]}));
+  const reasons=d.reasons.map((r,i)=>({l:r.l,v:r.v,c:DASH_COLORS[i]}));
   const rtot=reasons.reduce((a,b)=>a+b.v,0);
-  const chColors=['#1b96ff','#9050e9','#17b3a3','#f5a623','#7cc0f4'];
-  const channels=[{l:'Phone',v:42},{l:'Chat',v:22},{l:'SMS',v:15},{l:'Email',v:8},{l:'Web',v:3}].map((c,i)=>({l:c.l,v:c.v,c:chColors[i]}));
+  const channelsDonut=[{l:'Phone',v:42},{l:'Chat',v:22},{l:'SMS',v:15},{l:'Email',v:8},{l:'Web',v:3}].map((c,i)=>({l:c.l,v:c.v,c:DASH_COLORS[i]}));
   const openCases=[
     {num:'00001067',contact:'Sophia Patel',subj:'Reorder checks',status:'New',pri:'Low',origin:'Website'},
     {num:'00001068',contact:'Daniel Wu',subj:'ACH payment returned',status:'Waiting on Customer',pri:'High',origin:'Chat'},
@@ -3280,20 +3299,19 @@ function viewHome(){
       </div>
       ${afBanner()}
       <div class="dashbody">
-      <div class="dscore dscore4">
-        ${dcard('Average CSAT Score', gaugeSVG(0.863,'86.3',{}), 'View Report (Average CSAT)')}
-        ${dcard('My SLA Compliance', gaugeSVG(0.98,'98%',{}), 'View Report (My SLA Compliance)')}
-        ${dcard('First-Contact Resolution', gaugeSVG(0.989,'98.9%',{}), 'View Report (First Contact Resolution)')}
-        ${dcard('Escalation Rate', gaugeSVG(0.013,'0.2%',{zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']],ticks:[0,3,6,9,12,15]}), 'View Report (Escalation Rate)')}
+      <div class="dgrid">
+        ${dcard('My Cases', scoreTile(d.openCases,''), 'View Report (My Cases)')}
+        ${dcard('My Case Priorities', dashHBar([{l:'High',v:7,c:'#1b96ff'},{l:'Low',v:2,c:'#1b96ff'},{l:'Medium',v:25,c:'#1b96ff'}],25,[0,5,10,15,20,25],56), 'View Report (My Case Priorities)')}
+        ${dcard('My Cases by Type', dashDonutG(reasons,rtot,rtot,'Type',150), 'View Report (My Cases by Type)')}
       </div>
       <div class="dgrid">
-        ${dcard('My Cases by Priority', dashHBar([{l:'Medium',v:25,c:'#1b96ff'},{l:'High',v:7,c:'#1b96ff'},{l:'Low',v:2,c:'#1b96ff'}],25,[0,5,10,15,20,25],56), 'View Report (My Case Priorities)')}
-        ${dcard('Cases by Channel', dashHBar(channels,42,[0,10,20,30,40],56), 'View Report (Cases by Channel)')}
-        ${dcard('Open Cases by Rep', `<div class="repchart">${dashHBar([{l:'New',v:12,c:'#1b96ff'},{l:'Working',v:9,c:'#7cc0f4'},{l:'Waiting on Customer',v:7,c:'#9050e9'},{l:'In Review',v:3,c:'#57b39b'}],12,[0,3,6,9,12],118)}<div class="chris">Chris McCarthy</div></div>`, 'View Report (Open Cases by Rep and Status)')}
+        ${dcard('My Resolution Time', gaugeSVG(4.2/24,'4.2h',{ticks:[0,4.8,9.6,14.4,19.2,24],zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']]}), 'View Report (My Resolution Time)')}
+        ${dcard('My SLA Compliance', gaugeSVG(0.98,'98%',{ticks:[0,20,40,60,80,100]}), 'View Report (My SLA Compliance)')}
+        ${dcard('My Response Time', gaugeSVG(1.9/60,'1.9m',{ticks:[0,12,24,36,48,60],zones:[[0,0.34,'#1a7f5a'],[0.34,0.67,'#f5a623'],[0.67,1,'#c23934']]}), 'View Report (My Response Time)')}
       </div>
-      <div class="dgrid2">
-        ${dcard('Cases by Reason', dashDonutG(reasons,rtot,rtot,'Case Reason',200), 'View Report (Cases by Reason)')}
-        ${dcard('Avg Handle Time (AHT)', scoreTile(d.aht,''), 'View Report (Average Handle Time)')}
+      <div class="dgrid-tc">
+        ${dcard("My Team's Cases", dashTeamCases(), 'View Report (Cases Assigned by Status)')}
+        ${dcard('My Cases by Channel', dashDonutG(channelsDonut,90,90,'Case Origin',150), 'View Report (My Cases by Channel)')}
       </div>
       </div>
       </div>
