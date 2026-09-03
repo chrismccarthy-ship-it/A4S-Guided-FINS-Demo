@@ -3195,7 +3195,8 @@ function gaugeSVG(frac,display,opts){ opts=opts||{};
   const vf=Math.max(0,Math.min(1,frac)); const na=Math.PI*(1-vf),nx=cx+(r-14)*Math.cos(na),ny=cy-(r-14)*Math.sin(na);
   const n=tickVals.length-1;
   const ticks=tickVals.map((t,i)=>{const f=i/n,x=cx+(r+13)*Math.cos(Math.PI*(1-f)),y=cy-(r+13)*Math.sin(Math.PI*(1-f))+3;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="9" fill="#98a3b1" text-anchor="middle">${t}</text>`;}).join('');
-  return `<svg viewBox="0 0 220 148" width="100%" style="max-height:150px">${zones.map(z=>seg(z[0],z[1],z[2])).join('')}${ticks}<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0c1622" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="#0c1622"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="23" font-weight="800" fill="${color}">${display}</text></svg>`;
+  const minor=Array.from({length:41},(_,i)=>{const f=i/40,a=Math.PI*(1-f),co=Math.cos(a),si=Math.sin(a),r1=r+sw/2-1,r2=r+sw/2+3;return `<line x1="${(cx+r1*co).toFixed(1)}" y1="${(cy-r1*si).toFixed(1)}" x2="${(cx+r2*co).toFixed(1)}" y2="${(cy-r2*si).toFixed(1)}" stroke="#b7c0cb" stroke-width="1"/>`;}).join('');
+  return `<svg viewBox="0 0 220 148" width="100%" style="max-height:150px">${zones.map(z=>seg(z[0],z[1],z[2])).join('')}${minor}${ticks}<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0c1622" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="#0c1622"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="23" font-weight="800" fill="${color}">${display}</text></svg>`;
 }
 function scoreTile(num,sub,color){ return `<div class="scoretile"><div class="scoren" style="color:${color||'#1a7f5a'}">${num}</div>${sub?`<div class="scoresub">${sub}</div>`:''}</div>`; }
 function dashDonutG(segs,total,center,legendTitle,w){
