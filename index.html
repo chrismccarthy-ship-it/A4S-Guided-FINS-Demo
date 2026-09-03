@@ -117,12 +117,12 @@ a{color:var(--brand);text-decoration:none}
 .omnirail .oi.hasnotif::after{content:"";position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#ea001e;border:1.6px solid #fff;animation:railpulse 1.3s ease-in-out infinite}
 @keyframes railpulse{0%{box-shadow:0 0 0 0 rgba(234,0,30,.55)}70%{box-shadow:0 0 0 6px rgba(234,0,30,0)}100%{box-shadow:0 0 0 0 rgba(234,0,30,0)}}
 /* Omni-Channel Inbox panel (opens from the rail) */
-.omniinbox{position:fixed;left:54px;top:50px;bottom:118px;width:340px;max-width:72vw;background:#fff;border-right:1px solid var(--line-2);box-shadow:8px 0 22px rgba(16,32,50,.09);z-index:38;display:flex;flex-direction:column;overflow:hidden}
+.omniinbox{position:fixed;left:0;top:94px;bottom:118px;width:340px;max-width:72vw;background:#fff;border-right:1px solid var(--line-2);box-shadow:8px 0 22px rgba(16,32,50,.09);z-index:38;display:flex;flex-direction:column;overflow:hidden}
 .oi-head{display:flex;align-items:center;gap:11px;padding:13px 16px;font-weight:800;font-size:17px;color:#04315f}
 .oi-head .oi-ic{width:34px;height:34px;border-radius:50%;background:#0b7fd4;color:#fff;display:grid;place-items:center;flex:none}
 .oi-head .oi-ic svg{width:18px;height:18px;display:block}
 .oi-head .oi-head-t{flex:1}
-.oi-head .oi-tools{margin-left:auto;display:flex;align-items:center;gap:14px}
+.oi-head .oi-tools{margin-left:auto;display:flex;align-items:center;gap:14px;color:var(--org-accent,#22674F)}
 .oi-head .oi-tools svg{width:20px;height:20px;display:block;cursor:pointer}
 .oi-caret{color:var(--brand);font-size:9px}
 .oi-search .oi-mag{width:15px;height:15px;color:#7084a8;flex:none}
@@ -146,7 +146,7 @@ a{color:var(--brand);text-decoration:none}
 .oi-item-top{display:flex;align-items:flex-start;gap:8px}
 .oi-item-top b{font-size:14px;flex:1;color:var(--ink)}
 .oi-actions{display:flex;gap:8px;flex:none}
-.oi-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--line-2);background:#fff;color:#0b6bcb;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.oi-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--line-2);background:#fff;color:var(--org-accent,#22674F);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .oi-btn svg{width:16px;height:16px}
 .oi-btn:hover{background:#f4f8fd}
 .oi-paused{background:#6b7280;color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;flex:none}
@@ -2160,7 +2160,7 @@ function foldState(i){ const st={flags:{},turns:0,view:"landing"};
   return st; }
 function render(){
   const step=STEPS[idx],st=foldState(idx),f=st.flags,v=step.view;
-  $('#gh').hidden=!f.gh; $('#omnirail').hidden=!f.gh; $('#navtabs').hidden=(v!=="monitor");
+  $('#gh').hidden=!f.gh; $('#omnirail').hidden=true; $('#navtabs').hidden=(v!=="monitor");
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
   const primaryViews=(v==="monitor"||v==="home"||v==="ask");
   $('#tabPrimary').hidden=!primaryViews;
@@ -2537,17 +2537,17 @@ function viewMonitor(){ const m=V.monitor;
     </div>
     <div id="serviceRepsPanel" hidden>${renderServiceReps()}</div>
     <div class="omniinbox" id="omniInbox" hidden>
-      <div class="oi-head"><span class="oi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h11.5"/><path d="M10 7.5l4.5 4.5-4.5 4.5"/><path d="M18.5 6.5v11"/></svg></span><span class="oi-head-t">Inbox</span><span class="oi-tools"><svg viewBox="0 0 24 24" fill="#0176d3"><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 00.12-.64l-1.76-3.05a.5.5 0 00-.6-.22l-2.19.88a6.9 6.9 0 00-1.62-.94l-.33-2.33A.5.5 0 0014.05 3h-4.1a.5.5 0 00-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 00-.6.22L2.62 9.43a.5.5 0 00.12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 00-.12.64l1.76 3.05a.5.5 0 00.6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 00.5.42h4.1a.5.5 0 00.5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 00.6-.22l1.76-3.05a.5.5 0 00-.12-.64l-1.86-1.45z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#0176d3" stroke-width="2"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><line x1="9.5" y1="4.5" x2="9.5" y2="19.5"/></svg></span></div>
-      <div class="oi-status"><span class="oi-status-lbl">Messaging - Available</span>
+      <div class="oi-head"><span class="oi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h11.5"/><path d="M10 7.5l4.5 4.5-4.5 4.5"/><path d="M18.5 6.5v11"/></svg></span><span class="oi-head-t">Inbox</span><span class="oi-tools"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/><path d="M19.4 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l1.86-1.45a.5.5 0 00.12-.64l-1.76-3.05a.5.5 0 00-.6-.22l-2.19.88a6.9 6.9 0 00-1.62-.94l-.33-2.33A.5.5 0 0014.05 3h-4.1a.5.5 0 00-.5.42l-.33 2.33c-.58.24-1.12.55-1.62.94l-2.19-.88a.5.5 0 00-.6.22L2.62 9.43a.5.5 0 00.12.64l1.86 1.45c-.04.31-.06.62-.06.94s.02.63.06.94l-1.86 1.45a.5.5 0 00-.12.64l1.76 3.05a.5.5 0 00.6.22l2.19-.88c.5.39 1.04.7 1.62.94l.33 2.33a.5.5 0 00.5.42h4.1a.5.5 0 00.5-.42l.33-2.33c.58-.24 1.12-.55 1.62-.94l2.19.88a.5.5 0 00.6-.22l1.76-3.05a.5.5 0 00-.12-.64l-1.86-1.45z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><line x1="9.5" y1="4.5" x2="9.5" y2="19.5"/></svg></span></div>
+      <div class="oi-status"><span class="oi-status-lbl">Phone - Available</span>
         <button class="oi-status-btn" id="omniStatusBtn"><span class="oi-dot"></span> <span class="oi-caret">▾</span></button>
         <div class="channeldd" id="channelDropdown" hidden>
-          ${[['All - Available','good'],['Cases - Available','good'],['Chat - Available','good'],['Messaging - Available','good'],['Phone - Available','good'],['Busy','busy'],['Busy - Break','busy'],['Busy - Lunch','busy'],['Busy - Training','busy'],['Offline','off']].map((c,i)=>`<div class="ch-item ${c[0]==='Messaging - Available'?'sel':''}"><span class="ch-dot ${c[1]}"></span> ${c[0]}</div>`).join('')}
+          ${[['All - Available','good'],['Cases - Available','good'],['Chat - Available','good'],['Messaging - Available','good'],['Phone - Available','good'],['Busy','busy'],['Busy - Break','busy'],['Busy - Lunch','busy'],['Busy - Training','busy'],['Offline','off']].map((c,i)=>`<div class="ch-item ${c[0]==='Phone - Available'?'sel':''}"><span class="ch-dot ${c[1]}"></span> ${c[0]}</div>`).join('')}
         </div>
       </div>
-      <div class="oi-tabs"><span class="active">Inbox (4)</span><span>Phone</span></div>
+      <div class="oi-tabs"><span class="active">Inbox (3)</span><span>Phone</span></div>
       <div class="oi-search"><svg class="oi-mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><span>Search inbox…</span></div>
-      <div class="oi-items-head"><span>4/4 items</span><span>Default Order</span></div>
-      ${(INBOX_QUEUE[activeVertical]||INBOX_QUEUE['retail-fraud']).map(q=>`<div class="oi-item active">
+      <div class="oi-items-head"><span>3/3 items</span><span>Default Order</span></div>
+      ${(INBOX_QUEUE[activeVertical]||INBOX_QUEUE['retail-fraud']).slice(0,2).map(q=>`<div class="oi-item active">
         <div class="oi-item-top"><b>${q.subj}</b>${oiActions('')}</div>
         <div class="oi-item-sub">${q.num} | Website | Medium | ${q.status}</div>
         <div class="oi-item-meta">${OI_BAG} 5 months ago</div>
