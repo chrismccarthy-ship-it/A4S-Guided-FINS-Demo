@@ -356,7 +356,7 @@ a{color:var(--brand);text-decoration:none}
 /* ============================================================
    VOICE CALL (Act 2)
    ============================================================ */
-.voicetop{background:#fff;border-bottom:1px solid var(--line);padding:11px 16px;display:flex;align-items:center;gap:22px}
+.voicetop{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-1);padding:11px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px}
 .voicetop .vt-ic{width:34px;height:34px;border-radius:8px;background:var(--good-bg);color:var(--good);display:grid;place-items:center;font-size:16px}
 .voicetop .vt-t{font-weight:800;font-size:15px}.voicetop .vt-t small{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
 .voicetop .vt-meta{display:flex;gap:22px}
@@ -2161,7 +2161,7 @@ function foldState(i){ const st={flags:{},turns:0,view:"landing"};
   return st; }
 function render(){
   const step=STEPS[idx],st=foldState(idx),f=st.flags,v=step.view;
-  $('#gh').hidden=!f.gh; $('#omnirail').hidden=true; $('#navtabs').hidden=(v!=="monitor");
+  $('#gh').hidden=!f.gh; $('#omnirail').hidden=(!f.gh||(v==="monitor"&&f.omniOpen)); $('#navtabs').hidden=(v!=="monitor");
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
   const primaryViews=(v==="monitor"||v==="home"||v==="ask");
   $('#tabPrimary').hidden=!primaryViews;
@@ -2592,18 +2592,7 @@ function bubble(b){ if(b.who==="sys")return `<div class="b sys">${b.t}</div>`;
 
 /* VOICE */
 function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
-  return `<div class="voicetop">
-      <div class="vt-t">${r.voiceTitle}<small>Voice Call · ${m.voiceCallId}</small></div>
-      <div class="vt-meta">
-        <div><div class="k">Contact</div><div class="v">${p.name}</div></div>
-        <div><div class="k">Call Type</div><div class="v">Inbound</div></div>
-        <div><div class="k">Call Started</div><div class="v">${m.callStarted}</div></div>
-        <div><div class="k">Caller</div><div class="v">${m.phone}</div></div>
-      </div>
-      <div class="vt-ended" id="callEndedPill" hidden><span class="pill-red">● Call ended</span><span class="dur">08:07</span></div>
-      <div class="vt-btns"><button>Book Appointment</button><button>Edit</button><button>Send Survey ▾</button></div>
-    </div>
-    <div class="ws">
+  return `<div class="ws">
       <div class="col">
         <div class="idcard" id="idCard">
           <div class="top"><div class="ava">${p.initials}</div>
@@ -2628,6 +2617,17 @@ function viewVoice(){ const p=V.record.person,m=V.monitor,r=V.record;
       </div>
 
       <div class="col">
+        <div class="voicetop">
+          <div class="vt-t">${r.voiceTitle}<small>Voice Call · ${m.voiceCallId}</small></div>
+          <div class="vt-meta">
+            <div><div class="k">Contact</div><div class="v">${p.name}</div></div>
+            <div><div class="k">Call Type</div><div class="v">Inbound</div></div>
+            <div><div class="k">Call Started</div><div class="v">${m.callStarted}</div></div>
+            <div><div class="k">Caller</div><div class="v">${m.phone}</div></div>
+          </div>
+          <div class="vt-ended" id="callEndedPill" hidden><span class="pill-red">● Call ended</span><span class="dur">08:07</span></div>
+          <div class="vt-btns"><button>Book Appointment</button><button>Edit</button><button>Send Survey ▾</button></div>
+        </div>
         <div class="card" style="padding:0">
           <div class="wtabs">
             <span class="wtab active" id="wtabService" data-tab="service">Conversation Transcript</span>
