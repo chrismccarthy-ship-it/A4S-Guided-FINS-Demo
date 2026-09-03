@@ -961,9 +961,8 @@ a{color:var(--brand);text-decoration:none}
     <div class="gh-nav">
       <span class="appwaffle" title="App Launcher"></span><span class="appname">Service - Console</span>
       <div class="tab active" id="tabPrimary">Home</div>
-      <div class="tab folder" id="tabCase" hidden>00005518 <span class="chev">⌄</span> <span class="close">✕</span></div>
+      <div class="tab folder" id="tabCase" hidden>00005518 <span class="close">✕</span></div>
       <div class="tab voice" id="tabVoice" hidden>VC-00001518</div>
-      <div class="org"><span class="swatch"></span><span id="orgName">Vireo Financial</span></div>
     </div>
   </div>
 
@@ -1894,7 +1893,7 @@ function guideFromBrand(hex){ const c=hexToRgb(hex); if(!c) return GUIDE_DEFAULT
   while(relLum({r,g,b})>0.45 && guard++<30){ r=Math.round(r*.9); g=Math.round(g*.9); b=Math.round(b*.9); }
   return {css:`rgb(${r},${g},${b})`, rgb:`${r},${g},${b}`}; }
 
-function applyOrg(){ document.getElementById('orgName').textContent=ORG.name||"Vireo Financial";
+function applyOrg(){ const on=document.getElementById('orgName'); if(on)on.textContent=ORG.name||"Vireo Financial";
   const co=document.getElementById('cloudOrg');
   if(co){ co.textContent=ORG.name||"Vireo Financial"; co.style.color=normHex(ORG.hex)||"#009EDB"; }
   const rs=document.documentElement.style;
@@ -2167,9 +2166,9 @@ function render(){
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
   const primaryViews=(v==="monitor"||v==="home"||v==="ask");
   $('#tabPrimary').hidden=!primaryViews;
-  $('#tabPrimary').innerHTML = '<span class="tab-lbl">'+(v==="home"?"Home":v==="ask"?"✦ Ask: Home":"Command Center for Service")+'</span><span class="tab-dd">⌄</span>';
+  $('#tabPrimary').innerHTML = '<span class="tab-lbl">'+(v==="home"?"Home":v==="ask"?"✦ Ask: Home":"Command Center for Service")+'</span>';
   $('#tabCase').hidden=!consoleTabs; $('#tabVoice').hidden=!consoleTabs;
-  $('#tabCase').innerHTML=`${V.caseData.number} <span class="chev">⌄</span> <span class="close">✕</span>`;
+  $('#tabCase').innerHTML=`${V.caseData.number} <span class="close">✕</span>`;
   $('#tabVoice').textContent=V.monitor.voiceCallId;
   $('#tabPrimary').classList.toggle('active', primaryViews);
   $('#tabCase').classList.toggle('active', v==="case");
