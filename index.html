@@ -710,6 +710,7 @@ a{color:var(--brand);text-decoration:none}
 /* rectangular box highlight (e.g. a column header or a whole component) */
 .boxed{outline:2.5px solid var(--guide);outline-offset:3px;border-radius:3px;position:relative;z-index:4;animation:boxpulse 1.7s ease-in-out infinite}
 @keyframes boxpulse{0%,100%{outline-color:var(--guide)}50%{outline-color:rgba(var(--guide-rgb),.4)}}
+.boxed.no-pulse{animation:none;outline-color:var(--guide)}
 
 /* guidance bar */
 .guidebar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line-2);box-shadow:0 -6px 24px rgba(16,32,50,.10);display:flex;align-items:center;gap:16px;padding:12px 18px;min-height:100px}
@@ -2119,10 +2120,10 @@ function buildSteps(){
       talk:"Everything ties back to the case Agentforce Voice created. Open it to summarize and close it out.",
       dothis:`Click the ‘${V.caseData.number} | Case’ tab.`, advanceOn:"#tabCase" },
 
-    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1}, target:"#caseGetRec", title:"Einstein classifies the case",
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1}, target:"#caseGetRec", boxStatic:["#clType","#clSub"], title:"Einstein classifies the case",
       talk:"Status, Language, and Product Family are already known. Einstein Classification fills in the rest — Type and Sub-Type — with one click.",
       dothis:"Click ‘Get Einstein Recommendations’.", advanceOn:"#caseGetRec" },
-    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1}, target:"#draftPlanBtn", title:"Draft the resolution plan",
+    { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1}, target:"#draftPlanBtn", boxStatic:["#clType","#clSub"], title:"Draft the resolution plan",
       talk:"Service Assistant drafts the full resolution plan — Gather / Work / Resolve / Wrap — grounded on the record, with inline actions.",
       dothis:"Click ‘Draft Plan’.", advanceOn:"#draftPlanBtn" },
     { view:"case", set:{gh:1,subhead:1,tabCase:1,bell:1,caseClassified:1,casePlan:1,caseClosed:1,outcomes:1}, target:"#closePlanBtn", title:"Close the plan and the case",
@@ -2208,11 +2209,12 @@ let spotEl=null;
 function clearGuides(){
   if(spotEl){spotEl.classList.remove('guided','no-pulse');spotEl=null;}
   document.querySelectorAll('.clickable').forEach(e=>{e.classList.remove('clickable');e.onclick=null;});
-  document.querySelectorAll('.boxed').forEach(e=>e.classList.remove('boxed'));
+  document.querySelectorAll('.boxed').forEach(e=>e.classList.remove('boxed','no-pulse'));
 }
 function applySpotlight(step){
   clearGuides();
   if(step.box){ (Array.isArray(step.box)?step.box:[step.box]).forEach(sel=>{const el=$(sel);if(el)el.classList.add('boxed');}); }
+  if(step.boxStatic){ (Array.isArray(step.boxStatic)?step.boxStatic:[step.boxStatic]).forEach(sel=>{const el=$(sel);if(el){el.classList.add('boxed','no-pulse');}}); }
   if(step.target){ const el=$(step.target); if(el){ el.classList.add('guided'); if(step.noPulse)el.classList.add('no-pulse'); spotEl=el; } }
   if(step.advanceOn){const a=$(step.advanceOn); if(a){a.classList.add('clickable');a.onclick=(e)=>{e.stopPropagation();next();};}}
 }
