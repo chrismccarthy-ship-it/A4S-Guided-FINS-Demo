@@ -721,7 +721,7 @@ a{color:var(--brand);text-decoration:none}
 .guidebar .dothis{font-size:12.5px;color:var(--brand);font-weight:700;margin-top:4px;display:flex;align-items:center;gap:6px}
 .guidebar .dothis::before{content:"➤";font-size:9px}
 .gctrls{display:flex;align-items:center;gap:8px}
-.gbtn{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--brand);background:#fff;color:var(--ink-2);font-size:16px;display:grid;place-items:center}
+.gbtn{position:relative;width:40px;height:40px;border-radius:10px;border:1.5px solid var(--brand);background:#fff;color:var(--ink-2);font-size:16px;display:grid;place-items:center}
 .gbtn:hover{border-color:var(--brand-1);color:var(--brand)}
 .gbtn.play{width:auto;padding:0 18px;gap:8px;display:flex;align-items:center;background:var(--brand);color:#fff;border-color:var(--brand);font-weight:800;font-size:14px}
 .gbtn:disabled{opacity:.4;cursor:not-allowed}
@@ -729,7 +729,13 @@ a{color:var(--brand);text-decoration:none}
 .gcol{width:46px;height:46px;font-size:28px;line-height:1;margin-right:auto;flex:none}
 .guidebar.collapsed{min-height:0;padding:8px 18px;justify-content:flex-end}
 .guidebar.collapsed .gtxt,.guidebar.collapsed #ttToggle,.guidebar.collapsed #auToggle{display:none}
-.toggle{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-2);white-space:nowrap;cursor:pointer}
+.toggle{position:relative;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-2);white-space:nowrap;cursor:pointer}
+/* small info "i" badge with hover tooltip on each guide-bar control */
+.infoi{position:absolute;top:-7px;right:-7px;width:15px;height:15px;border-radius:50%;background:var(--brand);color:#fff;font-size:10px;font-weight:800;font-style:normal;line-height:1;display:grid;place-items:center;cursor:help;z-index:3}
+.infoi::after{content:attr(data-tip);position:absolute;bottom:150%;left:50%;transform:translateX(-50%);background:#0c1622;color:#fff;font-size:11px;font-weight:500;line-height:1.3;padding:6px 9px;border-radius:6px;width:max-content;max-width:200px;white-space:normal;text-align:center;opacity:0;pointer-events:none;transition:opacity .14s;box-shadow:0 6px 18px rgba(0,0,0,.22);z-index:80}
+.infoi:hover::after{opacity:1}
+.infoi.tip-left::after{left:auto;right:0;transform:none}
+.infoi.tip-start::after{left:0;right:auto;transform:none}
 .sw{width:38px;height:22px;border-radius:12px;background:var(--line-2);position:relative;transition:.2s}
 .sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .toggle.on .sw{background:var(--brand)}.toggle.on .sw::after{left:18px}
@@ -986,20 +992,20 @@ a{color:var(--brand);text-decoration:none}
 
 <div class="guidebar" id="guidebar">
   <div class="progline" id="progline"></div>
-  <button class="gbtn gcol" id="btnCollapse" title="Hide guide">▾</button>
+  <button class="gbtn gcol" id="btnCollapse" title="Hide guide">▾<i class="infoi tip-start" data-tip="Hide or show this guide bar">i</i></button>
   <div class="gtxt">
     <div class="glabel"><span>📘</span> <span id="glabelText">Guided demo · Retail Banking</span></div>
     <h4 id="gTitle">—</h4>
     <div class="talk" id="gTalk">—</div>
     <div class="dothis" id="gDo" hidden></div>
   </div>
-  <label class="toggle on" id="ttToggle"><span>Talk track</span><span class="sw"></span></label>
-  <label class="toggle" id="auToggle" title="Speak the call transcript aloud" hidden><span>Voice</span><span class="sw"></span></label>
+  <label class="toggle on" id="ttToggle"><span>Talk track</span><span class="sw"></span><i class="infoi" data-tip="Show or hide the talk-track guidance under each step">i</i></label>
+  <label class="toggle" id="auToggle" title="Speak the call transcript aloud" hidden><span>Voice</span><span class="sw"></span><i class="infoi" data-tip="Read the call transcript aloud as the demo plays">i</i></label>
   <div class="gctrls">
-    <button class="gbtn" id="btnRestart" title="Restart">↺</button>
-    <button class="gbtn" id="btnBack" title="Back">‹</button>
-    <button class="gbtn play" id="btnPlay">▶ Play</button>
-    <button class="gbtn" id="btnNext" title="Next">›</button>
+    <button class="gbtn" id="btnRestart" title="Restart">↺<i class="infoi" data-tip="Restart the demo from the first step">i</i></button>
+    <button class="gbtn" id="btnBack" title="Back">‹<i class="infoi" data-tip="Go back to the previous step">i</i></button>
+    <button class="gbtn play" id="btnPlay">▶ Play<i class="infoi" data-tip="Auto-play through the steps">i</i></button>
+    <button class="gbtn" id="btnNext" title="Next">›<i class="infoi tip-left" data-tip="Advance to the next step">i</i></button>
   </div>
   <span class="gcount" id="gCount">1 / 1</span>
 </div>
@@ -1845,6 +1851,7 @@ function normHex(v){ if(!v)return""; let s=String(v).trim().replace(/^#/,'');
    the sign-on placemat, so "where to look" is always the customer's colour. Leave the hex
    blank and it stays the default Salesforce blue. */
 const GUIDE_DEFAULT={css:"#1b96ff",rgb:"27,150,255"};
+const PLAY_INFO='<i class="infoi" data-tip="Auto-play through the steps">i</i>';
 /* Omni-Channel inbox item chrome (decline X, accept check, pink work-item bag) */
 const OI_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
 const OI_CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
@@ -2188,7 +2195,7 @@ function render(){
   $('#gCount').textContent=`${idx+1} / ${STEPS.length}`;
   $('#progline').style.width=`${idx/(STEPS.length-1)*100}%`;
   $('#btnBack').disabled=idx===0; $('#btnNext').disabled=idx===STEPS.length-1;
-  $('#btnPlay').innerHTML=playing?'❚❚ Pause':'▶ Play';
+  $('#btnPlay').innerHTML=(playing?'❚❚ Pause':'▶ Play')+PLAY_INFO;
   // guidance bar + spotlight only appear once you're inside the demonstration (not on the landing placemat)
   const onLanding=step.view==="landing";
   $('#guidebar').hidden=onLanding;
@@ -2236,7 +2243,7 @@ function stepDwell(){
   }
   return PLAY_DWELL;
 }
-function play(){ if(idx>=STEPS.length-1)return; playing=true; $('#btnPlay').innerHTML='❚❚ Pause'; tick(); }
+function play(){ if(idx>=STEPS.length-1)return; playing=true; $('#btnPlay').innerHTML='❚❚ Pause'+PLAY_INFO; tick(); }
 function tick(){ clearTimeout(timer);
   const dwell=stepDwell();
   // Runs continuously once started — advance every slide until the user pauses or we reach the end.
@@ -2248,7 +2255,7 @@ function tick(){ clearTimeout(timer);
     timer=setTimeout(()=>{ tDone=true; maybe(); }, dwell);
     return; }
   timer=setTimeout(advance, dwell); }
-function pause(){playing=false;clearTimeout(timer);cancelAudio();$('#btnPlay').innerHTML='▶ Play';}
+function pause(){playing=false;clearTimeout(timer);cancelAudio();$('#btnPlay').innerHTML='▶ Play'+PLAY_INFO;}
 function stop(){pause();}
 function togglePlay(){playing?pause():play();}
 
