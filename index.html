@@ -50,7 +50,9 @@ a{color:var(--brand);text-decoration:none}
 .gh .appname{font-weight:700;font-size:13.5px;color:var(--ink);white-space:nowrap;flex:none}
 .gh .ghleft .tab{height:30px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid transparent;border-radius:6px;font-size:13px;color:var(--ink-2);white-space:nowrap;flex:none}
 .gh .ghleft .tab.active{background:#fff;border-color:var(--line-2);font-weight:700;color:var(--ink)}
-.gh .ghleft #tabPrimary.active{background:transparent;border:0;border-bottom:2.5px solid var(--brand);border-radius:0;color:var(--ink);font-weight:700;padding:0 6px}
+.gh .ghleft #tabPrimary.active{display:inline-flex;align-items:stretch;gap:0;height:38px;background:#fff;border:1px solid var(--line-2);border-bottom:3px solid var(--brand);border-radius:5px 5px 0 0;padding:0;color:#032d60;font-weight:700}
+.gh .ghleft #tabPrimary .tab-lbl{display:flex;align-items:center;padding:0 14px}
+.gh .ghleft #tabPrimary .tab-dd{display:flex;align-items:center;border-left:1px solid var(--line-2);padding:0 9px;color:#0176d3;font-size:12px}
 .gh .ghleft .tab.voice.active{background:#d7f5e3;border-color:#8fdcae;color:#0a4a22}
 .gh .ghleft .org{display:flex;align-items:center;gap:7px;font-weight:700;font-size:13.5px;color:var(--ink);margin-left:4px;white-space:nowrap;flex:none}
 .gh .ghleft .org .swatch{width:12px;height:12px;border-radius:3px;background:var(--org-accent,#5b2bb3);flex:none}
@@ -2107,7 +2109,7 @@ function render(){
   const consoleTabs=(v==="voice"||v==="case");   // Case + Voice sit adjacent whenever a live call/case is open
   const primaryViews=(v==="monitor"||v==="home"||v==="ask");
   $('#tabPrimary').hidden=!primaryViews;
-  $('#tabPrimary').textContent = v==="home"?"Home" : v==="ask"?"✦ Ask: Home" : "Command Center for Service";
+  $('#tabPrimary').innerHTML = '<span class="tab-lbl">'+(v==="home"?"Home":v==="ask"?"✦ Ask: Home":"Command Center for Service")+'</span><span class="tab-dd">⌄</span>';
   $('#tabCase').hidden=!consoleTabs; $('#tabVoice').hidden=!consoleTabs;
   $('#tabCase').innerHTML=`${V.caseData.number} <span class="chev">⌄</span> <span class="close">✕</span>`;
   $('#tabVoice').textContent=V.monitor.voiceCallId;
