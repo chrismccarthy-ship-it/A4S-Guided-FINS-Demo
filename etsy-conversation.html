@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html{color-scheme:dark}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ella B. Etsy Conversation</title>
+<style>
+  /* Layout: single phone-width message thread, fixed header + composer, scrolling transcript. Dark-only replica of the Etsy Messages screen. */
+  :root {
+    --bg: #222126;
+    --bg-header: #2a292e;
+    --btn-circle: #121115;
+    --fg: #ffffff;
+    --fg-muted: #b8b6bd;
+    --fg-dim: #a09ea6;
+    --bubble-buyer: #6b6770;
+    --bubble-seller-border: #4b4a51;
+    --rule: #3a393f;
+    --input-border: #5c5b62;
+    --send-bg: #3c3b41;
+    --send-fg: #d9d8de;
+    --font: "Graphik", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    position: relative;
+    max-width: 520px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+  /* Header */
+  .hdr {
+    flex: 0 0 auto;
+    background: var(--bg-header);
+    display: grid;
+    grid-template-columns: 56px 1fr 56px;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px 14px;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  }
+  .circ {
+    width: 54px; height: 54px; border-radius: 50%;
+    background: var(--btn-circle);
+    display: grid; place-items: center;
+    border: 0; cursor: pointer; color: var(--fg);
+  }
+  .circ:focus-visible { outline: 2px solid var(--fg-muted); outline-offset: 2px; }
+  .hdr-title { text-align: center; min-width: 0; }
+  .hdr-title .name {
+    font-weight: 700; font-size: 19px; letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .hdr-title .sub { color: var(--fg-muted); font-size: 14px; margin-top: 2px; }
+  /* Thread */
+  .thread {
+    flex: 1 1 auto; min-height: 0; overflow-y: auto;
+    padding: 20px 16px 24px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .day {
+    text-align: center; color: var(--fg-muted); font-size: 16px;
+    margin: 14px 0 6px;
+  }
+  .day:first-child { margin-top: 0; }
+  .sys {
+    text-align: center; color: var(--fg-dim); font-size: 14px; font-style: italic;
+    margin-top: 6px;
+  }
+  .msg { display: flex; flex-direction: column; max-width: 82%; }
+  .msg p { margin: 0; white-space: pre-line; }
+  .buyer { align-self: flex-end; align-items: flex-end; }
+  .buyer .bubble {
+    background: var(--bubble-buyer); color: var(--fg);
+    border-radius: 18px; padding: 14px 18px;
+  }
+  .buyer .time { color: var(--fg-muted); font-size: 15px; margin-top: 8px; }
+  .seller { align-self: flex-start; padding-left: 44px; position: relative; }
+  .seller .bubble {
+    border: 1px solid var(--bubble-seller-border); border-radius: 12px;
+    padding: 16px 16px 18px;
+  }
+  .seller .avatar {
+    position: absolute; left: 0; bottom: 0;
+    width: 40px; height: 40px; border-radius: 50%; overflow: hidden;
+    background: #7a5a4a;
+  }
+  .seller .avatar svg { width: 100%; height: 100%; display: block; }
+  /* Footer */
+  .foot {
+    flex: 0 0 auto; border-top: 1px solid var(--rule);
+    padding: 14px 16px 18px;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    display: flex; flex-direction: column; gap: 16px;
+    background: var(--bg);
+  }
+  .scan {
+    display: flex; gap: 10px; align-items: flex-start;
+    color: var(--fg-muted); font-size: 14px; line-height: 1.4;
+  }
+  .scan svg { flex: 0 0 auto; margin-top: 2px; }
+  .scan a { color: var(--fg-muted); text-decoration: underline; }
+  .compose {
+    display: flex; align-items: center; gap: 12px;
+    border-top: 1px solid var(--rule); padding-top: 14px;
+  }
+  .compose .cam { flex: 0 0 auto; color: var(--fg); display: grid; place-items: center; width: 36px; }
+  .compose input {
+    flex: 1 1 auto; min-width: 0;
+    background: transparent; color: var(--fg);
+    border: 1px solid var(--input-border); border-radius: 8px;
+    font: inherit; font-size: 18px; padding: 16px 14px;
+  }
+  .compose input::placeholder { color: var(--fg-dim); }
+  .compose input:focus-visible { outline: 2px solid var(--fg-muted); outline-offset: 1px; }
+  .send {
+    flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%;
+    background: var(--send-bg); color: var(--send-fg);
+    border: 0; display: grid; place-items: center; cursor: pointer;
+  }
+  .send:focus-visible { outline: 2px solid var(--fg-muted); outline-offset: 2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .thread { scroll-behavior: smooth; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <header class="hdr">
+    <button class="circ" aria-label="Back">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="hdr-title">
+      <div class="name">ellabkeepsakes • Ella B. Keepsakes</div>
+      <div class="sub">Typically responds within a few hours</div>
+    </div>
+    <button class="circ" aria-label="More options">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>
+    </button>
+  </header>
+
+  <main class="thread" id="thread">
+    <div class="day">Sun, Sep 20</div>
+
+    <div class="msg buyer">
+      <div class="bubble"><p>Hi! I’m looking at your custom engraved cufflinks for my groomsmen. Could you do 6 sets with initials and have them here before Oct 10?</p></div>
+      <div class="time">8:43 PM</div>
+    </div>
+
+    <div class="msg seller">
+      <div class="avatar" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a6f5c"/><stop offset="1" stop-color="#5b3f36"/></linearGradient></defs><rect width="40" height="40" fill="url(#g)"/><text x="20" y="26" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">EB</text></svg>
+      </div>
+      <div class="bubble"><p>Thank you for reaching out! You’ve reached us outside of our normal hours, but we'll respond to your message as soon as we're back.
+
+Our normal business hours are Monday-Friday, 9:00am-5:00pm Central Time.
+
+In the meantime, be sure to read our full item descriptions and shop policies, where you’ll find answers to lots of common questions.
+
+Please note that our entire shop is currently on sale at 25% off. No coupon code necessary!
+
+Thanks!
+Ella B.</p></div>
+    </div>
+
+    <div class="day">Mon, Sep 21</div>
+
+    <div class="msg seller">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><rect width="40" height="40" fill="url(#g)"/><text x="20" y="26" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">EB</text></svg></div>
+      <div class="bubble"><p>Good morning! Congrats on the wedding 🎉 Yes, 6 sets with initials is no problem and Oct 10 is doable. With the sale that comes to $200 for all 6, and I can have them engraved and shipped within about a week of the order.</p></div>
+    </div>
+
+    <div class="msg buyer">
+      <div class="bubble"><p>Amazing, thank you! Let me confirm everyone’s initials with the groomsmen and I’ll get back to you.</p></div>
+      <div class="time">9:31 AM</div>
+    </div>
+
+    <div class="day">Fri, Oct 2</div>
+
+    <div class="msg buyer">
+      <div class="bubble"><p>Hi Ella! Got all 6 sets of initials, ready to place the order. Still $200 for the 6?</p></div>
+      <div class="time">4:12 PM</div>
+    </div>
+
+    <div class="msg seller">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><rect width="40" height="40" fill="url(#g)"/><text x="20" y="26" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">EB</text></svg></div>
+      <div class="bubble"><p>Yes, still $200! Quick heads up though. Etsy has my shop payouts on a hold right now (they do this randomly with custom orders) and it’s delaying when I can buy engraving blanks. If you’d be open to paying me directly on Venmo I can start on yours this weekend instead of waiting on Etsy to release the funds, so they still get to you before the 10th.</p></div>
+    </div>
+
+    <div class="msg seller">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><rect width="40" height="40" fill="url(#g)"/><text x="20" y="26" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">EB</text></svg></div>
+      <div class="bubble"><p>Same $200, and since Etsy’s fees come out of my end I’ll include the gift boxes for free. Totally up to you!</p></div>
+    </div>
+
+    <div class="msg buyer">
+      <div class="bubble"><p>Oh hm, I’ve never paid outside Etsy before. Is that allowed? I don’t want to mess up the order.</p></div>
+      <div class="time">4:40 PM</div>
+    </div>
+
+    <div class="msg seller">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><rect width="40" height="40" fill="url(#g)"/><text x="20" y="26" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">EB</text></svg></div>
+      <div class="bubble"><p>Lots of my repeat customers do it, it’s really common with small shops. No need to place the Etsy order at all, I’ll send you the tracking number directly once it ships and you still get my full warranty on the engraving.</p></div>
+    </div>
+
+    <div class="msg seller">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><rect width="40" height="40" fill="url(#g)"/><text x="20" y="26" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">EB</text></svg></div>
+      <div class="bubble"><p>My Venmo is @ellab1991. Just put “cufflinks” in the note so I can match it to your order.</p></div>
+    </div>
+
+    <div class="day">Sat, Oct 3</div>
+
+    <div class="msg buyer">
+      <div class="bubble"><p>Ok that works, thank you! Sending it now.</p></div>
+      <div class="time">10:12 AM</div>
+    </div>
+
+    <div class="msg buyer">
+      <div class="bubble"><p>Sent $200 to @ellab1991. Let me know you got it!</p></div>
+      <div class="time">10:18 AM</div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="scan">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6l8-3z" fill="#d9d8de"/><path d="M8.5 12.5l2.4 2.4 4.6-5" stroke="#222126" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <div>We scan and review messages for fraud prevention, policy enforcement, security, to provide support, and for similar purposes. <a href="#" onclick="return false">Learn more</a></div>
+    </div>
+    <form class="compose" onsubmit="event.preventDefault()">
+      <span class="cam" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7H8l1.4-2h5.2L16 7h2.5A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5v-9z"/><circle cx="12" cy="13" r="3.4"/></svg>
+      </span>
+      <label for="composer" class="sr" hidden>Write a message</label>
+      <input id="composer" type="text" placeholder="Write a message" autocomplete="off">
+      <button class="send" type="submit" aria-label="Send">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M3 11.5l17-8-5 17-3.4-6.4L3 11.5z"/><path d="M11.6 14.1l8.4-10.6" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+    </form>
+  </footer>
+</div>
+</body>
+</html>
